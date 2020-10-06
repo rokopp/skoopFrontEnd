@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'skoop-front-end';
+  heading = 'Tere tulemast meie esimesse versiooni meie rakendusest Skoop!';
 }
