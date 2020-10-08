@@ -1,0 +1,11 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.row {
+  background-color: #000000;
+  height: 16.67vmin;
+  opacity: 0.65;
+}
+h1 {
+  color:white;
+  margin: 0;
+}
