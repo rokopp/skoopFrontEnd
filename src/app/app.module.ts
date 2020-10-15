@@ -8,6 +8,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuestionsanswersComponent } from './components/questionsanswers/questionsanswers.component';
 import { GreetingComponent } from './components/greeting/greeting.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { GreetingComponent } from './components/greeting/greeting.component';
     NavbarComponent,
     QuestionsanswersComponent,
     GreetingComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
