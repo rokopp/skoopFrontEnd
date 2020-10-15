@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'kkk', component: QuestionsanswersComponent},
 //  { path: 'mang', component: RoomComponent},
 //  { path: 'kontakt', component: ContactComponent},
+//  { path: 'uus', component: CreateNewRoomComponent},
   ];
 
 @NgModule({
