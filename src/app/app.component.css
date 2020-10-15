@@ -5,4 +5,9 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
-
+.room-bg-img
+{
+  background-image: url('../assets/hiking-facebook-cover.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+}
