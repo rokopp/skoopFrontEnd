@@ -10,6 +10,7 @@ import { QuestionsanswersComponent } from './components/questionsanswers/questio
 import { GreetingComponent } from './components/greeting/greeting.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { RoomComponent } from './components/room/room.component';
+import { MapComponent } from './components/map/map.component';
 import { CreateNewRoomComponent } from './components/create-new-room/create-new-room.component';
 import {FormsModule} from "@angular/forms";
 
@@ -23,6 +24,7 @@ import {FormsModule} from "@angular/forms";
     RoomComponent,
     ContactComponent,
     CreateNewRoomComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,
