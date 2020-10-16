@@ -1,5 +1,5 @@
 <div class="container text-center your-rooms">
-  <h1 class="display-1">Sinu ruumid</h1>
+  <label class="display-4">Sinu ruumid</label>
 </div>
 <div class="container container-table">
   <table class="table table-striped text-white">
@@ -15,7 +15,6 @@
       <td>
         <span (blur)="updateList(i, 'name', $event)"> {{ room.name }} </span>
         <input type="text" class="form-control" [(ngModel)]="room.name" *ngIf="enableEdit"/>
-
       </td>
       <td><button class="btn btn-success">Mängi</button></td>
       <td><button class="btn btn-primary" *ngIf="!enableEdit" (click)="enableEditMethod($event, i)">Muuda</button>
