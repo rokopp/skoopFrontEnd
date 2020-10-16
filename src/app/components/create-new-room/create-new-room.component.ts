@@ -44,6 +44,11 @@ export class CreateNewRoomComponent implements OnInit {
     this.enableEdit = false;
     this.updateList(id, property, event);
   }
+  // tslint:disable-next-line:typedef
+  add(){
+    const room = {name: 'Latvia'};
+    this.rooms.push(room);
+  }
   constructor() { }
 
   ngOnInit(): void {
