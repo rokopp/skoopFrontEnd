@@ -7,6 +7,7 @@ import {RoomComponent} from './components/room/room.component';
 import {ContactComponent} from './components/contact/contact.component';
 import {CreateNewRoomComponent} from './components/create-new-room/create-new-room.component';
 import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.component';
+import {UsersRoomsComponent} from './components/users-rooms/users-rooms.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'map', component: MapComponent},
 //  { path: 'uus', component: CreateNewRoomComponent},
   { path: 'uus', component: CreateNewRoomComponent},
+  { path: 'ruumid', component: UsersRoomsComponent},
 //  { path: 'kasutaja', component: UserProfileComponent},
   { path: 'tiimiRegamine', component: GoPlayRoomsComponent},
 ];
