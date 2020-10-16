@@ -4,6 +4,7 @@ import {GreetingComponent} from './components/greeting/greeting.component';
 import {QuestionsanswersComponent} from './components/questionsanswers/questionsanswers.component';
 import {RoomComponent} from './components/room/room.component';
 import {ContactComponent} from './components/contact/contact.component';
+import {CreateNewRoomComponent} from './components/create-new-room/create-new-room.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},
@@ -11,7 +12,7 @@ const routes: Routes = [
   { path: 'kkk', component: QuestionsanswersComponent},
   { path: 'mang', component: RoomComponent},
   { path: 'kontakt', component: ContactComponent},
-//  { path: 'uus', component: CreateNewRoomComponent},
+  { path: 'uus', component: CreateNewRoomComponent},
 //  { path: 'kasutaja', component: UserProfileComponent},
 ];
 
