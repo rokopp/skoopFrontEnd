@@ -11,21 +11,24 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="question">How many fingers am i holding up?</label>
-            <select class="form-control" id="question">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Vasta</button>
+        <div *ngIf="quizopen; else elseBlock">
+          <form [formGroup]="form" (ngSubmit)="checkanswer()">
+            <div class="form-group">
+                <label for="answers">{{question}}</label>
+                <select formControlName="answers" id="answers" class="form-control">
+                  <option *ngFor="let answer of answers; let i = index" [value]="answers[i].id">
+                    {{answers[i].name}}
+                  </option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Vasta</button>
+          </form>
+       </div>
+       <ng-template #elseBlock>Game over you scored: {{score}}
+        <div class="modal-footer">
+          <button class="btn btn-primary" routerLink="/mang" data-dismiss="modal">Back to menu</button>
+        </div>
+       </ng-template>
       </div>
     </div>
   </div>
