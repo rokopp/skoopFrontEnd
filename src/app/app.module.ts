@@ -13,6 +13,7 @@ import { MapComponent } from './components/map/map.component';
 import { CreateNewRoomComponent } from './components/create-new-room/create-new-room.component';
 import {FormsModule} from '@angular/forms';
 import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.com
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
