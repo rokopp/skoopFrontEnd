@@ -16,7 +16,6 @@ const routes: Routes = [
   { path: 'mang', component: RoomComponent},
   { path: 'kontakt', component: ContactComponent},
   { path: 'map', component: MapComponent},
-//  { path: 'uus', component: CreateNewRoomComponent},
   { path: 'uus', component: CreateNewRoomComponent},
   { path: 'ruumid', component: UsersRoomsComponent},
 //  { path: 'kasutaja', component: UserProfileComponent},

@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -14,6 +13,7 @@ import { MapComponent } from './components/map/map.component';
 import { CreateNewRoomComponent } from './components/create-new-room/create-new-room.component';
 import {FormsModule} from '@angular/forms';
 import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.component';
+import { ReactiveFormsModule } from '@angular/forms';
 import { UsersRoomsComponent } from './components/users-rooms/users-rooms.component';
 
 @NgModule({
@@ -34,7 +34,8 @@ import { UsersRoomsComponent } from './components/users-rooms/users-rooms.compon
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
