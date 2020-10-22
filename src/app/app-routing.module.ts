@@ -1,7 +1,26 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { MapComponent } from './components/map/map.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {GreetingComponent} from './components/greeting/greeting.component';
+import {QuestionsanswersComponent} from './components/questionsanswers/questionsanswers.component';
+import {RoomComponent} from './components/room/room.component';
+import {ContactComponent} from './components/contact/contact.component';
+import {CreateNewRoomComponent} from './components/create-new-room/create-new-room.component';
+import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.component';
+import {UsersRoomsComponent} from './components/users-rooms/users-rooms.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', redirectTo: '/avaleht', pathMatch: 'full'},
+  { path: 'avaleht', component: GreetingComponent},
+  { path: 'kkk', component: QuestionsanswersComponent},
+  { path: 'mang', component: RoomComponent},
+  { path: 'kontakt', component: ContactComponent},
+  { path: 'map', component: MapComponent},
+  { path: 'uus', component: CreateNewRoomComponent},
+  { path: 'ruumid', component: UsersRoomsComponent},
+//  { path: 'kasutaja', component: UserProfileComponent},
+  { path: 'tiimiRegamine', component: GoPlayRoomsComponent},
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

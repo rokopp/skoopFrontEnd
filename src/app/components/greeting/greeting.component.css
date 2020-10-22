@@ -1,0 +1,19 @@
+h1 {
+  font-size: 50px;
+  color: white;
+  text-align: center;
+  margin-top: 80px;
+  text-shadow: 3px 3px #000000;
+}
+
+.btn {
+  height: 70px;
+  width: 200px;
+}
+span {
+  font-size: 20px;
+  padding: 3px;
+}
+.buttons {
+  margin-top: 80px
+}

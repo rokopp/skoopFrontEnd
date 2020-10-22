@@ -1,0 +1,34 @@
+.btn {
+  color: white;
+  font-family: Verdana, sans-serif;
+  width: 100%;
+  font-size: 20px;
+}
+
+.underline-btn {
+  border-bottom: 2px solid #ffffff;
+  padding-bottom: 5px;
+}
+
+.underline-btn:hover {
+  border-bottom-color: red;
+}
+
+@media only screen and (max-width: 991px) {
+  .underline-btn {
+    border-bottom: 0px solid transparent;
+  }
+}
+
+.btn:hover {
+  color: red;
+}
+
+.row {
+  height: max-content;
+  width: 100%;
+}
+
+.container-fluid {
+  padding:0;
+}
