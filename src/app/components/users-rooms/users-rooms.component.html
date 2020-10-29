@@ -4,9 +4,9 @@
     <label class="display-4">Sinu ruumid</label>
     </div>
   </div>
-  <div class="row container-table">
+  <div class="row container-table overflow-auto">
     <div class="col">
-    <table class="table table-striped text-white overflow-auto">
+    <table class="table table-striped text-white ">
       <thead>
       <tr>
         <th scope="col">#</th>
@@ -30,9 +30,15 @@
     </table>
     </div>
   </div>
-  <div class="row fixed-bottom">
-    <div class="col">
-      <button class="btn btn-info" (click)="add()">Loo uus ruum</button>
+  <div class="row fixed-bottom mx-auto">
+    <div class="col-4">
+      <button class="btn btn-info" (click)="addQuestions()">Loo uus küsimustik</button>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-info" (click)="addRoom()">Loo uus ruum</button>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-info" (click)="addLocations()">Loo uus kaardikomplekt</button>
     </div>
   </div>
 </div>
