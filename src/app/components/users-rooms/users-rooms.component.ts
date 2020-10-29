@@ -45,7 +45,7 @@ export class UsersRoomsComponent implements OnInit {
     this.updateList(id, property, event);
   }
   // tslint:disable-next-line:typedef
-  add(){
+  addRoom(){
     const room = {name: 'Latvia'};
     this.rooms.push(room);
   }
@@ -54,4 +54,11 @@ export class UsersRoomsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  addQuestions(): void {
+    // TODO question service
+  }
+
+  addLocations(): void {
+    // TODO Location service
+  }
 }
