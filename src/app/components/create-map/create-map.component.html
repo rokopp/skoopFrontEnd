@@ -1,0 +1,47 @@
+
+<div id="map" class="map"></div>
+<div ng-controller="appController">
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <label class="btn btn-secondary active">
+      <input type="radio" name="options" id="option1" value="add" autocomplete="off" (click)="add()" checked> Lisa Marker
+    </label>
+    <label class="btn btn-secondary">
+      <input type="radio" name="options" id="option2" value="remove" autocomplete="off" (click)="remove()"> Eemalda Marker
+    </label>
+  </div>
+<div>
+
+<!-- Modal -->
+<div class="modal fade" #modal>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Vasta</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="quizopen; else elseBlock">
+          <form [formGroup]="form" (ngSubmit)="checkanswer()">
+            <div class="form-group">
+                <label for="answers">{{question}}</label>
+                <select formControlName="answers" id="answers" class="form-control">
+                  <option *ngFor="let answer of answers; let i = index" [value]="answers[i].id">
+                    {{answers[i].name}}
+                  </option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Vasta</button>
+          </form>
+       </div>
+       <ng-template #elseBlock>Game over you scored: {{score}}
+        <div class="modal-footer">
+          <button class="btn btn-primary" routerLink="/mang" data-dismiss="modal">Back to menu</button>
+        </div>
+       </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
