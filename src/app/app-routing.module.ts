@@ -1,3 +1,4 @@
+import { CreateMapComponent } from './components/create-map/create-map.component';
 import { MapComponent } from './components/map/map.component';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'mang', component: RoomComponent},
   { path: 'kontakt', component: ContactComponent},
   { path: 'map', component: MapComponent},
+  { path: 'createmap', component: CreateMapComponent},
   { path: 'uus', component: CreateNewRoomComponent},
   { path: 'ruumid', component: UsersRoomsComponent},
 //  { path: 'kasutaja', component: UserProfileComponent},

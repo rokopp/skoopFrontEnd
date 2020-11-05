@@ -15,6 +15,7 @@ import {FormsModule} from '@angular/forms';
 import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsersRoomsComponent } from './components/users-rooms/users-rooms.component';
+import { CreateMapComponent } from './components/create-map/create-map.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { UsersRoomsComponent } from './components/users-rooms/users-rooms.compon
     CreateNewRoomComponent,
     MapComponent,
     GoPlayRoomsComponent,
-    UsersRoomsComponent
+    UsersRoomsComponent,
+    CreateMapComponent
   ],
   imports: [
     BrowserModule,
