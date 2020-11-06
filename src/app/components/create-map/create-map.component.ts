@@ -3,14 +3,14 @@ import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import Map from 'ol/Map';
 import OSM from 'ol/source/OSM';
-import {transform} from 'ol/proj.js';
-import {fromLonLat} from 'ol/proj.js';
+import {transform, fromLonLat} from 'ol/proj.js';
+import Geolocation from 'ol/Geolocation';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import View from 'ol/View';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import VectorSource from 'ol/source/Vector';
-import {Icon, Style} from 'ol/style';
+import {Circle as CircleStyle, Fill, Stroke, Icon, Style} from 'ol/style';
 import { FormBuilder, FormGroup} from '@angular/forms';
 
 declare let $: any;
@@ -28,6 +28,8 @@ export class CreateMapComponent implements OnInit {
   answers = [];
   correctanswer;
   map;
+  view;
+  geolocation;
   player;
   vectorSource;
   vectorLayer: any;
@@ -79,14 +81,57 @@ export class CreateMapComponent implements OnInit {
       source: new OSM()
     });
 
+    this.view = new View({
+      center: fromLonLat([24.6675, 59.39503]),
+      zoom: 16
+    });
+
     this.map = new Map({
       target: 'map',
       layers: [this.tileLayer, this.vectorLayer],
-      view: new View({
-        center: fromLonLat([24.6675, 59.39503]),
-        zoom: 16
-      })
+      view: this.view,
     });
+
+    this.geolocation = new Geolocation({
+      // enableHighAccuracy must be set to true to have the heading value.
+      trackingOptions: {
+        enableHighAccuracy: true,
+      },
+      projection: this.view.getProjection(),
+    });
+
+    const positionFeature = new Feature();
+    positionFeature.setStyle(
+    new Style({
+    image: new CircleStyle({
+      radius: 6,
+      fill: new Fill({
+        color: '#3399CC',
+      }),
+      stroke: new Stroke({
+        color: '#fff',
+        width: 2,
+          }),
+        }),
+       })
+    );
+    const accuracyFeature = new Feature();
+    this.geolocation.on('change:accuracyGeometry', () => {
+    accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry());
+    });
+
+    this.vectorSource.addFeature(positionFeature);
+    this.vectorSource.addFeature(accuracyFeature);
+
+    this.geolocation.setTracking(true);
+
+    this.geolocation.on('change:position', () => {
+      const coordinates = this.geolocation.getPosition();
+      positionFeature.setGeometry(coordinates ? new Point(coordinates) : null);
+      this.map.getView().setCenter(fromLonLat(coordinates, 'EPSG:4326', 'EPSG:3857'));
+      this.geolocation.setTracking(false);
+    });
+
     this.map.on('click', (data) => {
       const coordinates = transform(data.coordinate, 'EPSG:3857', 'EPSG:4326');
       const marker = new Feature({
@@ -101,7 +146,6 @@ export class CreateMapComponent implements OnInit {
           scale: 0.08,
         }))
       }));
-      console.log(this.action);
       if (this.action === 'add'){
         marker.setId(this.id);
         this.id++;
