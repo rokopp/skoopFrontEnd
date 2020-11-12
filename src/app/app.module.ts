@@ -22,6 +22,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import { CreateMapComponent } from './components/create-map/create-map.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -36,12 +37,13 @@ import { CreateMapComponent } from './components/create-map/create-map.component
     MapComponent,
     GoPlayRoomsComponent,
     UsersRoomsComponent,
-    QuestionSetComponent
+    QuestionSetComponent,
     UsersRoomsComponent,
     CreateMapComponent
   ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         FormsModule,

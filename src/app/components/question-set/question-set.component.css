@@ -9,7 +9,7 @@ table {
 }
 
 .question {
-  width: 100%;
+  width: 90%;
   text-align: center;
 }
 
@@ -22,8 +22,8 @@ h1 {
   font-size: 40px;
 }
 
-.answers {
-  width: 50%;
+.choices {
+  width: 90%;
 }
 
 .btn {

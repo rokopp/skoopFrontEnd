@@ -46,14 +46,14 @@
 
         <br>
 
-        <mat-form-field class="answers text-center mb-3">
-          <mat-chip-list #chipList aria-label="Answers">
-            <mat-chip *ngFor="let answer of answers" [selectable]="selectable" [removable]="removable"
-                      (removed)="remove(answer)" color="green">
-              {{answer.text}}
+        <mat-form-field class="choices text-center mb-3">
+          <mat-chip-list #chipList aria-label="Choices">
+            <mat-chip *ngFor="let choice of choices" [selectable]="selectable" [removable]="removable"
+                      (removed)="remove(choice)" color="green">
+              {{choice.text}}
               <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
             </mat-chip>
-            <input placeholder="Answers: Press Enter to add and Delete to remove"
+            <input placeholder="Choices: Press Enter to add and Delete to remove"
                    [matChipInputFor]="chipList"
                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                    [matChipInputAddOnBlur]="addOnBlur"
@@ -73,7 +73,7 @@
           <input matInput>
         </mat-form-field>
         <br>
-        <button type="submit" class="btn btn-success mr-2">Submit</button>
+        <button type="submit" (click)="addQuestion()" class="btn btn-success mr-2">Submit</button>
         <button type="reset" class="btn btn-danger ml-2">Reset Form</button>
       </form>
     </div>
