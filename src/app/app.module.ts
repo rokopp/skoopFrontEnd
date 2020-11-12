@@ -15,6 +15,12 @@ import {FormsModule} from '@angular/forms';
 import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsersRoomsComponent } from './components/users-rooms/users-rooms.component';
+import { QuestionSetComponent } from './components/question-set/question-set.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
 import { CreateMapComponent } from './components/create-map/create-map.component';
 
 @NgModule({
@@ -30,15 +36,22 @@ import { CreateMapComponent } from './components/create-map/create-map.component
     MapComponent,
     GoPlayRoomsComponent,
     UsersRoomsComponent,
+    QuestionSetComponent
+    UsersRoomsComponent,
     CreateMapComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        MatIconModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
