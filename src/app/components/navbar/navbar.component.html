@@ -21,8 +21,9 @@
       <button class="btn underline-btn" routerLink="/kontakt">Kontakt</button>
     </div>
 
-    <div class="col-lg-3 col-md my-auto">
-      <button class="btn float-right" routerLink="/kasutaja">Logi Sisse</button>
+    <div class="col-lg-3 col-md my-auto" [ngSwitch]="loginStatus()">
+      <button *ngSwitchCase="true" class="btn float-right" (click)="logout()" >Logi välja</button>
+      <button *ngSwitchCase="false" class="btn float-right" routerLink="/login">Logi sisse</button>
     </div>
   </div>
 </div>

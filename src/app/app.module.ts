@@ -16,6 +16,11 @@ import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.com
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsersRoomsComponent } from './components/users-rooms/users-rooms.component';
 import { CreateMapComponent } from './components/create-map/create-map.component';
+import { LoginComponent } from './components/login/login.component';
+import {fakeBackendProvider} from './components/_helpers/fake-backend';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {BasicAuthInterceptor} from './components/_helpers/basic-auth.interceptor';
+import {ErrorInterceptor} from './components/_helpers/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,16 +35,24 @@ import { CreateMapComponent } from './components/create-map/create-map.component
     MapComponent,
     GoPlayRoomsComponent,
     UsersRoomsComponent,
-    CreateMapComponent
+    CreateMapComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+    // provider used to create fake backend
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
