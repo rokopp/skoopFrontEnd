@@ -39,6 +39,11 @@ export class CreateMapComponent implements OnInit {
   id = 1;
   action = 'add';
   markers = [];
+  positionFeature; // GPS Tracking
+  accuracyFeature; // GPS Tracker Radius
+  locationSet = [];
+  oldLocationSet = [];
+  currentSet = 1;
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       answers: ['']
@@ -55,6 +60,71 @@ export class CreateMapComponent implements OnInit {
   }
   add(): void{
     this.action = 'add';
+  }
+  getlocation(): void{
+    this.accuracyFeature = new Feature();
+    this.geolocation.on('change:accuracyGeometry', () => {
+    this.accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry());
+    });
+
+    this.vectorSource.addFeature(this.positionFeature);
+    this.vectorSource.addFeature(this.accuracyFeature);
+
+    this.geolocation.setTracking(true);
+
+    this.geolocation.on('change:position', () => {
+      const coordinates = this.geolocation.getPosition();
+      this.positionFeature.setGeometry(coordinates ? new Point(coordinates) : null);
+      this.map.getView().setCenter(fromLonLat(coordinates, 'EPSG:4326', 'EPSG:3857'));
+      this.geolocation.setTracking(false);
+    });
+  }
+  getAllfeatures(list): void{
+    const features = this.vectorSource.getFeatures();
+    features.forEach(element => {
+      if (element.getId() != null && element.getId() !== 0){
+        list.push(element);
+      }
+    });
+  }
+
+  loadLocationset(): void{
+    if (this.currentSet === 1){
+      this.oldLocationSet = [];
+      this.getAllfeatures(this.oldLocationSet);
+      this.vectorSource.clear();
+      this.locationSet.forEach( (value) => {
+        this.vectorSource.addFeature(value);
+      });
+      this.currentSet = 2;
+    }else{
+      this.locationSet = [];
+      this.getAllfeatures(this.locationSet);
+      this.vectorSource.clear();
+      this.oldLocationSet.forEach( (value) => {
+        this.vectorSource.addFeature(value);
+      });
+      this.currentSet = 1;
+    }
+    this.vectorSource.addFeature(this.positionFeature);
+    this.vectorSource.addFeature(this.accuracyFeature);
+    this.vectorSource.addFeature(this.player);
+  }
+  createMarekrs(Lon, Lat): Feature{
+    const marker = new Feature({
+      geometry: new Point(fromLonLat([Lon, Lat])),
+      name: 'marker'
+    });
+    marker.setStyle(new Style({
+      image: new Icon(({
+        crossOrigin: 'anonymous',
+        src: './assets/mapIcons/place.png',
+        scale: 0.08,
+      }))
+    }));
+    marker.setId(this.id);
+    this.id++;
+    return marker;
   }
 
   private initializeMap(): void{
@@ -93,18 +163,17 @@ export class CreateMapComponent implements OnInit {
     });
 
     this.geolocation = new Geolocation({
-      // enableHighAccuracy must be set to true to have the heading value.
       trackingOptions: {
         enableHighAccuracy: true,
       },
       projection: this.view.getProjection(),
     });
 
-    const positionFeature = new Feature();
-    positionFeature.setStyle(
+    this.positionFeature = new Feature();
+    this.positionFeature.setStyle(
     new Style({
     image: new CircleStyle({
-      radius: 6,
+      radius: 5,
       fill: new Fill({
         color: '#3399CC',
       }),
@@ -115,22 +184,7 @@ export class CreateMapComponent implements OnInit {
         }),
        })
     );
-    const accuracyFeature = new Feature();
-    this.geolocation.on('change:accuracyGeometry', () => {
-    accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry());
-    });
-
-    this.vectorSource.addFeature(positionFeature);
-    this.vectorSource.addFeature(accuracyFeature);
-
-    this.geolocation.setTracking(true);
-
-    this.geolocation.on('change:position', () => {
-      const coordinates = this.geolocation.getPosition();
-      positionFeature.setGeometry(coordinates ? new Point(coordinates) : null);
-      this.map.getView().setCenter(fromLonLat(coordinates, 'EPSG:4326', 'EPSG:3857'));
-      this.geolocation.setTracking(false);
-    });
+    this.getlocation();
 
     this.map.on('click', (data) => {
       const coordinates = transform(data.coordinate, 'EPSG:3857', 'EPSG:4326');
