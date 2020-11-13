@@ -1,5 +1,5 @@
 export interface Question {
-  setId: number;
+  questionSetId: number;
   id: number;
   question: string;
   choices: Array<string>;
