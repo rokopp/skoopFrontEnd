@@ -11,7 +11,8 @@ import View from 'ol/View';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import VectorSource from 'ol/source/Vector';
 import {Circle as CircleStyle, Fill, Stroke, Icon, Style} from 'ol/style';
-import { FormBuilder, FormGroup} from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import {Location} from '@angular/common';
 
 declare let $: any;
 
@@ -23,10 +24,6 @@ declare let $: any;
 export class CreateMapComponent implements OnInit {
 
   @ViewChild('modal') modal: ElementRef;
-  form: FormGroup;
-  question;
-  answers = [];
-  correctanswer;
   map;
   view;
   geolocation;
@@ -34,8 +31,7 @@ export class CreateMapComponent implements OnInit {
   vectorSource;
   vectorLayer: any;
   tileLayer: any;
-  quizopen = true;
-  score = 0;
+  urlID;
   id = 1;
   action = 'add';
   markers = [];
@@ -44,16 +40,12 @@ export class CreateMapComponent implements OnInit {
   locationSet = [];
   oldLocationSet = [];
   currentSet = 1;
-  constructor(private formBuilder: FormBuilder) {
-    this.form = this.formBuilder.group({
-      answers: ['']
-    });
+  constructor(private _Activatedroute:ActivatedRoute, private _location: Location) {
+    this.urlID = this._Activatedroute.snapshot.paramMap.get("id");
+    console.log(this.urlID);
   }
   ngOnInit(): void {
     this.initializeMap();
-  }
-  private showModal(): void{
-    $(this.modal.nativeElement).modal('show');
   }
   remove(): void{
     this.action = 'remove';
@@ -61,11 +53,16 @@ export class CreateMapComponent implements OnInit {
   add(): void{
     this.action = 'add';
   }
+  backClicked(): void{
+    this._location.back();
+  }
   getlocation(): void{
     this.accuracyFeature = new Feature();
     this.geolocation.on('change:accuracyGeometry', () => {
     this.accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry());
     });
+    this.positionFeature.setId(-1);
+    this.accuracyFeature.setId(-1);
 
     this.vectorSource.addFeature(this.positionFeature);
     this.vectorSource.addFeature(this.accuracyFeature);
@@ -88,7 +85,7 @@ export class CreateMapComponent implements OnInit {
     });
   }
 
-  loadLocationset(): void{
+  /* loadLocationset(): void{
     if (this.currentSet === 1){
       this.oldLocationSet = [];
       this.getAllfeatures(this.oldLocationSet);
@@ -109,7 +106,7 @@ export class CreateMapComponent implements OnInit {
     this.vectorSource.addFeature(this.positionFeature);
     this.vectorSource.addFeature(this.accuracyFeature);
     this.vectorSource.addFeature(this.player);
-  }
+  } */
   createMarekrs(Lon, Lat): Feature{
     const marker = new Feature({
       geometry: new Point(fromLonLat([Lon, Lat])),
@@ -188,28 +185,13 @@ export class CreateMapComponent implements OnInit {
 
     this.map.on('click', (data) => {
       const coordinates = transform(data.coordinate, 'EPSG:3857', 'EPSG:4326');
-      const marker = new Feature({
-        geometry: new Point(fromLonLat(coordinates)),
-        name: 'marker'
-      });
-      marker.setStyle(new Style({
-        image: new Icon(({
-          color: [113, 140, 0],
-          crossOrigin: 'anonymous',
-          src: './assets/mapIcons/place.png',
-          scale: 0.08,
-        }))
-      }));
       if (this.action === 'add'){
-        marker.setId(this.id);
-        this.id++;
-        this.vectorSource.addFeature(marker);
+        this.vectorSource.addFeature(this.createMarekrs(coordinates[0], coordinates[1]));
       }else{
         this.map.forEachFeatureAtPixel(data.pixel, (feature, layer) => {
-          if (feature.getId() !== 0){
+          if (feature.getId() !== 0 && feature.getId() !== -1){
             this.vectorSource.removeFeature(feature);
           }
-            // this.showModal();
         });
       }
     });

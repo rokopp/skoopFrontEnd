@@ -1,6 +1,7 @@
+import { LocationSetsComponent } from './components/location-sets/location-sets.component';
 import { CreateMapComponent } from './components/create-map/create-map.component';
 import { MapComponent } from './components/map/map.component';
-import {NgModule} from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {GreetingComponent} from './components/greeting/greeting.component';
 import {QuestionsanswersComponent} from './components/questionsanswers/questionsanswers.component';
@@ -18,6 +19,8 @@ const routes: Routes = [
   { path: 'kontakt', component: ContactComponent},
   { path: 'map', component: MapComponent},
   { path: 'createmap', component: CreateMapComponent},
+  { path: 'createlocation', component: LocationSetsComponent},
+  { path: 'createlocation/:id', component: CreateMapComponent },
   { path: 'uus', component: CreateNewRoomComponent},
   { path: 'ruumid', component: UsersRoomsComponent},
 //  { path: 'kasutaja', component: UserProfileComponent},
