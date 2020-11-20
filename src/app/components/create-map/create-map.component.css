@@ -7,7 +7,9 @@
   overflow:auto;
 }
 
-
+.float-right {
+  float:right;
+}
 #button {
   float:left;
 }

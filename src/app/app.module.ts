@@ -16,6 +16,7 @@ import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.com
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsersRoomsComponent } from './components/users-rooms/users-rooms.component';
 import { CreateMapComponent } from './components/create-map/create-map.component';
+import { LocationSetsComponent } from './components/location-sets/location-sets.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CreateMapComponent } from './components/create-map/create-map.component
     MapComponent,
     GoPlayRoomsComponent,
     UsersRoomsComponent,
-    CreateMapComponent
+    CreateMapComponent,
+    LocationSetsComponent
   ],
   imports: [
     BrowserModule,
