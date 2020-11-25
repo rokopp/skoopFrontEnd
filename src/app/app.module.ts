@@ -22,6 +22,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import { CreateMapComponent } from './components/create-map/create-map.component';
+import { LocationSetsComponent } from './components/location-sets/location-sets.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -39,7 +40,8 @@ import { HttpClientModule } from '@angular/common/http';
     UsersRoomsComponent,
     QuestionSetComponent,
     UsersRoomsComponent,
-    CreateMapComponent
+    CreateMapComponent,
+    LocationSetsComponent
   ],
     imports: [
         BrowserModule,
