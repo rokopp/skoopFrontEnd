@@ -15,4 +15,12 @@ export class QuestionsetsService {
   getQuestionSets(): Observable<Questionset[]>{
     return this.http.get<Questionset[]>(this.questionSetsUrl);
   }
+
+  addQuestionSet(questionSet: Questionset): Observable<Questionset> {
+    return this.http.post<Questionset>(this.questionSetsUrl,  questionSet);
+  }
+
+  removeSet(id: number): Observable<Questionset> {
+    return this.http.delete<Questionset>(this.questionSetsUrl + '/' + id);
+  }
 }

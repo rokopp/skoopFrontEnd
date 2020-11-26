@@ -26,9 +26,9 @@ const routes: Routes = [
   { path: 'uus', component: CreateNewRoomComponent},
   { path: 'ruumid', component: UsersRoomsComponent},
 //  { path: 'kasutaja', component: UserProfileComponent},
-  { path: 'tiimiRegamine', component: GoPlayRoomsComponent},
-  { path: 'questionSet', component: QuestionSetComponent},
-  { path: 'questionSets', component: QuestionSetsComponent},
+  { path: 'tiimiregamine', component: GoPlayRoomsComponent},
+  { path: 'questionsets/:id', component: QuestionSetComponent},
+  { path: 'questionsets', component: QuestionSetsComponent},
 ];
 
 @NgModule({

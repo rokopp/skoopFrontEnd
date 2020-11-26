@@ -12,9 +12,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let set of data; index as i">
+      <tr *ngFor="let set of data">
         <td>{{set.name}}</td>
-        <td><a [routerLink]="['/questionset', set.id]" class="btn btn-primary"> Muuda küsimusi</a></td>
+        <td><a [routerLink]="['/questionsets', set.id]" class="btn btn-primary"> Muuda küsimusi</a></td>
         <td><button class="btn btn-danger" (click)="removeSet(set)">Kustuta</button></td>
       </tr>
     </tbody>
