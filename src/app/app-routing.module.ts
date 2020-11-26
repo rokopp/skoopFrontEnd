@@ -11,6 +11,7 @@ import {CreateNewRoomComponent} from './components/create-new-room/create-new-ro
 import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.component';
 import {UsersRoomsComponent} from './components/users-rooms/users-rooms.component';
 import {QuestionSetComponent} from './components/question-set/question-set.component';
+import {QuestionSetsComponent} from './components/question-sets/question-sets.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},
@@ -27,6 +28,7 @@ const routes: Routes = [
 //  { path: 'kasutaja', component: UserProfileComponent},
   { path: 'tiimiRegamine', component: GoPlayRoomsComponent},
   { path: 'questionSet', component: QuestionSetComponent},
+  { path: 'questionSets', component: QuestionSetsComponent},
 ];
 
 @NgModule({

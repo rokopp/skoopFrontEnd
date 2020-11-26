@@ -14,7 +14,7 @@
     <tbody>
         <tr *ngFor="let set of data; index as i">
             <td>{{set.name}}</td>
-            <td><a [routerLink]="['/createlocation', set.id]" class="btn btn-primary"> Muuda markeried</a></td>
+            <td><a [routerLink]="['/createlocation', set.id]" class="btn btn-primary"> Muuda markereid</a></td>
             <td><button class="btn btn-danger" (click)="removeLocation(set)">Kustuta</button></td>
         </tr>
     </tbody>

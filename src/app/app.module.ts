@@ -24,6 +24,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { CreateMapComponent } from './components/create-map/create-map.component';
 import { LocationSetsComponent } from './components/location-sets/location-sets.component';
 import { HttpClientModule } from '@angular/common/http';
+import { QuestionSetsComponent } from './components/question-sets/question-sets.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { HttpClientModule } from '@angular/common/http';
     QuestionSetComponent,
     UsersRoomsComponent,
     CreateMapComponent,
-    LocationSetsComponent
+    LocationSetsComponent,
+    QuestionSetsComponent
   ],
     imports: [
         BrowserModule,
