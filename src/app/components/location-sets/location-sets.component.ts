@@ -1,3 +1,5 @@
+import { Locationset } from './../../locationset';
+import { LocationsetsService } from './../../services/locationsets.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -5,32 +7,41 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './location-sets.component.html',
   styleUrls: ['./location-sets.component.css']
 })
+// TODO: Refresh page after succesful post and delete.
 export class LocationSetsComponent implements OnInit {
   data: Array<any>;
+  locationSets: Locationset[] = [];
+  creatorAccountId = 1; // TODO: Get id from logged-in account
   id = 1;
 
-  constructor() {
-    this.data = [
-      {name: 'Taltech', id: '0'},
-      {name: 'Gorod Narva ☺', id: '1'}
-    ];
-    this.id = this.data.length;
+  constructor(private locationSetsService: LocationsetsService) {
   }
 
   ngOnInit(): void {
+    this.getLocationSets();
   }
-  addLocation(): void{
-    const locationName = (document.getElementById('input') as HTMLInputElement).value;
-    if (locationName !== ''){
-      const room = { name: locationName, id: this.id};
-      this.data.push(room);
-      this.id++;
-    }else {
-      alert('Please enter a name');
-    }
+  getLocationSets(): void{
+    this.locationSetsService.getLocationSets().subscribe(locationSets => this.locationSets = locationSets);
   }
-  removeLocation(id: any): void{
-    this.data.splice(id, 1);
+
+  removeLocationSet(set: Locationset): void{
+    this.locationSetsService.removeLocationSet(set.id).subscribe({
+      error: error => {
+        const errorMessage = error.message;
+        console.error('Happened this during deleting: ', errorMessage);
+      }
+    });
+  }
+  addLocationSet(): void{
+    const locationSetName = (document.getElementById('input') as HTMLInputElement).value;
+    this.locationSetsService.addLocationSet({name: locationSetName, creatorAccountId: this.creatorAccountId} as Locationset)
+      .subscribe({
+        error: error => {
+          const errorMessage = error.message;
+          console.error('Happened this during posting: ', errorMessage);
+          this.getLocationSets();
+        }
+      });
   }
 
 }
