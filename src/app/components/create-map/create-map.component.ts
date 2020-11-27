@@ -1,20 +1,28 @@
+import { Location } from './../../location';
+import { LocationService } from './../../services/location.service';
 import { Component, OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import Map from 'ol/Map';
 import OSM from 'ol/source/OSM';
-import {transform, fromLonLat} from 'ol/proj.js';
+import { transform, LonLat, LonLatfrom } from 'ol/proj.js';
 import Geolocation from 'ol/Geolocation';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import View from 'ol/View';
+import {fromLonLat} from 'ol/proj.js';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import VectorSource from 'ol/source/Vector';
 import {Circle as CircleStyle, Fill, Stroke, Icon, Style} from 'ol/style';
 import { ActivatedRoute } from '@angular/router';
-import {Location} from '@angular/common';
+import {Location as URL} from '@angular/common';
 
 declare let $: any;
+
+interface LonAndLat {
+  lat: number;
+  lng: number;
+}
 
 @Component({
   selector: 'app-create-map',
@@ -31,21 +39,20 @@ export class CreateMapComponent implements OnInit {
   vectorSource;
   vectorLayer: any;
   tileLayer: any;
-  urlID;
-  id = 1;
+  locationSetId;
+  locations: Location[] = [];
+  id = 10000;
   action = 'add';
   markers = [];
   positionFeature; // GPS Tracking
   accuracyFeature; // GPS Tracker Radius
-  locationSet = [];
-  oldLocationSet = [];
   currentSet = 1;
-  constructor(private _Activatedroute:ActivatedRoute, private _location: Location) {
-    this.urlID = this._Activatedroute.snapshot.paramMap.get("id");
-    console.log(this.urlID);
+  constructor(private _Activatedroute:ActivatedRoute, private _location: URL, private locationService: LocationService) {
+    this.locationSetId = this._Activatedroute.snapshot.paramMap.get("id");
   }
   ngOnInit(): void {
     this.initializeMap();
+    this.getAllLocations();
   }
   remove(): void{
     this.action = 'remove';
@@ -55,6 +62,19 @@ export class CreateMapComponent implements OnInit {
   }
   backClicked(): void{
     this._location.back();
+  }
+  getAllLocations(): void{
+    this.locationService.getLocations().subscribe(locations =>
+      locations.forEach(location => {
+        // this.locations.push(location);
+        if (location.locationSetId.toString() === this.locationSetId){
+          console.log(this.addNewLocation(location));
+        }
+      }));
+  }
+  addNewLocation(location: Location): void{
+    const coordinates: LonAndLat = JSON.parse(location.location);
+    this.createMarekrs(coordinates.lng, coordinates.lat, location.id);
   }
   getlocation(): void{
     this.accuracyFeature = new Feature();
@@ -84,30 +104,8 @@ export class CreateMapComponent implements OnInit {
       }
     });
   }
-
-  /* loadLocationset(): void{
-    if (this.currentSet === 1){
-      this.oldLocationSet = [];
-      this.getAllfeatures(this.oldLocationSet);
-      this.vectorSource.clear();
-      this.locationSet.forEach( (value) => {
-        this.vectorSource.addFeature(value);
-      });
-      this.currentSet = 2;
-    }else{
-      this.locationSet = [];
-      this.getAllfeatures(this.locationSet);
-      this.vectorSource.clear();
-      this.oldLocationSet.forEach( (value) => {
-        this.vectorSource.addFeature(value);
-      });
-      this.currentSet = 1;
-    }
-    this.vectorSource.addFeature(this.positionFeature);
-    this.vectorSource.addFeature(this.accuracyFeature);
-    this.vectorSource.addFeature(this.player);
-  } */
-  createMarekrs(Lon, Lat): Feature{
+  createMarekrs(Lon, Lat, Id): Feature{
+    console.log(Lon, Lat);
     const marker = new Feature({
       geometry: new Point(fromLonLat([Lon, Lat])),
       name: 'marker'
@@ -119,9 +117,9 @@ export class CreateMapComponent implements OnInit {
         scale: 0.08,
       }))
     }));
-    marker.setId(this.id);
+    marker.setId(Id);
     this.id++;
-    return marker;
+    this.vectorSource.addFeature(marker);
   }
 
   private initializeMap(): void{
@@ -186,7 +184,20 @@ export class CreateMapComponent implements OnInit {
     this.map.on('click', (data) => {
       const coordinates = transform(data.coordinate, 'EPSG:3857', 'EPSG:4326');
       if (this.action === 'add'){
-        this.vectorSource.addFeature(this.createMarekrs(coordinates[0], coordinates[1]));
+        const lat = coordinates[1];
+        this.createMarekrs(coordinates[0], coordinates[1], this.id);
+        const locationObj = {
+          locationSetId: this.locationSetId,
+          location: '{\"lat\" : ' + coordinates[1].toPrecision(9) + ', \"lng\" : ' + coordinates[0].toPrecision(9) + '}',
+          coverRadius: 2
+        };
+        console.log(locationObj.location);
+        this.locationService.postLocation(locationObj).subscribe({
+          error: error => {
+            const errorMessage = error.message;
+            console.error('Happened this during posting: ', errorMessage);
+          }
+        });
       }else{
         this.map.forEachFeatureAtPixel(data.pixel, (feature, layer) => {
           if (feature.getId() !== 0 && feature.getId() !== -1){
