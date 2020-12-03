@@ -12,12 +12,12 @@ export class QuestionService {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
   constructor(private http: HttpClient) { }
-  getQuestions(): Observable<Question[]> {
-    return this.http.get<Question[]>(this.questionsUrl);
+
+  getQuestions(setId: number): Observable<Question[]> {
+    return this.http.get<Question[]>('api/question_sets/' + setId);
   }
 
-  postQuestion(questionObj: { questionSetId: number; question: string;
-  answer: string; points: string }): Observable<Question> {
+  postQuestion(questionObj: Question): Observable<Question> {
     return this.http.post<Question>(this.questionsUrl, questionObj, {});
   }
 }
