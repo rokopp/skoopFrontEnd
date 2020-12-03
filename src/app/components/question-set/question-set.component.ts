@@ -1,10 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
-import {QuestionService} from "../../services/question.service";
-import {Observable} from "rxjs";
-import {AbstractControl, ValidatorFn} from "@angular/forms";
-import {MatTable} from "@angular/material/table";
+import {QuestionService} from '../../services/question.service';
+import {MatTable} from '@angular/material/table';
 
 export interface Answer {
   text: string;
