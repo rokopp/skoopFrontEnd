@@ -3,6 +3,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {QuestionService} from '../../services/question.service';
 import {MatTable} from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 
 export interface Answer {
   text: string;
@@ -21,9 +22,14 @@ export class QuestionSetComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  choices: Array<Answer> = [];
-  constructor(private questionService: QuestionService) { }
+  choices: Answer[] = [];
+  setId: number;
+  constructor(private questionService: QuestionService,
+              private route: ActivatedRoute ) { }
   ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+        this.setId = +params.get('id');
+    });
     this.getQuestions();
   }
   addAnswer(event: MatChipInputEvent): void {
@@ -48,16 +54,22 @@ export class QuestionSetComponent implements OnInit {
     const questionval = this.getInputValueById('question');
     const answerval = this.getInputValueById('answer');
     const pointsval = this.getInputValueById('points');
+    const choices1 = [];
+    this.choices.forEach(choice => choices1.push(choice.text));
     const questionObj = {
-      questionSetId: 1,
+      questionSetId: this.setId,
       question: questionval,
       answer: answerval,
-      points: pointsval
+      points: +pointsval,
+      id: null,
+      choices: choices1
     };
-    this.questionService.postQuestion(questionObj).subscribe(this.table.renderRows);
+    console.error(questionObj);
+    this.questionService.postQuestion(questionObj).subscribe(quest => this.table.renderRows());
+    window.document.location.reload();
   }
   private getQuestions(): void {
-    this.questionService.getQuestions()
+    this.questionService.getQuestions(this.setId)
       .subscribe(questions => this.questionSet = questions);
   }
   emptyChoices(): void {
