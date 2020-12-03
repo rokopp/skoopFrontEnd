@@ -1,0 +1,30 @@
+
+stages:
+  - build
+  - deploy
+
+build skoop:
+  stage: build
+  image: node:12-alpine
+  cache:
+    paths:
+      - node_modules
+  artifacts:
+    paths:
+      - dist
+  tags:
+    - skoop
+  script:
+    - npm install
+    - npm run build
+
+deploy skoop:
+  stage: deploy
+  tags:
+    - skoop
+  script:
+    - mkdir -p ~/front-deployment
+    - rm -rf ~/front-deployment/*
+    - cp -r dist/skoop-front/. ~/front-deployment
+  only:
+    - develop
