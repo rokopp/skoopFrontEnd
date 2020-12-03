@@ -35,8 +35,8 @@ export class QuestionSetsComponent implements OnInit {
     window.location.reload();
   }
 
-  removeSet(set: Questionset): void {
-    this.questionSetsService.removeSet(set.id).subscribe({
+  removeSet(id: number): void {
+    this.questionSetsService.removeSet(id).subscribe({
       error: error => {
         const errorMessage = error.message;
         console.error('Happened this during deleting: ', errorMessage);
