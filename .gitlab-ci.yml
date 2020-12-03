@@ -25,6 +25,6 @@ deploy skoop:
   script:
     - mkdir -p ~/front-deployment
     - rm -rf ~/front-deployment/*
-    - cp -r dist/skoop-front/. ~/front-deployment
+    - cp -r dist/skoop/. ~/front-deployment
   only:
     - develop
