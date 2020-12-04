@@ -4,7 +4,7 @@ stages:
 
 build skoop:
   stage: build
-  image: node:12-alpine
+  image: node:latest
   cache:
     paths:
       - node_modules
