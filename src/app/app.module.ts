@@ -17,10 +17,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UsersRoomsComponent } from './components/users-rooms/users-rooms.component';
 import { CreateMapComponent } from './components/create-map/create-map.component';
 import { LoginComponent } from './components/login/login.component';
-import {fakeBackendProvider} from './components/_helpers/fake-backend';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {BasicAuthInterceptor} from './components/_helpers/basic-auth.interceptor';
-import {ErrorInterceptor} from './components/_helpers/error.interceptor';
+import { HttpClientModule} from '@angular/common/http';
+import { AlertsComponent } from './components/alerts/alerts.component';
+import { MsalModule } from '@azure/msal-angular';
+import { OAuthSettings } from './oauth';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,8 @@ import {ErrorInterceptor} from './components/_helpers/error.interceptor';
     GoPlayRoomsComponent,
     UsersRoomsComponent,
     CreateMapComponent,
-    LoginComponent
+    LoginComponent,
+    AlertsComponent
   ],
   imports: [
     BrowserModule,
@@ -44,14 +45,13 @@ import {ErrorInterceptor} from './components/_helpers/error.interceptor';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
-    // provider used to create fake backend
-    fakeBackendProvider
+    HttpClientModule,
+    MsalModule.forRoot({
+      auth: {
+        clientId: OAuthSettings.appId,
+        redirectUri: OAuthSettings.redirectUri
+      }
+    })
   ],
   bootstrap: [AppComponent]
 })

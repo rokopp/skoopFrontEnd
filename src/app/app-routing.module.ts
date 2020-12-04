@@ -10,7 +10,6 @@ import {CreateNewRoomComponent} from './components/create-new-room/create-new-ro
 import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.component';
 import {UsersRoomsComponent} from './components/users-rooms/users-rooms.component';
 import {LoginComponent} from './components/login/login.component';
-import {AuthGuard} from './components/_helpers/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, ActivationEnd, NavigationEnd, Router} from '@angular/router';
+import { MsalService, BroadcastService } from '@azure/msal-angular';
 
 
 @Component({
@@ -10,6 +11,7 @@ import {ActivatedRoute, ActivationEnd, NavigationEnd, Router} from '@angular/rou
 export class AppComponent implements OnInit {
   bgImage: string;
   private getComponent: string;
+  graphMeEndpoint = 'https://graph.microsoft.com/v1.0/me';
 
   setBgImg() {
     if (this.getComponent === 'GreetingComponent') {
@@ -35,4 +37,5 @@ export class AppComponent implements OnInit {
   }
   ngOnInit(): void {
   }
+
 }
