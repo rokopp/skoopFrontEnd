@@ -24,11 +24,13 @@ export class QuestionSetComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   choices: Answer[] = [];
   setId: number;
+  setName: string;
   constructor(private questionService: QuestionService,
               private route: ActivatedRoute ) { }
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
         this.setId = +params.get('id');
+        this.setName = params.get('name');
     });
     this.getQuestions();
   }

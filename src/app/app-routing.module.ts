@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: 'ruumid', component: UsersRoomsComponent},
 //  { path: 'kasutaja', component: UserProfileComponent},
   { path: 'tiimiregamine', component: GoPlayRoomsComponent},
-  { path: 'questionsets/:id', component: QuestionSetComponent},
+  { path: 'questionsets/:id/:name', component: QuestionSetComponent},
   { path: 'questionsets', component: QuestionSetsComponent},
 ];
 
