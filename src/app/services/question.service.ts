@@ -16,6 +16,9 @@ export class QuestionService {
   getQuestions(setId: number): Observable<Question[]> {
     return this.http.get<Question[]>('api/question_sets/' + setId);
   }
+  getQuestionById(id: number): Observable<Question> {
+    return this.http.get<Question>(this.questionsUrl + '/' + id);
+  }
 
   postQuestion(questionObj: Question): Observable<Question> {
     return this.http.post<Question>(this.questionsUrl, questionObj, {});

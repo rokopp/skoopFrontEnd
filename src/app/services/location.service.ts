@@ -15,6 +15,9 @@ export class LocationService {
   getLocations(): Observable<Location[]> {
     return this.http.get<Location[]>(this.locationsUrl + '/all');
   }
+  getLocationsbyId(id: number): Observable<Location> {
+    return this.http.get<Location>(this.locationsUrl + '/' + id);
+  }
   postLocation(locationobj: { locationSetId: number; location: string;
     coverRadius: number}): Observable<Location> {
       return this.http.post<Location>(this.locationsUrl, locationobj, {});

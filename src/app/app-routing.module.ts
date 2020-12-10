@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'avaleht', component: GreetingComponent},
   { path: 'kkk', component: QuestionsanswersComponent},
   { path: 'mang', component: RoomComponent},
+  { path: 'mang/:id', component: MapComponent},
   { path: 'kontakt', component: ContactComponent},
   { path: 'map', component: MapComponent},
   { path: 'createmap', component: CreateMapComponent},
