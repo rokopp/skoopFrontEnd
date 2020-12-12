@@ -20,4 +20,12 @@ export class QuestionService {
   postQuestion(questionObj: Question): Observable<Question> {
     return this.http.post<Question>(this.questionsUrl, questionObj, {});
   }
+
+  putQuestion(questionObj: Question): Observable<Question> {
+    return this.http.put<Question>(this.questionsUrl, questionObj, {});
+  }
+
+  removeQuestion(element: Question): Observable<any> {
+    return this.http.delete(this.questionsUrl + '/' + element.id);
+  }
 }
