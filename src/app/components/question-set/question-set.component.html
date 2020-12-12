@@ -13,21 +13,35 @@
       <!--TODO: notify table of updates via renderRows()-->
       <!--Excuse me, mr table, but umm.. renderCows.. i meant.. renderRows()!-->
       <table mat-table [dataSource]="questionSet">
+
+        <!-- ID column -->
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef class="text-center">ID</th>
           <td mat-cell *matCellDef="let elem">{{elem.id}}</td>
         </ng-container>
 
+        <!-- Question column -->
         <ng-container matColumnDef="question">
           <th mat-header-cell *matHeaderCellDef class="text-center">Question</th>
           <td mat-cell *matCellDef="let elem">{{elem.question}}</td>
         </ng-container>
 
+        <!-- Answer column -->
         <ng-container matColumnDef="answer">
           <th mat-header-cell *matHeaderCellDef class="text-center">Answer</th>
           <td mat-cell *matCellDef="let elem">{{elem.answer}}</td>
         </ng-container>
 
+        <!-- Action column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center"> Action </th>
+          <td mat-cell *matCellDef="let element" class="action-link">
+            <a (click)="editQuestion(element.id)" class="btn btn-outline-dark w-auto">Edit</a>
+            <a (click)="deleteQuestion(element.id)" class="btn btn-outline-danger w-auto">Delete</a>
+          </td>
+        </ng-container>
+
+        <!-- Draw rows and columns -->
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
       </table>
