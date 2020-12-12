@@ -32,6 +32,7 @@ interface LonAndLat {
 export class CreateMapComponent implements OnInit {
 
   @ViewChild('modal') modal: ElementRef;
+  target;
   map;
   view;
   geolocation;
@@ -183,12 +184,12 @@ export class CreateMapComponent implements OnInit {
 
     this.map.on('click', (data) => {
       const coordinates = transform(data.coordinate, 'EPSG:3857', 'EPSG:4326');
+      const locationFormat = '{\"lat\" : ' + coordinates[1].toPrecision(9) + ', \"lng\" : ' + coordinates[0].toPrecision(9) + '}';
       if (this.action === 'add'){
-        const lat = coordinates[1];
         this.createMarekrs(coordinates[0], coordinates[1], this.id);
         const locationObj = {
           locationSetId: this.locationSetId,
-          location: '{\"lat\" : ' + coordinates[1].toPrecision(9) + ', \"lng\" : ' + coordinates[0].toPrecision(9) + '}',
+          location: locationFormat,
           coverRadius: 2
         };
         console.log(locationObj.location);
@@ -199,9 +200,22 @@ export class CreateMapComponent implements OnInit {
           }
         });
       }else{
+        const locationFormat = '{\"lat\" : ' + coordinates[1].toPrecision(5) + ', \"lng\" : ' + coordinates[0].toPrecision(5) + '}';
         this.map.forEachFeatureAtPixel(data.pixel, (feature, layer) => {
           if (feature.getId() !== 0 && feature.getId() !== -1){
-            this.vectorSource.removeFeature(feature);
+            this.locationService.getLocationsBySet(this.locationSetId).subscribe(locations =>
+              locations.forEach(location => {
+                console.log(this.target);
+                if (location.location.toString().includes(coordinates[1].toPrecision(4)) &&
+                  location.location.toString().includes(coordinates[0].toPrecision(4))){
+                    this.target = location.id;
+                }
+              }));
+            if (this.target !== undefined){
+              this.locationService.removeLocation(this.target).subscribe(() => status = 'Delete successful');
+              this.vectorLayer.removeFeature(feature);
+              this.target = undefined;
+            }
           }
         });
       }
