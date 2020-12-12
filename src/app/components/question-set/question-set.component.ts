@@ -97,6 +97,8 @@ export class QuestionSetComponent implements OnInit {
   // Empty matchipinput choices in reset form.
   emptyChoices(): void {
     this.choices = [];
+    this.updateInsteadOfPost = false;
+    this.editId = null;
   }
 
   // Simple helper function
