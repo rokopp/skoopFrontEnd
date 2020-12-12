@@ -17,6 +17,8 @@ export interface Answer {
 })
 export class QuestionSetComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<Question>;
+  updateInsteadOfPost = false;
+  editId = null;
   columnsToDisplay = ['id', 'question', 'answer', 'action'];
   questionSet: Array<{}> = [];  // Array of objects
   selectable = true;
@@ -76,11 +78,15 @@ export class QuestionSetComponent implements OnInit {
       console.log('Hey im here');
       this.table.renderRows();
     });
+    this.updateInsteadOfPost = false;
+    this.editId = null;
     window.document.location.reload();
   }
+  // Empty matchipinput choices in reset form.
   emptyChoices(): void {
     this.choices = [];
   }
+  // Simple helper function
   private getInputValueById(id: string): string {
     return (document.getElementById(id) as HTMLInputElement).value;
   }
@@ -90,11 +96,26 @@ export class QuestionSetComponent implements OnInit {
       .subscribe(questions => this.questionSet = questions);
   }
   // Remove a question completely from database.
-  public deleteQuestion(id: number): void {
-
+  public deleteQuestion(element: Question): void {
+    this.questionService.removeQuestion(element).subscribe(() => window.location.reload());
   }
   // Change question field values.
-  editQuestion(id: number): void {
-    console.log(id);
+  editQuestion(element: Question): void {
+    (document.getElementById('question') as HTMLInputElement).value = element.question;
+    (document.getElementById('points') as HTMLInputElement).value = String(element.points);
+    (document.getElementById('answer') as HTMLInputElement).value = element.answer;
+    this.choices = [];
+    element.choices.forEach(choice => {
+      const choiceAnswer = {text: choice};
+      this.choices.push(choiceAnswer); }
+    );
+    this.updateInsteadOfPost = true;
+    this.editId = element.id;
+  }
+  // Update question selected for edit, otherwise submits new question.
+  updateQuestion(element: Question): void {
+    console.log(JSON.stringify(element));
+    this.updateInsteadOfPost = false;
+    this.editId = null;
   }
 }
