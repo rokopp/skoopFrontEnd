@@ -11,7 +11,7 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class RoomService {
-  private roomsUrl = 'api/pairs';
+  private roomsUrl = 'api/rooms';
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
@@ -30,7 +30,7 @@ export class RoomService {
     return this.http.get<Room[]>(this.roomsUrl + '/creator/' + id);
   }
   postRoom(roomobj: { creatorAccountId: number; date: string;
-    firstView: string; gameName: string; password: string}): Observable<Room> {
+    firstView: string; gameName: string; password: string; gameLength: number}): Observable<Room> {
       return this.http.post<Room>(this.roomsUrl, roomobj, {});
     }
 

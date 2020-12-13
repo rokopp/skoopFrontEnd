@@ -1,4 +1,9 @@
+import { Room } from './../../room';
+import { RoomService } from './../../services/room.service';
+import { Pair } from './../../pair';
+import { PairService } from './../../services/pair.service';
 import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-users-rooms',
@@ -6,54 +11,48 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./users-rooms.component.css']
 })
 export class UsersRoomsComponent implements OnInit {
-  enableEdit = false;
-  enableEditIndex = null;
-  rooms: Array<any> = [
-    {
-      name: 'Russia',
-    },
-    {
-      name: 'Canada',
-    },
-    {
-      name: 'United States',
-    },
-    {
-      name: 'China',
-    }
-  ];
+  data: Array<any>;
+  rooms: Room[] = [];
+  creatorAccountId = 1; // TODO: Get id from logged-in account
+  id = 1;
 
-  // tslint:disable-next-line:typedef
-  updateList(id: number, property: string, event: any) {
-    this.rooms[id][property] = event.target.textContent;
+  constructor(private pairService: PairService, private roomservice: RoomService) {
   }
-
-  // tslint:disable-next-line:typedef
-  remove(id: any) {
-    console.log(this.rooms[id]);
-    this.rooms.splice(id, 1);
-  }
-
-  // tslint:disable-next-line:typedef
-  enableEditMethod(e, i) {
-    this.enableEdit = true;
-    this.enableEditIndex = i;
-  }
-  // tslint:disable-next-line:typedef
-  save(id, property: string, event) {
-    this.enableEdit = false;
-    this.updateList(id, property, event);
-  }
-  // tslint:disable-next-line:typedef
-  addRoom(){
-    const room = {name: 'Latvia'};
-    this.rooms.push(room);
-  }
-  constructor() { }
 
   ngOnInit(): void {
+    this.getRooms();
+    console.log(this.rooms);
+  }
+  getRooms(): void{
+    this.roomservice.getRooms().subscribe(room => this.rooms = room);
   }
 
+  removeRoom(set: Room): void{
+    // this.roomservice.(set.id).subscribe({
+    //   error: error => {
+    //     const errorMessage = error.message;
+    //     console.error('Happened this during deleting: ', errorMessage);
+    //   }
+    // });
+  }
+  addRoom(): void{
+    const roomName = (document.getElementById('input') as HTMLInputElement).value;
+    this.roomservice.postRoom({
+      creatorAccountId: this.creatorAccountId,
+      date: '12/11/2020 00:00:00',
+      firstView: '',
+      gameName: roomName,
+      gameLength: 0,
+      password: ''} as Room)
+      .subscribe({
+        error: error => {
+          const errorMessage = error.message;
+          console.error('Happened this during posting: ', errorMessage);
+        }
+      });
+    this.getRooms();
+    //window.location.reload();
+  }
   addQuestions(): void {
     // TODO question service
   }
@@ -61,4 +60,6 @@ export class UsersRoomsComponent implements OnInit {
   addLocations(): void {
     // TODO Location service
   }
+
+
 }

@@ -5,4 +5,5 @@ export interface Room{
   gameName: string;
   id: number;
   password: string;
+  gameLength: number;
 }

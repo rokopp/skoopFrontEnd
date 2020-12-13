@@ -42,7 +42,6 @@ export class CreateMapComponent implements OnInit {
   tileLayer: any;
   locationSetId;
   locations: Location[] = [];
-  id = 10000;
   action = 'add';
   markers = [];
   positionFeature; // GPS Tracking
@@ -119,7 +118,6 @@ export class CreateMapComponent implements OnInit {
       }))
     }));
     marker.setId(Id);
-    this.id++;
     this.vectorSource.addFeature(marker);
   }
 
@@ -186,36 +184,30 @@ export class CreateMapComponent implements OnInit {
       const coordinates = transform(data.coordinate, 'EPSG:3857', 'EPSG:4326');
       const locationFormat = '{\"lat\" : ' + coordinates[1].toPrecision(9) + ', \"lng\" : ' + coordinates[0].toPrecision(9) + '}';
       if (this.action === 'add'){
-        this.createMarekrs(coordinates[0], coordinates[1], this.id);
         const locationObj = {
           locationSetId: this.locationSetId,
           location: locationFormat,
           coverRadius: 2
         };
-        console.log(locationObj.location);
-        this.locationService.postLocation(locationObj).subscribe({
-          error: error => {
+        this.locationService.postLocation(locationObj).subscribe(
+          response => {
+                      this.createMarekrs(coordinates[0], coordinates[1], response.id);
+          },
+          error => {
             const errorMessage = error.message;
             console.error('Happened this during posting: ', errorMessage);
           }
-        });
+        );
       }else{
-        const locationFormat = '{\"lat\" : ' + coordinates[1].toPrecision(5) + ', \"lng\" : ' + coordinates[0].toPrecision(5) + '}';
         this.map.forEachFeatureAtPixel(data.pixel, (feature, layer) => {
           if (feature.getId() !== 0 && feature.getId() !== -1){
-            this.locationService.getLocationsBySet(this.locationSetId).subscribe(locations =>
-              locations.forEach(location => {
-                console.log(this.target);
-                if (location.location.toString().includes(coordinates[1].toPrecision(4)) &&
-                  location.location.toString().includes(coordinates[0].toPrecision(4))){
-                    this.target = location.id;
-                }
-              }));
-            if (this.target !== undefined){
-              this.locationService.removeLocation(this.target).subscribe(() => status = 'Delete successful');
-              this.vectorLayer.removeFeature(feature);
-              this.target = undefined;
-            }
+            this.locationService.removeLocation(feature.getId()).subscribe({
+              error: error => {
+                const errorMessage = error.message;
+                console.error('Happened this during deleting: ', errorMessage);
+              }
+            });
+            this.vectorSource.removeFeature(feature);
           }
         });
       }
