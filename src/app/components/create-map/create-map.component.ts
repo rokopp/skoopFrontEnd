@@ -32,6 +32,7 @@ interface LonAndLat {
 export class CreateMapComponent implements OnInit {
 
   @ViewChild('modal') modal: ElementRef;
+  target;
   map;
   view;
   geolocation;
@@ -41,7 +42,6 @@ export class CreateMapComponent implements OnInit {
   tileLayer: any;
   locationSetId;
   locations: Location[] = [];
-  id = 10000;
   action = 'add';
   markers = [];
   positionFeature; // GPS Tracking
@@ -118,7 +118,6 @@ export class CreateMapComponent implements OnInit {
       }))
     }));
     marker.setId(Id);
-    this.id++;
     this.vectorSource.addFeature(marker);
   }
 
@@ -183,24 +182,31 @@ export class CreateMapComponent implements OnInit {
 
     this.map.on('click', (data) => {
       const coordinates = transform(data.coordinate, 'EPSG:3857', 'EPSG:4326');
+      const locationFormat = '{\"lat\" : ' + coordinates[1].toPrecision(9) + ', \"lng\" : ' + coordinates[0].toPrecision(9) + '}';
       if (this.action === 'add'){
-        const lat = coordinates[1];
-        this.createMarekrs(coordinates[0], coordinates[1], this.id);
         const locationObj = {
           locationSetId: this.locationSetId,
-          location: '{\"lat\" : ' + coordinates[1].toPrecision(9) + ', \"lng\" : ' + coordinates[0].toPrecision(9) + '}',
+          location: locationFormat,
           coverRadius: 2
         };
-        console.log(locationObj.location);
-        this.locationService.postLocation(locationObj).subscribe({
-          error: error => {
+        this.locationService.postLocation(locationObj).subscribe(
+          response => {
+                      this.createMarekrs(coordinates[0], coordinates[1], response.id);
+          },
+          error => {
             const errorMessage = error.message;
             console.error('Happened this during posting: ', errorMessage);
           }
-        });
+        );
       }else{
         this.map.forEachFeatureAtPixel(data.pixel, (feature, layer) => {
           if (feature.getId() !== 0 && feature.getId() !== -1){
+            this.locationService.removeLocation(feature.getId()).subscribe({
+              error: error => {
+                const errorMessage = error.message;
+                console.error('Happened this during deleting: ', errorMessage);
+              }
+            });
             this.vectorSource.removeFeature(feature);
           }
         });
