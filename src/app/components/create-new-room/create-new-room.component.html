@@ -1,0 +1,16 @@
+<div class='container'>
+<div class="form-group space-up">
+  <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Question Set</label>
+  <select [(ngModel)]="selectedQuestion" class="form-control">
+    <option *ngFor="let c of questionSetdata" [ngValue]="c.id">{{c.name}}</option>
+  </select>
+  <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Location Set</label>
+  <select [(ngModel)]="selectedLocation" class="form-control">
+    <option *ngFor="let c of locationSetdata" [ngValue]="c.id">{{c.name}}</option>
+  </select>
+</div>
+<div class="col-md-12 text-center">
+  <button type="button" class="btn btn-info mr-1" (click)="addPair()">Salvesta</button>
+  <button type="button" class="btn btn-info" routerLink="/ruumid">Mine Tagasi</button>
+</div>
+</div>

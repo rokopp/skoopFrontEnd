@@ -1,6 +1,5 @@
 import { Room } from './../../room';
 import { RoomService } from './../../services/room.service';
-import { Pair } from './../../pair';
 import { PairService } from './../../services/pair.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -28,14 +27,16 @@ export class UsersRoomsComponent implements OnInit {
   }
 
   removeRoom(set: Room): void{
-    // this.roomservice.(set.id).subscribe({
-    //   error: error => {
-    //     const errorMessage = error.message;
-    //     console.error('Happened this during deleting: ', errorMessage);
-    //   }
-    // });
+    this.roomservice.removeRoom(set.id).subscribe(() => {
+      this.getRooms;
+      window.location.reload();
+    },
+      error => {
+        const errorMessage = error.message;
+        console.error('Happened this during deleting: ', errorMessage);
+    });
   }
-  addRoom(): void{
+  addRoom(): void {
     const roomName = (document.getElementById('input') as HTMLInputElement).value;
     this.roomservice.postRoom({
       creatorAccountId: this.creatorAccountId,
@@ -43,23 +44,15 @@ export class UsersRoomsComponent implements OnInit {
       firstView: '',
       gameName: roomName,
       gameLength: 0,
-      password: ''} as Room)
-      .subscribe({
-        error: error => {
+      password: ''
+    } as Room)
+      .subscribe(() => {
+        this.getRooms;
+        window.location.reload();
+      },
+        error => {
           const errorMessage = error.message;
           console.error('Happened this during posting: ', errorMessage);
-        }
-      });
-    this.getRooms();
-    //window.location.reload();
+        });
   }
-  addQuestions(): void {
-    // TODO question service
-  }
-
-  addLocations(): void {
-    // TODO Location service
-  }
-
-
 }
