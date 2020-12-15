@@ -14,19 +14,16 @@
     <tbody>
         <tr *ngFor="let room of rooms; index as i">
             <td>{{room.gameName}}</td>
-            <td><a [routerLink]="['/createlocation', room.id]" class="btn btn-primary"> Muuda Mängu</a></td>
+            <td><a [routerLink]="['/ruumid', room.id]" class="btn btn-primary"> Muuda Mängu</a></td>
             <td><button class="btn btn-danger" (click)="removeRoom(room)">Kustuta</button></td>
         </tr>
     </tbody>
   </table>
   <div class="row fixed-bottom mx-auto">
-    <div class="col-4">
-      <button class="btn btn-info" routerLink="/questionsets" (click)="addQuestions()">Loo uus küsimustik</button>
+    <div class="col-6">
+      <button class="btn btn-info" routerLink="/questionsets">Loo uus küsimustik</button>
     </div>
-    <div class="col-4">
-      <button class="btn btn-info" (click)="addRoom()">Loo uus ruum</button>
-    </div>
-    <div class="col-4">
+    <div class="col-6">
       <button class="btn btn-info" [routerLink]="'/createlocation'">Loo uus kaardikomplekt</button>
     </div>
   </div>

@@ -26,6 +26,10 @@ export class RoomService {
   getRoomIdByName(name: string): Observable<Number> {
     return this.http.get<Number>(this.roomsUrl + '/name/' + name);
   }
+  removeRoom(id: number): Observable<Room>{
+    return this.http.delete<Room>(this.roomsUrl + '/' + id);
+  };
+
   getRoomsByCreatorId(id: string): Observable<Room[]> {
     return this.http.get<Room[]>(this.roomsUrl + '/creator/' + id);
   }

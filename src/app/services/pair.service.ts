@@ -19,6 +19,9 @@ export class PairService {
   getPairbyId(id: number): Observable<Pair[]> {
     return this.http.get<Pair[]>(this.pairsUrl + '/' + id);
   }
+  removePair(id: number): Observable<Pair[]> {
+    return this.http.delete<Pair[]>(this.pairsUrl + '/' + id);
+  }
   postPair(pairobj: { locationId: number; questionId: number;
     roomId: number}): Observable<Pair> {
       return this.http.post<Pair>(this.pairsUrl, pairobj, {});

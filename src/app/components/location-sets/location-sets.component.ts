@@ -25,23 +25,23 @@ export class LocationSetsComponent implements OnInit {
   }
 
   removeLocationSet(set: Locationset): void{
-    this.locationSetsService.removeLocationSet(set.id).subscribe({
-      error: error => {
+    this.locationSetsService.removeLocationSet(set.id).subscribe(() => {
+      this.getLocationSets();
+      window.location.reload(); },
+      error => {
         const errorMessage = error.message;
         console.error('Happened this during deleting: ', errorMessage);
-      }
     });
   }
   addLocationSet(): void{
     const locationSetName = (document.getElementById('input') as HTMLInputElement).value;
     this.locationSetsService.addLocationSet({name: locationSetName, creatorAccountId: this.creatorAccountId} as Locationset)
-      .subscribe({
-        error: error => {
+      .subscribe(() => {
+        this.getLocationSets();
+        window.location.reload(); },
+        error => {
           const errorMessage = error.message;
           console.error('Happened this during posting: ', errorMessage);
-          this.getLocationSets();
-        }
-      });
+        });
   }
-
 }
