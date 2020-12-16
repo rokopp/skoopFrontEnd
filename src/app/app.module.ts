@@ -20,7 +20,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HttpClientModule} from '@angular/common/http';
 import { AlertsComponent } from './components/alerts/alerts.component';
 import { MsalModule } from '@azure/msal-angular';
-import { OAuthSettings } from './oauth';
+import { OAuthSettings } from './components/oauth/oauth';
 
 @NgModule({
   declarations: [
