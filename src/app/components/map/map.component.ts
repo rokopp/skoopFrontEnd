@@ -41,13 +41,13 @@ export interface Answer {
 export class MapComponent implements OnInit {
   @ViewChild('modal') modal: ElementRef;
   gameId;
+  selectedAnswer;
   form: FormGroup;
   questionobj: Question;
   question;
   answer;
-  choices;
+  choices: String[] = [];
   points;
-  correctanswer;
   map;
   player;
   vectorSource;
@@ -72,13 +72,21 @@ export class MapComponent implements OnInit {
     this.form = this.formBuilder.group({
       answers: ['']
     });
-    this.gameId = this._Activatedroute.snapshot.paramMap.get("id");
+    this.gameId = this._Activatedroute.snapshot.paramMap.get('id');
   }
 
   public getAnswers(point): any{}
   public checkanswer(): void{
+    console.log(this.selectedAnswer);
+    if (this.selectedAnswer.trim() === this.answer.trim()){
+      this.score = this.score + this.points;
+    }else{
+      this.score = this.score - this.points;
+    }
     if (this.amount === 0){
       this.quizopen = false;
+    }else{
+      $(this.modal.nativeElement).modal('hide');
     }
   }
 
@@ -134,7 +142,7 @@ export class MapComponent implements OnInit {
       }))
     }));
     marker.setId(Id);
-    marker.set("QuestionId", qID);
+    marker.set('QuestionId', qID);
     this.vectorSource.addFeature(marker);
   }
 
@@ -188,27 +196,33 @@ export class MapComponent implements OnInit {
     this.getlocation();
 
     this.map.on('click', (data) => {
-      this.map.forEachFeatureAtPixel(data.pixel, (feature, layer) => {
-        const id = feature.get('QuestionId');
-        if (id !== undefined && id !== -1){
-          this.getQuestion(id);
-          if (this.questionobj !== undefined){
-            this.question = this.questionobj.question;
-            this.answer = this.questionobj.answer;
-            this.choices = [];
-            this.questionobj.choices.forEach(q => {
-              this.choices.push(q);
-            });
-            this.choices = this.questionobj.choices;
-            this.points = this.questionobj.points;
-            console.log(this.choices);
-            console.log(this.answer);
-            this.showModal();
-            this.amount--;
-            this.vectorSource.removeFeature(feature);
+      if (this.amount === 0){
+        this.quizopen = false;
+        this.showModal();
+      }else{
+        this.map.forEachFeatureAtPixel(data.pixel, (feature, layer) => {
+          const id = feature.get('QuestionId');
+          console.log(this.amount);
+          if (id !== undefined && id !== -1){
+            this.getQuestion(id);
+            if (this.questionobj !== undefined){
+              this.question = this.questionobj.question;
+              this.answer = this.questionobj.answer;
+              this.choices = [];
+              this.questionobj.choices.forEach(q => {
+                this.choices.push(q);
+              });
+              this.choices = this.questionobj.choices;
+              this.points = this.questionobj.points;
+              console.log(this.choices);
+              console.log(this.answer);
+              this.showModal();
+              this.amount--;
+              this.vectorSource.removeFeature(feature);
+            }
           }
-        }
-      });
+        });
+     }
     });
   }
 }
