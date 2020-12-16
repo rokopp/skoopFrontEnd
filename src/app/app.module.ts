@@ -47,7 +47,7 @@ import { QuestionSetsComponent } from './components/question-sets/question-sets.
     UsersRoomsComponent,
     CreateMapComponent,
     LocationSetsComponent,
-    QuestionSetsComponent
+    QuestionSetsComponent,
     CreateMapComponent,
     LoginComponent,
     AlertsComponent
