@@ -1,0 +1,22 @@
+<div class="space-up">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <button class="btn btn-secondary" id="button-addon1" (click)="addSet()">Lisa uus küsimustik</button>
+    </div>
+    <input type="text" class="form-control" placeholder="Uue küsimustiku nimi" id='input'>
+  </div>
+  <table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th>Küsimustiku nimi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let set of data">
+        <td>{{set.name}}</td>
+        <td><a [routerLink]="['/questionsets', set.id, set.name]" class="btn btn-primary"> Muuda küsimusi</a></td>
+        <td><button class="btn btn-danger" (click)="removeSet(set.id)">Kustuta</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

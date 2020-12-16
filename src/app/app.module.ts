@@ -15,7 +15,16 @@ import {FormsModule} from '@angular/forms';
 import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsersRoomsComponent } from './components/users-rooms/users-rooms.component';
+import { QuestionSetComponent } from './components/question-set/question-set.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
 import { CreateMapComponent } from './components/create-map/create-map.component';
+import { LocationSetsComponent } from './components/location-sets/location-sets.component';
+import { HttpClientModule } from '@angular/common/http';
+import { QuestionSetsComponent } from './components/question-sets/question-sets.component';
 import { LoginComponent } from './components/login/login.component';
 import { HttpClientModule} from '@angular/common/http';
 import { AlertsComponent } from './components/alerts/alerts.component';
@@ -38,21 +47,31 @@ import { OAuthSettings } from './oauth';
     CreateMapComponent,
     LoginComponent,
     AlertsComponent
+    QuestionSetComponent,
+    UsersRoomsComponent,
+    LocationSetsComponent,
+    QuestionSetsComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MsalModule.forRoot({
-      auth: {
-        clientId: OAuthSettings.appId,
-        redirectUri: OAuthSettings.redirectUri
-      }
-    })
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        MatIconModule,
+        MsalModule.forRoot({
+          auth: {
+            clientId: OAuthSettings.appId,
+            redirectUri: OAuthSettings.redirectUri
+          }
+        })
+    ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -22,6 +22,8 @@ export class AppComponent implements OnInit {
       this.bgImage = '../assets/KKK_picture.png';
     } else if (this.getComponent === 'ContactComponent') {
       this.bgImage = '../assets/contact_page.jpg';
+    } else if (this.getComponent === 'QuestionSetComponent') {
+      this.bgImage = '../assets/questions.jpg';
     } else {
       this.bgImage = '../assets/front_page.jpg';
     }
