@@ -23,13 +23,12 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import { CreateMapComponent } from './components/create-map/create-map.component';
 import { LocationSetsComponent } from './components/location-sets/location-sets.component';
-import { HttpClientModule } from '@angular/common/http';
 import { QuestionSetsComponent } from './components/question-sets/question-sets.component';
 import { LoginComponent } from './components/login/login.component';
 import { HttpClientModule} from '@angular/common/http';
 import { AlertsComponent } from './components/alerts/alerts.component';
 import { MsalModule } from '@azure/msal-angular';
-import { OAuthSettings } from './oauth';
+import { OAuthSettings } from './components/oauth/oauth';
 
 @NgModule({
   declarations: [
@@ -46,11 +45,14 @@ import { OAuthSettings } from './oauth';
     UsersRoomsComponent,
     CreateMapComponent,
     LoginComponent,
-    AlertsComponent
+    AlertsComponent,
     QuestionSetComponent,
     UsersRoomsComponent,
     LocationSetsComponent,
-    QuestionSetsComponent
+    QuestionSetsComponent,
+    CreateMapComponent,
+    LoginComponent,
+    AlertsComponent
   ],
     imports: [
         BrowserModule,
