@@ -23,8 +23,12 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import { CreateMapComponent } from './components/create-map/create-map.component';
 import { LocationSetsComponent } from './components/location-sets/location-sets.component';
-import { HttpClientModule } from '@angular/common/http';
 import { QuestionSetsComponent } from './components/question-sets/question-sets.component';
+import { LoginComponent } from './components/login/login.component';
+import { HttpClientModule} from '@angular/common/http';
+import { AlertsComponent } from './components/alerts/alerts.component';
+import { MsalModule } from '@azure/msal-angular';
+import { OAuthSettings } from './components/oauth/oauth';
 
 @NgModule({
   declarations: [
@@ -39,11 +43,16 @@ import { QuestionSetsComponent } from './components/question-sets/question-sets.
     MapComponent,
     GoPlayRoomsComponent,
     UsersRoomsComponent,
+    CreateMapComponent,
+    LoginComponent,
+    AlertsComponent,
     QuestionSetComponent,
     UsersRoomsComponent,
-    CreateMapComponent,
     LocationSetsComponent,
-    QuestionSetsComponent
+    QuestionSetsComponent,
+    CreateMapComponent,
+    LoginComponent,
+    AlertsComponent
   ],
     imports: [
         BrowserModule,
@@ -57,6 +66,12 @@ import { QuestionSetsComponent } from './components/question-sets/question-sets.
         MatInputModule,
         MatChipsModule,
         MatIconModule,
+        MsalModule.forRoot({
+          auth: {
+            clientId: OAuthSettings.appId,
+            redirectUri: OAuthSettings.redirectUri
+          }
+        })
     ],
   providers: [],
   bootstrap: [AppComponent]
