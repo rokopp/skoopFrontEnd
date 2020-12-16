@@ -1,0 +1,22 @@
+<div class="space-up">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <button class="btn btn-secondary" id="button-addon1" (click)="addLocationSet()">Lisa uus kaardikomplekt</button>
+    </div>
+    <input type="text" class="form-control" placeholder="Uue kaardikomplekti nimi" id='input'>
+  </div>
+  <table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th>Kaardikomplekti nimi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let set of locationSets; index as i">
+            <td>{{set.name}}</td>
+            <td><a [routerLink]="['/createlocation', set.id]" class="btn btn-primary"> Muuda markereid</a></td>
+            <td><button class="btn btn-danger" (click)="removeLocationSet(set)">Kustuta</button></td>
+        </tr>
+    </tbody>
+  </table>
+</div>
