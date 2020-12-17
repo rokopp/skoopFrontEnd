@@ -1,0 +1,103 @@
+<div class="container-fluid m-0">
+  <div class="row m-0">
+
+    <div class="col-12 text-center my-4">
+      <h1>Editing Question Set {{setName}}</h1>
+    </div>
+  </div>
+
+  <div class="row m-0 text-center">
+    <div class="col-6" id="questions">
+      <h2>View created Questions</h2>
+      <!--Using mat-table from Angular Material, check the API at https://material.angular.io/components/table/api-->
+      <!--TODO: notify table of updates via renderRows()-->
+      <!--Excuse me, mr table, but umm.. renderCows.. i meant.. renderRows()!-->
+      <table mat-table [dataSource]="questionSet">
+
+        <!-- ID column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef class="text-center">ID</th>
+          <td mat-cell *matCellDef="let elem">{{elem.id}}</td>
+        </ng-container>
+
+        <!-- Question column -->
+        <ng-container matColumnDef="question">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Question</th>
+          <td mat-cell *matCellDef="let elem">{{elem.question}}</td>
+        </ng-container>
+
+        <!-- Answer column -->
+        <ng-container matColumnDef="answer">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Answer</th>
+          <td mat-cell *matCellDef="let elem">{{elem.answer}}</td>
+        </ng-container>
+
+        <!-- Action column
+            Edit and Delete functions
+            If Edit is clicked on a certain row, change it for Update to Update Question
+            On edit data is written into our Question form.
+        -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center"> Action </th>
+          <td mat-cell *matCellDef="let element" class="action-link">
+            <a *ngIf="!(updateInsteadOfPost && element.id == editId); else update" (click)="editQuestion(element)"
+               class="btn btn-outline-dark w-auto">Edit</a>
+            <ng-template #update>
+              <a (click)="updateQuestion(element)" class="btn btn-outline-info w-auto">Update</a>
+            </ng-template>
+            <a (click)="deleteQuestion(element)" class="btn btn-outline-danger w-auto">Delete</a>
+          </td>
+        </ng-container>
+
+        <!-- Draw rows and columns -->
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      </table>
+    </div>
+
+
+
+    <div class="col-6 form text-center">
+      <h2>Create new Question</h2>
+      <form class="question-form">
+
+        <mat-form-field class="question" appearance="outline">
+          <mat-label>Question</mat-label>
+          <input id="question" matInput name="question" type="text" required>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field class="choices text-center mb-3">
+          <mat-chip-list #chipList aria-label="Choices">
+            <mat-chip *ngFor="let choice of choices" [selectable]="selectable" [removable]="removable"
+                      (removed)="remove(choice)" color="green">
+              {{choice.text}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input [required] placeholder="Choices: Press Enter to add and Delete to remove"
+                   [matChipInputFor]="chipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="addOnBlur"
+                   (matChipInputTokenEnd)="addAnswer($event)">
+          </mat-chip-list>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field class="correctAnswer text-center mr-2 mb-3" appearance="fill">
+          <mat-label>Correct answer</mat-label>
+          <input id="answer" type="text" matInput name="answer" required>
+        </mat-form-field>
+
+        <mat-form-field class="points text-center ml-2" appearance="fill">
+          <mat-label>Amount of Points</mat-label>
+          <input id="points" type="number" matInput required>
+        </mat-form-field>
+        <br>
+        <button type="submit" (click)="addQuestion()" class="btn btn-success mr-2">Submit</button>
+        <button type="reset" class="btn btn-danger ml-2" (click)="emptyChoices()">Reset Form</button>
+      </form>
+    </div>
+  </div>
+</div>

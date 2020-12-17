@@ -7,18 +7,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title" id="exampleModalLabel">Vasta</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <div *ngIf="quizopen; else elseBlock">
           <form [formGroup]="form" (ngSubmit)="checkanswer()">
             <div class="form-group">
                 <label for="answers">{{question}}</label>
-                <select formControlName="answers" id="answers" class="form-control">
-                  <option *ngFor="let answer of answers; let i = index" [value]="answers[i].id">
-                    {{answers[i].name}}
+                <select [(ngModel)]="selectedAnswer" formControlName="answers" id="answers" class="form-control">
+                  <option *ngFor="let choice of choices; let i = index" [ngValue]="choice">
+                    {{choices[i]}}
                   </option>
                 </select>
             </div>

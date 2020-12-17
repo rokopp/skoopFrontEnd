@@ -1,8 +1,16 @@
-.container-table {
-  background-color: #000000;
-  opacity: 70%;
-}
-.your-rooms {
+.space-up {
   margin-top: 2%;
   height: 10%;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table {
+  width: 100%;
+  max-height: 50vh;
+}
+
+.fixed-bottom {
+  max-width: 80%;
 }

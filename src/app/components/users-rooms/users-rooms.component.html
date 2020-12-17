@@ -1,28 +1,30 @@
-<div class="container text-center your-rooms">
-  <label class="display-4">Sinu ruumid</label>
-</div>
-<div class="container container-table">
-  <table class="table table-striped text-white">
+<div class="space-up">
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <button class="btn btn-secondary" id="button-addon1" (click)="addRoom()">Lisa uus ruum</button>
+    </div>
+    <input type="text" class="form-control" placeholder="Uue kaardikomplekti nimi" id='input'>
+  </div>
+  <table class="table table-striped table-dark overflow-auto">
     <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Ruum</th>
-    </tr>
+        <tr>
+            <th>Ruumi nimi</th>
+        </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let room of rooms; index as i">
-      <th scope="row">{{ i + 1 }} </th>
-      <td>
-        <span (blur)="updateList(i, 'name', $event)"> {{ room.name }} </span>
-        <input type="text" class="form-control" [(ngModel)]="room.name" *ngIf="enableEdit"/>
-      </td>
-      <td><button class="btn btn-success">Mängi</button></td>
-      <td><button class="btn btn-primary" *ngIf="!enableEdit" (click)="enableEditMethod($event, i)">Muuda</button>
-        <button *ngIf="enableEdit && enableEditIndex == i" class="btn btn-primary"
-                (click)="save(i, room.name, $event)">Save</button></td>
-      <td><button class="btn btn-danger" (click)="remove(i)">Kustuta</button></td>
-    </tr>
+        <tr *ngFor="let room of rooms; index as i">
+            <td>{{room.gameName}}</td>
+            <td><a [routerLink]="['/ruumid', room.id]" class="btn btn-primary"> Muuda Mängu</a></td>
+            <td><button class="btn btn-danger" (click)="removeRoom(room)">Kustuta</button></td>
+        </tr>
     </tbody>
   </table>
-  <button class="btn btn-info float-right" (click)="add()">Loo uus ruum</button>
+  <div class="row fixed-bottom mx-auto">
+    <div class="col-6">
+      <button class="btn btn-info float-right" routerLink="/questionsets">Loo uus küsimustik</button>
+    </div>
+    <div class="col-6">
+      <button class="btn btn-info float-left" routerLink="/createlocation">Loo uus kaardikomplekt</button>
+    </div>
+  </div>
 </div>

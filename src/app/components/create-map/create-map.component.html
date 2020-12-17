@@ -1,0 +1,13 @@
+<div id="map" class="map"></div>
+<div ng-controller="appController">
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <label class="btn btn-secondary active">
+      <input type="radio" name="options" id="option1" value="add" autocomplete="off" (click)="add()" checked> Lisa Marker
+    </label>
+    <label class="btn btn-secondary">
+      <input type="radio" name="options" id="option2" value="remove" autocomplete="off" (click)="remove()"> Eemalda Marker
+    </label>
+  </div>
+  <button class='btn btn-primary float-right' (click)="backClicked()">Salvesta ja mine tagasi</button>
+</div>
+

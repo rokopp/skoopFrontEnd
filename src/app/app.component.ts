@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, ActivationEnd, NavigationEnd, Router} from '@angular/router';
+import { MsalService, BroadcastService } from '@azure/msal-angular';
 
 
 @Component({
@@ -10,6 +11,7 @@ import {ActivatedRoute, ActivationEnd, NavigationEnd, Router} from '@angular/rou
 export class AppComponent implements OnInit {
   bgImage: string;
   private getComponent: string;
+  graphMeEndpoint = 'https://graph.microsoft.com/v1.0/me';
 
   setBgImg() {
     if (this.getComponent === 'GreetingComponent') {
@@ -20,6 +22,8 @@ export class AppComponent implements OnInit {
       this.bgImage = '../assets/KKK_picture.png';
     } else if (this.getComponent === 'ContactComponent') {
       this.bgImage = '../assets/contact_page.jpg';
+    } else if (this.getComponent === 'QuestionSetComponent') {
+      this.bgImage = '../assets/questions.jpg';
     } else {
       this.bgImage = '../assets/front_page.jpg';
     }
@@ -35,4 +39,5 @@ export class AppComponent implements OnInit {
   }
   ngOnInit(): void {
   }
+
 }
