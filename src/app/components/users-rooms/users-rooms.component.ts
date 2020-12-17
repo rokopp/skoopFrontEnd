@@ -2,6 +2,7 @@ import { Room } from './../../room';
 import { RoomService } from './../../services/room.service';
 import { PairService } from './../../services/pair.service';
 import { Component, OnInit } from '@angular/core';
+import {Pair} from '../../pair';
 
 
 @Component({
@@ -23,12 +24,20 @@ export class UsersRoomsComponent implements OnInit {
     console.log(this.rooms);
   }
   getRooms(): void{
-    this.roomservice.getRooms().subscribe(room => this.rooms = room);
+    this.roomservice.getRooms().subscribe(room => {
+      this.rooms = room;
+    });
+  }
+
+  getPairById(id: number): Pair {
+    let pair: Pair;
+    this.pairService.getPairbyId(id).subscribe(pairData => pair = pairData);
+    return pair;
   }
 
   removeRoom(set: Room): void{
     this.roomservice.removeRoom(set.id).subscribe(() => {
-      this.getRooms;
+      this.getRooms();
       window.location.reload();
     },
       error => {
@@ -36,6 +45,7 @@ export class UsersRoomsComponent implements OnInit {
         console.error('Happened this during deleting: ', errorMessage);
     });
   }
+
   addRoom(): void {
     const roomName = (document.getElementById('input') as HTMLInputElement).value;
     this.roomservice.postRoom({
@@ -47,7 +57,7 @@ export class UsersRoomsComponent implements OnInit {
       password: ''
     } as Room)
       .subscribe(() => {
-        this.getRooms;
+        this.getRooms();
         window.location.reload();
       },
         error => {

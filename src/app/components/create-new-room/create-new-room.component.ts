@@ -1,10 +1,10 @@
-import { ActivatedRoute } from '@angular/router';
-import { LocationsetsService } from './../../services/locationsets.service';
-import { QuestionsetsService } from './../../services/questionsets.service';
-import { Locationset } from './../../locationset';
-import { Questionset } from './../../questionset';
-import { PairService } from './../../services/pair.service';
-import { Pair } from './../../pair';
+import {ActivatedRoute} from '@angular/router';
+import {LocationsetsService} from '../../services/locationsets.service';
+import {QuestionsetsService} from '../../services/questionsets.service';
+import {Locationset} from '../../locationset';
+import {Questionset} from '../../questionset';
+import {PairService} from '../../services/pair.service';
+import {Pair} from '../../pair';
 import {Location} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 
@@ -17,8 +17,8 @@ import {Component, OnInit} from '@angular/core';
 export class CreateNewRoomComponent implements OnInit {
   questionSetdata: Questionset[] = [];
   locationSetdata: Locationset[] = [];
-  selectedQuestion;
-  selectedLocation;
+  selectedQuestionSet;
+  selectedLocationSet;
   currentId;
   constructor(private location: Location,
               private locationS: LocationsetsService,
@@ -43,7 +43,7 @@ export class CreateNewRoomComponent implements OnInit {
     this.location.back();
   }
   addPair(): void{
-    this.pairS.postPair({questionId: this.selectedQuestion, locationId: this.selectedLocation, roomId: this.currentId} as Pair)
+    this.pairS.postPair({questionId: this.selectedQuestionSet, locationId: this.selectedLocationSet, roomId: this.currentId} as Pair)
     .subscribe(() => {
       this.backClicked();
     },

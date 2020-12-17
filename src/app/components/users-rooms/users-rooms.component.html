@@ -1,5 +1,5 @@
 <div class="space-up">
-  <div class="input-group mb-3">
+  <div class="input-group">
     <div class="input-group-prepend">
       <button class="btn btn-secondary" id="button-addon1" (click)="addRoom()">Lisa uus ruum</button>
     </div>
@@ -21,10 +21,10 @@
   </table>
   <div class="row fixed-bottom mx-auto">
     <div class="col-6">
-      <button class="btn btn-info" routerLink="/questionsets">Loo uus küsimustik</button>
+      <button class="btn btn-info float-right" routerLink="/questionsets">Loo uus küsimustik</button>
     </div>
     <div class="col-6">
-      <button class="btn btn-info" [routerLink]="'/createlocation'">Loo uus kaardikomplekt</button>
+      <button class="btn btn-info float-left" routerLink="/createlocation">Loo uus kaardikomplekt</button>
     </div>
   </div>
 </div>

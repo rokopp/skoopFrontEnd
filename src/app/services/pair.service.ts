@@ -1,4 +1,4 @@
-import { Pair } from './../pair';
+import { Pair } from '../pair';
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
@@ -16,11 +16,11 @@ export class PairService {
   getPairs(): Observable<Pair[]> {
     return this.http.get<Pair[]>(this.pairsUrl);
   }
-  getPairbyId(id: number): Observable<Pair[]> {
-    return this.http.get<Pair[]>(this.pairsUrl + '/' + id);
+  getPairbyId(id: number): Observable<Pair> {
+    return this.http.get<Pair>(this.pairsUrl + '/' + id);
   }
-  removePair(id: number): Observable<Pair[]> {
-    return this.http.delete<Pair[]>(this.pairsUrl + '/' + id);
+  removePair(id: number): Observable<Pair> {
+    return this.http.delete<Pair>(this.pairsUrl + '/' + id);
   }
   postPair(pairobj: { locationId: number; questionId: number;
     roomId: number}): Observable<Pair> {
