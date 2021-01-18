@@ -18,6 +18,7 @@ build skoop:
     - npm run build
   only:
     - develop
+    - master
 
 deploy skoop:
   stage: deploy
@@ -29,4 +30,5 @@ deploy skoop:
     - cp -r dist/skoop-front-end/. ~/front-deployment
   only:
     - develop
+    - master
 

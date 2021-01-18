@@ -29,6 +29,7 @@ import { HttpClientModule} from '@angular/common/http';
 import { AlertsComponent } from './components/alerts/alerts.component';
 import { MsalModule } from '@azure/msal-angular';
 import { OAuthSettings } from './components/oauth/oauth';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -55,17 +56,18 @@ import { OAuthSettings } from './components/oauth/oauth';
     AlertsComponent
   ],
     imports: [
-        BrowserModule,
-        HttpClientModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatTableModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatChipsModule,
-        MatIconModule,
+      BrowserModule,
+      HttpClientModule,
+      AppRoutingModule,
+      BrowserAnimationsModule,
+      FormsModule,
+      ReactiveFormsModule,
+      MatTableModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatChipsModule,
+      MatIconModule,
+      CommonModule,
         MsalModule.forRoot({
           auth: {
             clientId: OAuthSettings.appId,

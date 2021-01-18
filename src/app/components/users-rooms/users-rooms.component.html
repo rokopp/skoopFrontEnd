@@ -14,6 +14,7 @@
     <tbody>
         <tr *ngFor="let room of rooms; index as i">
             <td>{{room.gameName}}</td>
+            <td><a [routerLink]="['/aktiivsedruumid', room.id]" class="btn btn-primary">Aktiveeri Mängu</a></td>
             <td><a [routerLink]="['/ruumid', room.id]" class="btn btn-primary"> Muuda Mängu</a></td>
             <td><button class="btn btn-danger" (click)="removeRoom(room)">Kustuta</button></td>
         </tr>

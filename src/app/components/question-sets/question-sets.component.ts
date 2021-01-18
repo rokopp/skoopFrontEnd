@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
 import {Questionset} from '../../questionset';
 import {QuestionsetsService} from '../../services/questionsets.service';
 
@@ -8,40 +8,48 @@ import {QuestionsetsService} from '../../services/questionsets.service';
   templateUrl: './question-sets.component.html',
   styleUrls: ['./question-sets.component.css']
 })
-export class QuestionSetsComponent implements OnInit {
-  data: Questionset[] = [];
+export class QuestionSetsComponent implements OnInit, OnDestroy {
+  data: Questionset[];
+  private questionSetsSubscription: Subscription;
   creatorId = 1;
-  // TODO: get questionsets of certain person
-  // TODO: get user id
+
   constructor(private questionSetsService: QuestionsetsService) {
   }
 
   ngOnInit(): void {
     this.getSets();
   }
+  ngOnDestroy(): void {
+    this.questionSetsSubscription.unsubscribe();
+  }
 
   getSets(): void {
-    this.questionSetsService.getQuestionSets().subscribe(sets => this.data = sets);
+    this.questionSetsSubscription = this.questionSetsService.getQuestionSets().subscribe(response => {
+      this.data = response;
+    }, err =>
+    alert(err));
   }
+
   addSet(): void {
     const setName = (document.getElementById('input') as HTMLInputElement).value;
     this.questionSetsService.addQuestionSet({name: setName, creatorAccountId: this.creatorId} as Questionset)
-      .subscribe({
-        error: error => {
+      .subscribe(() => {
+        this.getSets();
+        },
+        error => {
           const errorMessage = error.message;
           console.error('Happened this during posting: ', errorMessage);
-        }
       });
-    window.location.reload();
   }
 
   removeSet(id: number): void {
-    this.questionSetsService.removeSet(id).subscribe({
-      error: error => {
+    this.questionSetsService.removeSet(id)
+      .subscribe(() => {
+        this.getSets();
+      },
+      error => {
         const errorMessage = error.message;
         console.error('Happened this during deleting: ', errorMessage);
-      }
     });
-    window.location.reload();
   }
 }

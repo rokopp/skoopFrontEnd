@@ -65,7 +65,7 @@ export class QuestionSetComponent implements OnInit {
   }
 
   // Returns a question put together from input values.
-  createQuestionObjectFromInputValues(): Question {
+  createQuestion(): Question {
     const questionval = this.getInputValueById('question');
     const answerval = this.getInputValueById('answer');
     const pointsval = this.getInputValueById('points');
@@ -83,15 +83,13 @@ export class QuestionSetComponent implements OnInit {
 
   // Add a new question to database, reload the page.
   addQuestion(): void {
-    const questionObj = this.createQuestionObjectFromInputValues();
+    const questionObj = this.createQuestion();
     console.error(questionObj);
     this.questionService.postQuestion(questionObj).subscribe(() => {
-      console.log('Hey im here');
-      this.table.renderRows();
+      this.getQuestions();
     });
     this.updateInsteadOfPost = false;
     this.editId = null;
-    window.document.location.reload();
   }
 
   // Empty matchipinput choices in reset form.
@@ -114,7 +112,8 @@ export class QuestionSetComponent implements OnInit {
 
   // Remove a question completely from database.
   public deleteQuestion(element: Question): void {
-    this.questionService.removeQuestion(element).subscribe(() => window.location.reload());
+    this.questionService.removeQuestion(element)
+      .subscribe(() => this.getQuestions());
   }
 
   // Change question field values.
@@ -133,12 +132,12 @@ export class QuestionSetComponent implements OnInit {
 
   // Update question selected for edit, otherwise submits new question.
   updateQuestion(element: Question): void {
-    const questionObj = this.createQuestionObjectFromInputValues();
+    const questionObj = this.createQuestion();
     questionObj.id = element.id;
     this.updateInsteadOfPost = false;
     this.editId = null;
     this.questionService.putQuestion(questionObj).subscribe(() => {
-      window.location.reload();
+      this.getQuestions();
       },
         error => console.error(error));
   }

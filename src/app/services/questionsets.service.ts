@@ -7,12 +7,15 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class QuestionsetsService {
+
   private questionSetsUrl = 'api/question_sets';
   httpOptions = {
     headers: new HttpHeaders({'Content-type': 'application/json'})
   };
-  constructor(private http: HttpClient) { }
-  getQuestionSets(): Observable<Questionset[]>{
+  constructor(private http: HttpClient) {
+  }
+
+  getQuestionSets(): Observable<Questionset[]> {
     return this.http.get<Questionset[]>(this.questionSetsUrl);
   }
 
