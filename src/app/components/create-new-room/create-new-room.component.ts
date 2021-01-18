@@ -1,3 +1,6 @@
+import { Location } from './../../location';
+import { LocationService } from './../../services/location.service';
+import { QuestionService } from './../../services/question.service';
 import {ActivatedRoute} from '@angular/router';
 import {LocationsetsService} from '../../services/locationsets.service';
 import {QuestionsetsService} from '../../services/questionsets.service';
@@ -5,8 +8,9 @@ import {Locationset} from '../../locationset';
 import {Questionset} from '../../questionset';
 import {PairService} from '../../services/pair.service';
 import {Pair} from '../../pair';
-import {Location} from '@angular/common';
+import {Location as URL} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
+import { Question } from 'src/app/question';
 
 
 @Component({
@@ -17,12 +21,20 @@ import {Component, OnInit} from '@angular/core';
 export class CreateNewRoomComponent implements OnInit {
   questionSetdata: Questionset[] = [];
   locationSetdata: Locationset[] = [];
+  questions: Question[] = [];
+  locations: Location[] = [];
+  questionsAmount = 0;
+  locationAmount = 0;
   selectedQuestionSet;
   selectedLocationSet;
   currentId;
-  constructor(private location: Location,
-              private locationS: LocationsetsService,
-              private questionS: QuestionsetsService,
+  minAmount = 0;
+  succeful = false;
+  constructor(private location: URL,
+              private locationSetS: LocationsetsService,
+              private questionSetS: QuestionsetsService,
+              private questionService: QuestionService,
+              private locationService: LocationService,
               private pairS: PairService,
               private activatedroute: ActivatedRoute,
               ) {
@@ -34,22 +46,45 @@ export class CreateNewRoomComponent implements OnInit {
     this.getQuestionSets();
   }
   getQuestionSets(): void{
-    this.questionS.getQuestionSets().subscribe(sets => this.questionSetdata = sets);
+    this.questionSetS.getQuestionSets().subscribe(sets => this.questionSetdata = sets);
   }
   getLocationSets(): void{
-    this.locationS.getLocationSets().subscribe(sets => this.locationSetdata = sets);
+    this.locationSetS.getLocationSets().subscribe(sets => this.locationSetdata = sets);
   }
   backClicked(): void{
     this.location.back();
   }
   addPair(): void{
-    this.pairS.postPair({questionId: this.selectedQuestionSet, locationId: this.selectedLocationSet, roomId: this.currentId} as Pair)
-    .subscribe(() => {
-      this.backClicked();
-    },
-      error => {
-        const errorMessage = error.message;
-        console.error('Happened this during posting: ', errorMessage);
+    if (this.selectedQuestionSet && this.selectedLocationSet){
+      this.questionService.getQuestions(this.selectedQuestionSet).subscribe(questions => this.questions = questions);
+      this.locationService.getLocationsBySet(this.selectedLocationSet).subscribe(locations => this.locations = locations);
+      this.minAmount = Math.min(this.questions.length, this.locations.length);
+      if (this.minAmount !== 0){
+        for (let i = 0; i < this.minAmount; i++){
+          this.pairS.postPair({questionId: this.questions[i].id, locationId: this.locations[i].id, roomId: this.currentId} as Pair)
+          .subscribe(() => {
+          },
+            error => {
+              const errorMessage = error.message;
+              console.error('Happened this during posting: ', errorMessage);
+            });
+        }
+        this.backClicked();
+      }
+    }
+  }
+  deletePairs(): void{
+    this.pairS.getPairs().subscribe(pairs => {
+      pairs.forEach(pair => {
+        if (pair.roomId.toString() === this.currentId){
+          this.pairS.removePair(pair.id).subscribe();
+          this.succeful = true;
+        }
       });
-}
+    });
+    if (this.succeful){
+      alert('Edukalt Kustutatud');
+      this.succeful = false;
+    }
+  }
 }
