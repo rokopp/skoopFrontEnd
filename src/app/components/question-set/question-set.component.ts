@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {QuestionService} from '../../services/question.service';
 import {MatTable} from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import {Question} from '../../question';
+import {Subscription} from 'rxjs';
 
 export interface Answer {
   text: string;
@@ -15,7 +16,7 @@ export interface Answer {
   templateUrl: './question-set.component.html',
   styleUrls: ['./question-set.component.css']
 })
-export class QuestionSetComponent implements OnInit {
+export class QuestionSetComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table: MatTable<Question>;
   updateInsteadOfPost = false;
   editId = null;
@@ -28,17 +29,24 @@ export class QuestionSetComponent implements OnInit {
   choices: Answer[] = [];
   setId: number;
   setName: string;
+  private subscriptions: Subscription[] = [];
 
   constructor(private questionService: QuestionService,
               private route: ActivatedRoute ) { }
 
   ngOnInit(): void {
     // Get pathvariables question Set id and name.
-    this.route.paramMap.subscribe(params => {
-        this.setId = +params.get('id');
-        this.setName = params.get('name');
+    const sub = this.route.paramMap.subscribe(params => {
+      this.setId = +params.get('id');
+      this.setName = params.get('name');
     });
+    this.subscriptions.push(sub);
     this.getQuestions();
+  }
+  ngOnDestroy(): void {
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 
   // Add choices under question.
@@ -84,10 +92,10 @@ export class QuestionSetComponent implements OnInit {
   // Add a new question to database, reload the page.
   addQuestion(): void {
     const questionObj = this.createQuestion();
-    console.error(questionObj);
-    this.questionService.postQuestion(questionObj).subscribe(() => {
+    const sub = this.questionService.postQuestion(questionObj).subscribe(() => {
       this.getQuestions();
     });
+    this.subscriptions.push(sub);
     this.updateInsteadOfPost = false;
     this.editId = null;
   }
@@ -106,14 +114,16 @@ export class QuestionSetComponent implements OnInit {
 
   // Get all questions for this question set, meant for table.
   private getQuestions(): void {
-    this.questionService.getQuestions(this.setId)
+    const sub = this.questionService.getQuestions(this.setId)
       .subscribe(questions => this.questionSet = questions.sort((q1, q2) => q1.id - q2.id));
+    this.subscriptions.push(sub);
   }
 
   // Remove a question completely from database.
   public deleteQuestion(element: Question): void {
-    this.questionService.removeQuestion(element)
+    const sub = this.questionService.removeQuestion(element)
       .subscribe(() => this.getQuestions());
+    this.subscriptions.push(sub);
   }
 
   // Change question field values.
@@ -136,9 +146,10 @@ export class QuestionSetComponent implements OnInit {
     questionObj.id = element.id;
     this.updateInsteadOfPost = false;
     this.editId = null;
-    this.questionService.putQuestion(questionObj).subscribe(() => {
-      this.getQuestions();
+    const sub = this.questionService.putQuestion(questionObj).subscribe(() => {
+        this.getQuestions();
       },
-        error => console.error(error));
+      error => console.error(error));
+    this.subscriptions.push(sub);
   }
 }
