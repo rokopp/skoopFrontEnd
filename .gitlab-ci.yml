@@ -17,8 +17,9 @@ build skoop:
     - npm install
     - npm run build
   only:
-    - develop
-    - master
+    - 47-as-a-user-i-need-to-login-with-oauth
+#    - develop
+#    - master
 
 deploy skoop:
   stage: deploy
@@ -29,6 +30,7 @@ deploy skoop:
     - rm -rf ~/front-deployment/*
     - cp -r dist/skoop-front-end/. ~/front-deployment
   only:
-    - develop
-    - master
+    - 47-as-a-user-i-need-to-login-with-oauth
+#    - develop
+#    - master
 

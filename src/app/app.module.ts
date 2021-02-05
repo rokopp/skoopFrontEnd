@@ -72,8 +72,12 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
         MsalModule.forRoot({
           auth: {
             clientId: OAuthSettings.appId,
-            authority: OAuthSettings.authority,
+            authority: OAuthSettings.tenantID,
             redirectUri: OAuthSettings.redirectUri
+          },
+          cache: {
+            cacheLocation: 'localStorage',
+            // storeAuthStateInCookie: isIE, // Set to true for Internet Explorer 11
           }
         })
     ],
