@@ -71,7 +71,6 @@ import {CommonModule} from '@angular/common';
         MsalModule.forRoot({
           auth: {
             clientId: OAuthSettings.appId,
-            authority: OAuthSettings.authority,
             redirectUri: OAuthSettings.redirectUri
           }
         })
