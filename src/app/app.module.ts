@@ -31,6 +31,7 @@ import { MsalModule } from '@azure/msal-angular';
 import { OAuthSettings } from './components/oauth/oauth';
 import {CommonModule} from '@angular/common';
 
+const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,6 +72,7 @@ import {CommonModule} from '@angular/common';
         MsalModule.forRoot({
           auth: {
             clientId: OAuthSettings.appId,
+            authority: OAuthSettings.authority,
             redirectUri: OAuthSettings.redirectUri
           }
         })
