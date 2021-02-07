@@ -1,5 +1,5 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, ActivationEnd, NavigationEnd, Router} from '@angular/router';
+import {ActivationEnd, Router} from '@angular/router';
 // @ts-ignore
 import { MsalService, MsalBroadcastService, MsalGuardConfiguration, MSAL_GUARD_CONFIG } from '@azure/msal-angular';
 import {Subject} from 'rxjs';
