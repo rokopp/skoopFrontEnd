@@ -34,6 +34,7 @@ const routes: Routes = [
   { path: 'questionsets', component: QuestionSetsComponent},
   { path: 'login', component: LoginComponent },
   // { path: 'login/oauth2/code/azure', redirectTo: '/avaleht'}
+  { path: '**', redirectTo: '/avaleht' }
 ];
 
 const isIframe = window !== window.parent && !window.opener;
