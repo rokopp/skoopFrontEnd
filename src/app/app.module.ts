@@ -25,13 +25,65 @@ import { CreateMapComponent } from './components/create-map/create-map.component
 import { LocationSetsComponent } from './components/location-sets/location-sets.component';
 import { QuestionSetsComponent } from './components/question-sets/question-sets.component';
 import { LoginComponent } from './components/login/login.component';
-import { HttpClientModule} from '@angular/common/http';
-import { AlertsComponent } from './components/alerts/alerts.component';
-import { MsalModule } from '@azure/msal-angular';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { OAuthSettings } from './components/oauth/oauth';
 import {CommonModule} from '@angular/common';
 
+import { IPublicClientApplication,
+  PublicClientApplication, InteractionType, BrowserCacheLocation, LogLevel } from '@azure/msal-browser';
+
+// tslint:disable-next-line:max-line-length
+import { MsalGuard, MsalInterceptor,
+  MsalBroadcastService, MsalInterceptorConfiguration,
+  MsalModule, MsalService,
+  MSAL_GUARD_CONFIG, MSAL_INSTANCE,
+  // @ts-ignore
+  MSAL_INTERCEPTOR_CONFIG, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
+
+
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
+
+// tslint:disable-next-line:typedef
+export function loggerCallback(logLevel: LogLevel, message: string) {
+  console.log(message);
+}
+
+export function MSALInstanceFactory(): IPublicClientApplication {
+  return new PublicClientApplication({
+    auth: {
+      clientId: OAuthSettings.appId,
+      redirectUri: OAuthSettings.redirectUri,
+      // tenantID: 'https://login.microsoftonline.com/3efd4d88-9b88-4fc9-b6c0-c7ca50f1db57',
+      postLogoutRedirectUri: '/'
+    },
+    cache: {
+      cacheLocation: BrowserCacheLocation.LocalStorage,
+      storeAuthStateInCookie: isIE, // set to true for IE 11
+    },
+    system: {
+      loggerOptions: {
+        loggerCallback,
+        logLevel: LogLevel.Info,
+        piiLoggingEnabled: false
+      }
+    }
+  });
+}
+
+export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
+  const protectedResourceMap = new Map<string, Array<string>>();
+  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ['user.read']);
+
+  return {
+    interactionType: InteractionType.Redirect,
+    protectedResourceMap
+  };
+}
+
+export function MSALGuardConfigFactory(): MsalGuardConfiguration {
+  return { interactionType: InteractionType.Redirect };
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,14 +99,9 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     UsersRoomsComponent,
     CreateMapComponent,
     LoginComponent,
-    AlertsComponent,
     QuestionSetComponent,
-    UsersRoomsComponent,
     LocationSetsComponent,
     QuestionSetsComponent,
-    CreateMapComponent,
-    LoginComponent,
-    AlertsComponent
   ],
     imports: [
       BrowserModule,
@@ -69,19 +116,30 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
       MatChipsModule,
       MatIconModule,
       CommonModule,
-        MsalModule.forRoot({
-          auth: {
-            clientId: OAuthSettings.appId,
-            authority: OAuthSettings.tenantID,
-            redirectUri: OAuthSettings.redirectUri
-          },
-          cache: {
-            cacheLocation: 'localStorage',
-            // storeAuthStateInCookie: isIE, // Set to true for Internet Explorer 11
-          }
-        })
+      MsalModule
     ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MsalInterceptor,
+      multi: true
+    },
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory
+    },
+    {
+      provide: MSAL_GUARD_CONFIG,
+      useFactory: MSALGuardConfigFactory
+    },
+    {
+      provide: MSAL_INTERCEPTOR_CONFIG,
+      useFactory: MSALInterceptorConfigFactory
+    },
+    MsalService,
+    MsalGuard,
+    MsalBroadcastService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

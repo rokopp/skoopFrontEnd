@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../../user';
-import { AuthService } from '../_services/auth.service';
+import {HttpClient} from "@angular/common/http";
+// import { AuthService } from '../_services/auth.service';
+const GRAPH_ENDPOINT = 'https://graph.microsoft.com/v1.0/me';
 
 @Component({
   selector: 'app-navbar',
@@ -8,28 +10,36 @@ import { AuthService } from '../_services/auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  profile;
 
-  // Is a user logged in?
-  get authenticated(): boolean {
-    return this.authService.authenticated;
-  }
-  // The user
-  get user(): User {
-    return this.authService.user;
-  }
-
-  constructor(private authService: AuthService) {
+  // // Is a user logged in?
+  // get authenticated(): boolean {
+  //   return this.authService.authenticated;
+  // }
+  // // The user
+  // get user(): User {
+  //   return this.authService.user;
+  // }
+  //
+  constructor(private http: HttpClient) {
   }
 
   ngOnInit(): void {
   }
 
-  async signIn(): Promise<void> {
-    await this.authService.signIn();
+  getProfile(): void {
+    this.http.get(GRAPH_ENDPOINT)
+      .subscribe(profile => {
+        this.profile = profile;
+      });
   }
 
-  signOut(): void {
-    this.authService.signOut();
-  }
+  // async signIn(): Promise<void> {
+  //   await this.authService.signIn();
+  // }
+  //
+  // signOut(): void {
+  //   this.authService.signOut();
+  // }
 
 }
