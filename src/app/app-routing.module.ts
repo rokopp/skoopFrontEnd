@@ -13,7 +13,6 @@ import {UsersRoomsComponent} from './components/users-rooms/users-rooms.componen
 import {LoginComponent} from './components/login/login.component';
 import {QuestionSetComponent} from './components/question-set/question-set.component';
 import {QuestionSetsComponent} from './components/question-sets/question-sets.component';
-import { MsalGuard } from '@azure/msal-angular/msal.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},
