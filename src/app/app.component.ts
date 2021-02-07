@@ -60,6 +60,7 @@ export class AppComponent implements OnInit, OnDestroy  {
       });
   }
   setLoginDisplay(): void {
+    console.log(this.authService.instance.getAllAccounts());
     this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
   }
 
