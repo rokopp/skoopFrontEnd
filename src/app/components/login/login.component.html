@@ -1,10 +1,10 @@
 <div class="col-md-6 offset-md-3 mt-5">
-    <ng-template #welcomeUser>
-      <h4>Welcome {{ name }}!</h4>
-      <p>Use the navigation bar at the top of the page to get started.</p>
-    </ng-template>
-    <ng-template #signInPrompt>
+    <div *ngIf="!authenticated">
+      <h4>Tere {{ name }}!</h4>
+      <h4>Tere {{ username }}!</h4>
+    </div>
+    <div *ngIf="authenticated">
       <button class="btn btn-primary btn-large" role="button" >Click here to sign in</button>
-    </ng-template>
+    </div>
 
 </div>
