@@ -37,6 +37,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [
       MsalGuard
     ]},
+  { path: 'login/oauth2/code/azure', redirectTo: '/avaleht'}
 ];
 
 const isIframe = window !== window.parent && !window.opener;
