@@ -28,7 +28,6 @@ import { LoginComponent } from './components/login/login.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { OAuthSettings } from './components/oauth/oauth';
 import {CommonModule} from '@angular/common';
-import {ConfidentialClientApplication, IConfidentialClientApplication} from '@azure/msal-node';
 
 import { IPublicClientApplication,
   PublicClientApplication, InteractionType, BrowserCacheLocation, LogLevel } from '@azure/msal-browser';
@@ -50,14 +49,17 @@ export function loggerCallback(logLevel: LogLevel, message: string) {
   console.log(message);
 }
 
-export function MSALInstanceFactory(): IConfidentialClientApplication {
-  return new ConfidentialClientApplication({
+export function MSALInstanceFactory(): IPublicClientApplication {
+  return new PublicClientApplication({
     auth: {
       clientId: OAuthSettings.appId,
-      // redirectUri: OAuthSettings.redirectUri,
+      redirectUri: OAuthSettings.redirectUri,
       authority: OAuthSettings.tenantID,
-      // postLogoutRedirectUri: '/'
-      clientSecret: 'm6B7n04G0nvRADA8ZX..Z~2LlIr~jEC-y7'
+      postLogoutRedirectUri: '/'
+    },
+    cache: {
+      cacheLocation: BrowserCacheLocation.LocalStorage,
+      storeAuthStateInCookie: isIE, // set to true for IE 11
     },
     system: {
       loggerOptions: {
@@ -69,41 +71,18 @@ export function MSALInstanceFactory(): IConfidentialClientApplication {
   });
 }
 
-
-// export function MSALInstanceFactory(): IPublicClientApplication {
-//   return new PublicClientApplication({
-//     auth: {
-//       clientId: OAuthSettings.appId,
-//       redirectUri: OAuthSettings.redirectUri,
-//       authority: OAuthSettings.tenantID,
-//       postLogoutRedirectUri: '/'
-//     },
-//     cache: {
-//       cacheLocation: BrowserCacheLocation.LocalStorage,
-//       storeAuthStateInCookie: isIE, // set to true for IE 11
-//     },
-//     system: {
-//       loggerOptions: {
-//         loggerCallback,
-//         logLevel: LogLevel.Info,
-//         piiLoggingEnabled: false
-//       }
-//     }
-//   });
-// }
-
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
   protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ['user.read']);
 
   return {
-    interactionType: InteractionType.Popup,
+    interactionType: InteractionType.Redirect,
     protectedResourceMap
   };
 }
 
 export function MSALGuardConfigFactory(): MsalGuardConfiguration {
-  return { interactionType: InteractionType.Popup };
+  return { interactionType: InteractionType.Redirect };
 }
 
 @NgModule({
