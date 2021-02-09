@@ -34,9 +34,7 @@ const routes: Routes = [
   { path: 'questionsets/:id/:name', component: QuestionSetComponent},
   { path: 'questionsets', component: QuestionSetsComponent},
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfileComponent, canActivate: [
-      MsalGuard
-    ]},
+  { path: 'profile', component: ProfileComponent},
   { path: 'login/oauth2/code/azure', redirectTo: '/avaleht'}
 ];
 
