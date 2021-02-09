@@ -15,7 +15,6 @@ build skoop:
     - skoop
   script:
     - npm install
-    - npm list
     - npm run build
   only:
     - 47-as-a-user-i-need-to-login-with-oauth
