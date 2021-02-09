@@ -34,15 +34,16 @@ const routes: Routes = [
   { path: 'questionsets/:id/:name', component: QuestionSetComponent},
   { path: 'questionsets', component: QuestionSetsComponent},
   { path: 'login', component: LoginComponent },
-  { path: 'login/oauth2/code/azure', component: ProfileComponent},
+  { path: 'profile', component: ProfileComponent, canActivate: [MsalGuard]},
 ];
 
-const isIframe = window !== window.parent && !window.opener;
+// const isIframe = window !== window.parent && !window.opener;
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
+    useHash: false
     // Don't perform initial navigation in iframes
-    initialNavigation: !isIframe ? 'enabled' : 'disabled'
+    // initialNavigation: !isIframe ? 'enabled' : 'disabled'
   })],
   exports: [RouterModule]
 })

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {MsalService} from "@azure/msal-angular";
+import {MsalService} from '@azure/msal-angular';
 
 const GRAPH_ENDPOINT = 'https://graph.microsoft.com/v1.0/me';
 
@@ -10,20 +10,16 @@ const GRAPH_ENDPOINT = 'https://graph.microsoft.com/v1.0/me';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  name: string;
+  username: string;
 
-  profile;
-
-  constructor(private http: HttpClient, private authService: MsalService) { }
+  constructor(private msalService: MsalService) { }
 
   ngOnInit(): void {
-    this.getProfile();
-    this.authService.acquireTokenPopup({scopes: ['user.read']});
+    // @ts-ignore
+    const account = this.msalService.getAccount();
+    this.name = account.name;
+    this.username = account.userName;
   }
 
-  getProfile(): void {
-    this.http.get(GRAPH_ENDPOINT)
-      .subscribe(profile => {
-        this.profile = profile;
-      });
-  }
 }

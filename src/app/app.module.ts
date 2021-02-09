@@ -33,13 +33,25 @@ import { IPublicClientApplication,
   PublicClientApplication, InteractionType, BrowserCacheLocation, LogLevel } from '@azure/msal-browser';
 
 // tslint:disable-next-line:max-line-length
-import { MsalGuard, MsalInterceptor,
-  MsalBroadcastService, MsalInterceptorConfiguration,
-  MsalModule, MsalService,
-  MSAL_GUARD_CONFIG, MSAL_INSTANCE,
+import {
+  MsalGuard,
+  MsalInterceptor,
+  MsalBroadcastService,
+  MsalInterceptorConfiguration,
+  MsalModule,
+  MsalService,
+  MSAL_GUARD_CONFIG,
+  MSAL_INSTANCE,
   // @ts-ignore
-  MSAL_INTERCEPTOR_CONFIG, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
+  MSAL_INTERCEPTOR_CONFIG,
+  MsalGuardConfiguration,
+  MsalRedirectComponent,
+  MSAL_CONFIG,
+  MsalAngularConfiguration,
+  MSAL_CONFIG_ANGULAR
+} from '@azure/msal-angular';
 import { ProfileComponent } from './components/profile/profile.component';
+import {Configuration} from "msal";
 
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
@@ -49,40 +61,67 @@ export function loggerCallback(logLevel: LogLevel, message: string) {
   console.log(message);
 }
 
-export function MSALInstanceFactory(): IPublicClientApplication {
-  return new PublicClientApplication({
+// export function MSALInstanceFactory(): IPublicClientApplication {
+//   return new PublicClientApplication({
+//     auth: {
+//       clientId: OAuthSettings.appId,
+//       redirectUri: OAuthSettings.redirectUri,
+//       authority: OAuthSettings.tenantID,
+//       postLogoutRedirectUri: '/'
+//     },
+//     cache: {
+//       cacheLocation: BrowserCacheLocation.LocalStorage,
+//       storeAuthStateInCookie: isIE, // set to true for IE 11
+//     },
+//     system: {
+//       loggerOptions: {
+//         loggerCallback,
+//         logLevel: LogLevel.Info,
+//         piiLoggingEnabled: false
+//       }
+//     }
+//   });
+// }
+
+// export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
+//   const protectedResourceMap = new Map<string, Array<string>>();
+//   protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ['user.read']);
+//
+//   return {
+//     interactionType: InteractionType.Redirect,
+//     protectedResourceMap
+//   };
+// }
+//
+// export function MSALGuardConfigFactory(): MsalGuardConfiguration {
+//   return { interactionType: InteractionType.Redirect };
+// }
+
+export const protectedResourceMap: [string, string[]][] = [
+  ['https://graph.microsoft.com/beta/', ['user.read']]
+];
+
+function MSALConfigFactory(): Configuration {
+  return {
     auth: {
       clientId: OAuthSettings.appId,
-      redirectUri: OAuthSettings.redirectUri,
       authority: OAuthSettings.tenantID,
-      postLogoutRedirectUri: '/'
+      validateAuthority: true,
+      redirectUri: OAuthSettings.redirectUri,
+      // postLogoutRedirectUri: environment.redirectUrl,
+      navigateToLoginRequestUrl: true
     },
     cache: {
-      cacheLocation: BrowserCacheLocation.LocalStorage,
-      storeAuthStateInCookie: isIE, // set to true for IE 11
-    },
-    system: {
-      loggerOptions: {
-        loggerCallback,
-        logLevel: LogLevel.Info,
-        piiLoggingEnabled: false
-      }
+      storeAuthStateInCookie: false,
     }
-  });
-}
-
-export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
-  const protectedResourceMap = new Map<string, Array<string>>();
-  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ['user.read']);
-
-  return {
-    interactionType: InteractionType.Redirect,
-    protectedResourceMap
   };
 }
 
-export function MSALGuardConfigFactory(): MsalGuardConfiguration {
-  return { interactionType: InteractionType.Redirect };
+function MSALAngularConfigFactory(): MsalAngularConfiguration {
+  return {
+    popUp: false,
+    protectedResourceMap
+  };
 }
 
 @NgModule({
@@ -122,25 +161,39 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     ],
   providers: [
     {
+      provide: MSAL_CONFIG,
+      useFactory: MSALConfigFactory
+    },
+    {
+      provide: MSAL_CONFIG_ANGULAR,
+      useFactory: MSALAngularConfigFactory
+    },
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: MsalInterceptor,
       multi: true
     },
-    {
-      provide: MSAL_INSTANCE,
-      useFactory: MSALInstanceFactory
-    },
-    {
-      provide: MSAL_GUARD_CONFIG,
-      useFactory: MSALGuardConfigFactory
-    },
-    {
-      provide: MSAL_INTERCEPTOR_CONFIG,
-      useFactory: MSALInterceptorConfigFactory
-    },
-    MsalService,
-    MsalGuard,
-    MsalBroadcastService
+    MsalService
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: MsalInterceptor,
+    //   multi: true
+    // },
+    // {
+    //   provide: MSAL_INSTANCE,
+    //   useFactory: MSALInstanceFactory
+    // },
+    // {
+    //   provide: MSAL_GUARD_CONFIG,
+    //   useFactory: MSALGuardConfigFactory
+    // },
+    // {
+    //   provide: MSAL_INTERCEPTOR_CONFIG,
+    //   useFactory: MSALInterceptorConfigFactory
+    // },
+    // MsalService,
+    // MsalGuard,
+    // MsalBroadcastService
   ],
   bootstrap: [AppComponent]
 })
