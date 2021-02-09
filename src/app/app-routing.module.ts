@@ -1,7 +1,7 @@
 import { LocationSetsComponent } from './components/location-sets/location-sets.component';
 import { CreateMapComponent } from './components/create-map/create-map.component';
 import { MapComponent } from './components/map/map.component';
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {GreetingComponent} from './components/greeting/greeting.component';
 import {QuestionsanswersComponent} from './components/questionsanswers/questionsanswers.component';
@@ -13,7 +13,6 @@ import {UsersRoomsComponent} from './components/users-rooms/users-rooms.componen
 import {LoginComponent} from './components/login/login.component';
 import {QuestionSetComponent} from './components/question-set/question-set.component';
 import {QuestionSetsComponent} from './components/question-sets/question-sets.component';
-import {ProfileComponent} from './components/profile/profile.component';
 import {MsalGuard} from '@azure/msal-angular';
 
 const routes: Routes = [
@@ -33,17 +32,13 @@ const routes: Routes = [
   { path: 'tiimiregamine', component: GoPlayRoomsComponent},
   { path: 'questionsets/:id/:name', component: QuestionSetComponent},
   { path: 'questionsets', component: QuestionSetsComponent},
-  { path: 'login', component: LoginComponent },
-  { path: 'login/oauth2/code/azure', component: ProfileComponent, canActivate: [MsalGuard]},
+  { path: 'login/oauth2/code/azure', component: LoginComponent, canActivate: [MsalGuard]},
 ];
 
-// const isIframe = window !== window.parent && !window.opener;
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
     useHash: false
-    // Don't perform initial navigation in iframes
-    // initialNavigation: !isIframe ? 'enabled' : 'disabled'
   })],
   exports: [RouterModule]
 })

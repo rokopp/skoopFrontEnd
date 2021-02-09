@@ -109,7 +109,7 @@ function MSALConfigFactory(): Configuration {
 
 function MSALAngularConfigFactory(): MsalAngularConfiguration {
   return {
-    popUp: true,
+    popUp: false,
     protectedResourceMap
   };
 }
@@ -164,26 +164,6 @@ function MSALAngularConfigFactory(): MsalAngularConfiguration {
       multi: true
     },
     MsalService
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: MsalInterceptor,
-    //   multi: true
-    // },
-    // {
-    //   provide: MSAL_INSTANCE,
-    //   useFactory: MSALInstanceFactory
-    // },
-    // {
-    //   provide: MSAL_GUARD_CONFIG,
-    //   useFactory: MSALGuardConfigFactory
-    // },
-    // {
-    //   provide: MSAL_INTERCEPTOR_CONFIG,
-    //   useFactory: MSALInterceptorConfigFactory
-    // },
-    // MsalService,
-    // MsalGuard,
-    // MsalBroadcastService
   ],
   bootstrap: [AppComponent]
 })
