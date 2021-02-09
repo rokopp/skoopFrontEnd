@@ -75,6 +75,7 @@ export class AppComponent implements OnInit, OnDestroy  {
         this.authService.loginPopup()
           .subscribe((response: AuthenticationResult) => {
             this.authService.instance.setActiveAccount(response.account);
+            console.log(response.account);
           });
       }
     } else if (this.msalGuardConfig.authRequest) {

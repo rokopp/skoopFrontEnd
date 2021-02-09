@@ -9,5 +9,5 @@
       <button (click)="logout()">Logout</button>
     </div>
   </div>
-  <router-outlet></router-outlet>
+  <router-outlet *ngIf="!isIframe"></router-outlet>
 </div>
