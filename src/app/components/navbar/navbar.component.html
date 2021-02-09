@@ -22,15 +22,14 @@
     </div>
 
     <div class="col-lg-3 col-md my-auto">
-      <li class="nav-item">
+      <li *ngIf="authenticated" class="nav-item">
         <div  aria-labelledby="userMenu" class="dropdown-menu-right">
           <h5 class="dropdown-item-text mb-0">{{name}}</h5>
           <p class="dropdown-item-text text-muted mb-0">{{username}}</p>
-          <div class="dropdown-divider"></div>
-          <button class="dropdown-item" role="button" (click)="signOut()">Logi välja</button>
+          <button class="btn btn-link nav-link border-0" role="button" (click)="signOut()">Logi välja</button>
         </div>
       </li>
-      <li class="nav-item">
+      <li *ngIf="!authenticated" class="nav-item">
         <button class="btn btn-link nav-link border-0" role="button" [routerLink]="'login/oauth2/code/azure'">Logi sisse</button>
       </li>
     </div>

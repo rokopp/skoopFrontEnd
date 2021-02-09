@@ -13,16 +13,27 @@ export class NavbarComponent implements OnInit {
   }
   name: string;
   username: string;
+  authenticated: boolean;
 
 
   ngOnInit(): void {
+   this.getProfile();
+  }
+
+  getProfile(): void {
     // @ts-ignore
     const account = this.msalService.getAccount();
-    this.name = account.name;
-    this.username = account.userName;
+    if (account !== null) {
+      this.name = account.name;
+      this.username = account.userName;
+      this.authenticated = true;
+    } else {
+      this.authenticated = false;
+    }
   }
 
   signOut(): void {
+    this.authenticated = false;
     this.msalService.logout();
   }
 
