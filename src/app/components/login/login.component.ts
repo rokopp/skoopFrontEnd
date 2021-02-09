@@ -6,7 +6,6 @@ export class LoginComponent implements OnInit {
 
   name: string;
   username: string;
-  authenticated: boolean;
 
   constructor(private msalService: MsalService) { }
 
@@ -20,10 +19,6 @@ export class LoginComponent implements OnInit {
     if (account !== null) {
       this.name = account.name;
       this.username = account.userName;
-      this.authenticated = true;
-    } else {
-      this.authenticated = false;
     }
   }
-
 }

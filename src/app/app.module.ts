@@ -28,11 +28,6 @@ import { LoginComponent } from './components/login/login.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { OAuthSettings } from './components/oauth/oauth';
 import {CommonModule} from '@angular/common';
-
-import { IPublicClientApplication,
-  PublicClientApplication, InteractionType, BrowserCacheLocation, LogLevel } from '@azure/msal-browser';
-
-// tslint:disable-next-line:max-line-length
 import {
   MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
   MsalAngularConfiguration,
@@ -41,50 +36,6 @@ import {
   MsalService
 } from '@azure/msal-angular';
 import {Configuration} from 'msal';
-
-
-const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
-
-// tslint:disable-next-line:typedef
-export function loggerCallback(logLevel: LogLevel, message: string) {
-  console.log(message);
-}
-
-// export function MSALInstanceFactory(): IPublicClientApplication {
-//   return new PublicClientApplication({
-//     auth: {
-//       clientId: OAuthSettings.appId,
-//       redirectUri: OAuthSettings.redirectUri,
-//       authority: OAuthSettings.tenantID,
-//       postLogoutRedirectUri: '/'
-//     },
-//     cache: {
-//       cacheLocation: BrowserCacheLocation.LocalStorage,
-//       storeAuthStateInCookie: isIE, // set to true for IE 11
-//     },
-//     system: {
-//       loggerOptions: {
-//         loggerCallback,
-//         logLevel: LogLevel.Info,
-//         piiLoggingEnabled: false
-//       }
-//     }
-//   });
-// }
-
-// export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
-//   const protectedResourceMap = new Map<string, Array<string>>();
-//   protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ['user.read']);
-//
-//   return {
-//     interactionType: InteractionType.Redirect,
-//     protectedResourceMap
-//   };
-// }
-//
-// export function MSALGuardConfigFactory(): MsalGuardConfiguration {
-//   return { interactionType: InteractionType.Redirect };
-// }
 
 export const protectedResourceMap: [string, string[]][] = [
   ['https://graph.microsoft.com/beta/', ['user.read']]
@@ -97,7 +48,7 @@ function MSALConfigFactory(): Configuration {
       authority: OAuthSettings.tenantID,
       validateAuthority: true,
       redirectUri: OAuthSettings.redirectUri,
-      // postLogoutRedirectUri: environment.redirectUrl,
+      postLogoutRedirectUri: '/avaleht',
       navigateToLoginRequestUrl: true
     },
     cache: {
