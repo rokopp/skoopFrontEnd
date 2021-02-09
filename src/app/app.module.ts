@@ -40,7 +40,6 @@ import {
   MsalModule,
   MsalService
 } from '@azure/msal-angular';
-import { ProfileComponent } from './components/profile/profile.component';
 import {Configuration} from 'msal';
 
 
@@ -132,7 +131,6 @@ function MSALAngularConfigFactory(): MsalAngularConfiguration {
     QuestionSetComponent,
     LocationSetsComponent,
     QuestionSetsComponent,
-    ProfileComponent,
   ],
     imports: [
       BrowserModule,
