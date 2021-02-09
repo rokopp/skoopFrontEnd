@@ -53,7 +53,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     auth: {
       clientId: OAuthSettings.appId,
       redirectUri: OAuthSettings.redirectUri,
-      // tenantID: 'https://login.microsoftonline.com/3efd4d88-9b88-4fc9-b6c0-c7ca50f1db57',
+      authority: OAuthSettings.tenantID,
       postLogoutRedirectUri: '/'
     },
     cache: {
