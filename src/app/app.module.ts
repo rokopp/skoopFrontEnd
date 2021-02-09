@@ -34,24 +34,14 @@ import { IPublicClientApplication,
 
 // tslint:disable-next-line:max-line-length
 import {
-  MsalGuard,
-  MsalInterceptor,
-  MsalBroadcastService,
-  MsalInterceptorConfiguration,
-  MsalModule,
-  MsalService,
-  MSAL_GUARD_CONFIG,
-  MSAL_INSTANCE,
-  // @ts-ignore
-  MSAL_INTERCEPTOR_CONFIG,
-  MsalGuardConfiguration,
-  MsalRedirectComponent,
-  MSAL_CONFIG,
+  MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
   MsalAngularConfiguration,
-  MSAL_CONFIG_ANGULAR
+  MsalInterceptor,
+  MsalModule,
+  MsalService
 } from '@azure/msal-angular';
 import { ProfileComponent } from './components/profile/profile.component';
-import {Configuration} from "msal";
+import {Configuration} from 'msal';
 
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
