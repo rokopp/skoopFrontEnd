@@ -39,6 +39,7 @@ import { MsalGuard, MsalInterceptor,
   MSAL_GUARD_CONFIG, MSAL_INSTANCE,
   // @ts-ignore
   MSAL_INTERCEPTOR_CONFIG, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
@@ -102,6 +103,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     QuestionSetComponent,
     LocationSetsComponent,
     QuestionSetsComponent,
+    ProfileComponent,
   ],
     imports: [
       BrowserModule,

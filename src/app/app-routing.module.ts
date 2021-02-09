@@ -13,6 +13,7 @@ import {UsersRoomsComponent} from './components/users-rooms/users-rooms.componen
 import {LoginComponent} from './components/login/login.component';
 import {QuestionSetComponent} from './components/question-set/question-set.component';
 import {QuestionSetsComponent} from './components/question-sets/question-sets.component';
+import {ProfileComponent} from './components/profile/profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},
@@ -32,8 +33,7 @@ const routes: Routes = [
   { path: 'questionsets/:id/:name', component: QuestionSetComponent},
   { path: 'questionsets', component: QuestionSetsComponent},
   { path: 'login', component: LoginComponent },
-  // { path: 'login/oauth2/code/azure', redirectTo: '/avaleht'}
-  { path: '**', redirectTo: '/avaleht' }
+  { path: 'profile', component: ProfileComponent },
 ];
 
 const isIframe = window !== window.parent && !window.opener;
