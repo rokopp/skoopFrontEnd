@@ -38,8 +38,9 @@ export class AppComponent implements OnInit, OnDestroy  {
 
   constructor(private router: Router,
               // @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
-              private authService: MsalService,
-              private msalBroadcastService: MsalBroadcastService) {
+              // private authService: MsalService,
+              // private msalBroadcastService: MsalBroadcastService
+  ) {
     router.events.subscribe((val) => {
       if (val instanceof ActivationEnd) {
         this.getComponent = val.snapshot.component['name'];
