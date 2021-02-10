@@ -1,11 +1,11 @@
 <div class='container'>
   <div class="form-group space-up">
     <label for="questionsets" class="font-weight-bold col-sm-2 col-form-label">Question Set</label>
-    <select id="questionsets" [(ngModel)]="selectedQuestionSet" class="form-control">
+    <select id="questionsets" [(ngModel)]="selectedQuestionSet" (change)="updateQuestion()" class="form-control">
       <option *ngFor="let c of questionSetdata" [ngValue]="c.id">{{c.name}}</option>
     </select>
     <label for="locationsets" class="font-weight-bold col-sm-2 col-form-label">Location Set</label>
-    <select id="locationsets" [(ngModel)]="selectedLocationSet" class="form-control">
+    <select id="locationsets" [(ngModel)]="selectedLocationSet" (change)="updateLocation()" class="form-control">
       <option *ngFor="let c of locationSetdata" [ngValue]="c.id">{{c.name}}</option>
     </select>
   </div>
