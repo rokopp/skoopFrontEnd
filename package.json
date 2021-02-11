@@ -26,6 +26,7 @@
     "@microsoft/microsoft-graph-types": "^1.24.0",
     "angular-oauth2-oidc": "^10.0.3",
     "angular-oauth2-oidc-jwks": "^9.0.0",
+    "angular2-notifications": "^9.0.0",
     "bootstrap": "^4.5.2",
     "cors": "^2.8.5",
     "jquery": "^3.5.1",

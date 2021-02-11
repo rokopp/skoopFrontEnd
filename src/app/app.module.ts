@@ -30,6 +30,7 @@ import { AlertsComponent } from './components/alerts/alerts.component';
 import { MsalModule } from '@azure/msal-angular';
 import { OAuthSettings } from './components/oauth/oauth';
 import {CommonModule} from '@angular/common';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import {CommonModule} from '@angular/common';
       MatChipsModule,
       MatIconModule,
       CommonModule,
+      SimpleNotificationsModule.forRoot(),
         MsalModule.forRoot({
           auth: {
             clientId: OAuthSettings.appId,
