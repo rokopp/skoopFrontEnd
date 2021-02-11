@@ -11,6 +11,7 @@ import { Pair } from '../../pair';
 import { Location as URL } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Question } from 'src/app/question';
+import { NotificationsService} from 'angular2-notifications';
 
 
 @Component({
@@ -37,12 +38,29 @@ export class CreateNewRoomComponent implements OnInit {
               private locationService: LocationService,
               private pairS: PairService,
               private activatedroute: ActivatedRoute,
+              private nService: NotificationsService,
   ) {
     this.currentId = this.activatedroute.snapshot.paramMap.get('id');
   }
   ngOnInit(): void {
     this.getLocationSets();
     this.getQuestionSets();
+  }
+  onSuccess(message): void {
+    this.nService.success('Edukas', message, {
+      position: ['bottom', 'right'],
+      timeOut: 2000,
+      animate: 'fade',
+      showProgressBar: true
+    });
+  }
+  onError(message): void {
+    this.nService.error('Viga', message, {
+      position: ['bottom', 'right'],
+      timeOut: 2000,
+      animate: 'fade',
+      showProgressBar: true
+    });
   }
   getQuestionSets(): void {
     this.questionSetS.getQuestionSets().subscribe(sets => this.questionSetdata = sets);
@@ -66,8 +84,12 @@ export class CreateNewRoomComponent implements OnInit {
                 console.error('Happened this during posting: ', errorMessage);
               });
         }
-        this.backClicked();
+        this.onSuccess('Paarid edukalt genereeritud');
+      }else {
+        this.onError('Üks settidest on tühi');
       }
+    }else {
+      this.onError('Väljad täitmata');
     }
   }
   updateQuestion(): void {
@@ -82,13 +104,9 @@ export class CreateNewRoomComponent implements OnInit {
       pairs.forEach(pair => {
         if (pair.roomId.toString() === this.currentId) {
           this.pairS.removePair(pair.id).subscribe();
-          this.succeful = true;
         }
       });
     });
-    if (this.succeful) {
-      alert('Edukalt Kustutatud');
-      this.succeful = false;
-    }
+    this.onSuccess('Paarid edukalt kustutatud');
   }
 }
