@@ -100,13 +100,8 @@ export class CreateNewRoomComponent implements OnInit {
   }
 
   deletePairs(): void {
-    this.pairS.getPairs().subscribe(pairs => {
-      pairs.forEach(pair => {
-        if (pair.roomId.toString() === this.currentId) {
-          this.pairS.removePair(pair.id).subscribe();
-        }
-      });
-    });
+    this.pairS.removePairbyRoomId(this.currentId).subscribe();
+
     this.onSuccess('Paarid edukalt kustutatud');
   }
 }

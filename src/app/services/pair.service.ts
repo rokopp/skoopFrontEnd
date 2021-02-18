@@ -30,6 +30,6 @@ export class PairService {
     return this.http.get<Pair>(this.pairsUrl + '/room/' + id);
   }
   removePairbyRoomId(id: number): Observable<Pair> {
-    return this.http.delete<Pair>(this.pairsUrl + 'room/' + id);
+    return this.http.delete<Pair>(this.pairsUrl + '/room/' + id);
   }
 }
