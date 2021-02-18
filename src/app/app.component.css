@@ -4,3 +4,76 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.greetingPage {
+  background-image: url('../assets/front_page.jpg');
+  max-width: 100%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.goPlayRoomsPage {
+  background-image: url('../assets/hiking-facebook-cover.jpg');
+  max-width: 100%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+
+.questionsanswersPage {
+  background-image: url('../assets/KKK_picture.png');
+  max-width: 100%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+
+.contactPage {
+  background-image: url('../assets/contact_page.jpg');
+  max-width: 100%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+
+.questionSetPage {
+  background-image: url('../assets/questions.jpg');
+  max-width: 100%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+
+@media (max-width: 799px) {
+  .goPlayRoomsPage {
+    background-image: url('../assets/hiking-facebook-cover-mobile.jpg');
+    background-size: 100% 100%;
+  }
+}
+
+@media (min-width: 800px) {
+  .greetingPage {
+    background-size: 100% 100%;
+  }
+
+  .goPlayRoomsPage {
+    background-size: 100% 100%;
+  }
+
+  .questionsanswersPage {
+    background-size: 100% 100%;
+  }
+
+  .contactPage {
+    background-size: 100% 100%;
+  }
+
+  .questionSetPage {
+    background-size: 100% 100%;
+  }
+}
