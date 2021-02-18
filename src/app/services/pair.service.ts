@@ -26,4 +26,10 @@ export class PairService {
     roomId: number}): Observable<Pair> {
       return this.http.post<Pair>(this.pairsUrl, pairobj, {});
     }
+  getPairsByRoomId(id: number): Observable<Pair> {
+    return this.http.get<Pair>(this.pairsUrl + '/room/' + id);
+  }
+  removePairbyRoomId(id: number): Observable<Pair> {
+    return this.http.delete<Pair>(this.pairsUrl + 'room/' + id);
+  }
 }
