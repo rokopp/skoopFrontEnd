@@ -1,3 +1,4 @@
+import { PairDetail } from './../../pairDetails';
 import { Location } from './../../location';
 import { LocationService } from './../../services/location.service';
 import { QuestionService } from './../../services/question.service';
@@ -24,6 +25,7 @@ export class CreateNewRoomComponent implements OnInit {
   locationSetdata: Locationset[] = [];
   questions: Question[] = [];
   locations: Location[] = [];
+  pairDetails: PairDetail[] = [];
   questionsAmount = 0;
   locationAmount = 0;
   selectedQuestionSet;
@@ -43,6 +45,7 @@ export class CreateNewRoomComponent implements OnInit {
     this.currentId = this.activatedroute.snapshot.paramMap.get('id');
   }
   ngOnInit(): void {
+    this.getCurrentPairs();
     this.getLocationSets();
     this.getQuestionSets();
   }
@@ -77,7 +80,8 @@ export class CreateNewRoomComponent implements OnInit {
       if (this.minAmount !== 0) {
         for (let i = 0; i < this.minAmount; i++) {
           this.pairS.postPair({ questionId: this.questions[i].id, locationId: this.locations[i].id, roomId: this.currentId } as Pair)
-            .subscribe(() => {
+            .subscribe(pair => {
+              this.getPairDetails(this.locations[i].id, this.questions[i].id, pair.id);
             },
               error => {
                 const errorMessage = error.message;
@@ -98,10 +102,31 @@ export class CreateNewRoomComponent implements OnInit {
   updateLocation(): void {
     this.locationService.getLocationsBySet(this.selectedLocationSet).subscribe(locations => this.locations = locations);
   }
+  getCurrentPairs(): void{
+    this.pairS.getPairsByRoomId(this.currentId).subscribe( pairs => {
+      pairs.forEach(pair => {
+        this.getPairDetails(pair.locationId, pair.questionId, pair.id);
+      });
+    });
+  }
+  getPairDetails(locationId: number, questionId: number, pairId: number): void {
+    this.locationService.getLocationsbyId(locationId).subscribe(location => {
+      const coordinates = JSON.parse(location.location);
+      const newCoordinates = 'pikkuskraad: ' + coordinates.lng +  ', laiuskraad: ' + coordinates.lat;
+      this.questionService.getQuestionById(questionId).subscribe(question => {
+        this.pairDetails.push(new PairDetail(pairId, newCoordinates, question.question));
+      });
+    });
+  }
 
   deletePairs(): void {
-    this.pairS.removePairbyRoomId(this.currentId).subscribe();
-
-    this.onSuccess('Paarid edukalt kustutatud');
+    this.pairS.removePairbyRoomId(this.currentId).subscribe(pair => {
+      this.onSuccess('Paarid edukalt kustutatud');
+      this.pairDetails = [];
+    },
+    error => {
+      this.onError('Viga kustutamisel. Proovi uuesti');
+    }
+    );
   }
 }

@@ -15,4 +15,19 @@
     <button type="button" class="btn btn-info" routerLink="/ruumid">Mine Tagasi</button>
   </div>
   <simple-notifications></simple-notifications>
+  <table class="table table-striped table-dark overflow-auto">
+    <thead>
+        <tr>
+            <th>Asukoht</th>
+            <th>Küsimus<s></s></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let pairDetail of pairDetails; index as i">
+            <td>{{pairDetail.pairId}}</td>
+            <td>{{pairDetail.location}}</td>
+            <td>{{pairDetail.question}}</td>
+        </tr>
+    </tbody>
+  </table>
 </div>
