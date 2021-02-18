@@ -82,7 +82,6 @@ export class MapComponent implements OnInit {
 
   // Checks if current questions answer is correct
   public checkanswer(): void{
-    console.log(this.selectedAnswer);
     if (this.selectedAnswer.trim() === this.answer.trim()){
       this.score = this.score + this.points;
     }else{
@@ -138,7 +137,6 @@ export class MapComponent implements OnInit {
 
   // Saves all current question data and shows question on the map
   showQuestion(feature: Feature): void{
-    console.log(this.questionobj);
     if (this.questionobj !== undefined) {
       this.question = this.questionobj.question;
       this.answer = this.questionobj.answer;
@@ -148,8 +146,6 @@ export class MapComponent implements OnInit {
       });
       this.choices = this.questionobj.choices;
       this.points = this.questionobj.points;
-      console.log(this.choices);
-      console.log(this.answer);
       this.showModal();
       this.amount--;
       this.vectorSource.removeFeature(feature);
@@ -236,7 +232,6 @@ export class MapComponent implements OnInit {
       } else {
         this.map.forEachFeatureAtPixel(data.pixel, (feature) => {
           const id = feature.get('QuestionId');
-          console.log(this.amount);
           if (id !== undefined && id !== -1) {
             this.getQuestion(id, feature);
           }
