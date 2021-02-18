@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, ActivationEnd, NavigationEnd, Router} from '@angular/router';
-import { MsalService, BroadcastService } from '@azure/msal-angular';
+import {ActivationEnd, Router} from '@angular/router';
 
 
 @Component({
@@ -9,9 +8,7 @@ import { MsalService, BroadcastService } from '@azure/msal-angular';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  bgImage: string;
   private getComponent: string;
-  graphMeEndpoint = 'https://graph.microsoft.com/v1.0/me';
 
   setBgImg(): string {
     if (this.getComponent === 'GreetingComponent') {
@@ -32,12 +29,13 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {
     router.events.subscribe((val) => {
       if (val instanceof ActivationEnd) {
-        this.getComponent = val.snapshot.component['name'];
+        if (typeof val.snapshot.component !== "string") {
+          this.getComponent = val.snapshot.component.name;
+        }
         this.setBgImg();
       }
     });
   }
   ngOnInit(): void {
   }
-
 }
