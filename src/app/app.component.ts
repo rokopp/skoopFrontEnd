@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivationEnd, Router} from '@angular/router';
-import {BroadcastService, MsalService} from '@azure/msal-angular';
-
 
 @Component({
   selector: 'app-root',
@@ -28,7 +26,7 @@ export class AppComponent implements OnInit  {
     }
   }
 
-  constructor(private router: Router, private broadcastService: BroadcastService) {
+  constructor(private router: Router) {
     router.events.subscribe((val) => {
       if (val instanceof ActivationEnd) {
         this.getComponent = val.snapshot.component['name'];
@@ -37,8 +35,5 @@ export class AppComponent implements OnInit  {
     });
   }
   ngOnInit(): void {
-    this.broadcastService.subscribe('msal:loginSuccess', (success) => {
-      this.router.navigate(['/avaleht']);
-    });
   }
 }
