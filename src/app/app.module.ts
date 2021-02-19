@@ -49,7 +49,7 @@ function MSALConfigFactory(): Configuration {
       validateAuthority: true,
       redirectUri: OAuthSettings.redirectUri,
       postLogoutRedirectUri: 'https://skoop.cs.taltech.ee/avaleht',
-      navigateToLoginRequestUrl: true
+      navigateToLoginRequestUrl: true,
     },
     cache: {
       storeAuthStateInCookie: false,
