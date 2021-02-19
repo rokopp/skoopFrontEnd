@@ -38,10 +38,7 @@ export class AppComponent implements OnInit  {
     });
   }
   ngOnInit(): void {
-    const loginRequest = {
-      scopes: ['User.ReadWrite']
-    };
-    console.log(this.authService.loginRedirect(loginRequest));
+    console.log(this.authService.getAccount());
   }
 
 }
