@@ -32,7 +32,8 @@ const routes: Routes = [
   { path: 'tiimiregamine', component: GoPlayRoomsComponent},
   { path: 'questionsets/:id/:name', component: QuestionSetComponent},
   { path: 'questionsets', component: QuestionSetsComponent},
-  { path: 'api/login/oauth2', component: LoginComponent, canActivate: [MsalGuard]},
+  { path: 'login/oauth2/code/azure', component: LoginComponent, canActivate: [MsalGuard]},
+  { path: 'api/login/oauth2', redirectTo: 'login/oauth2/code/azure'}
 ];
 
 
