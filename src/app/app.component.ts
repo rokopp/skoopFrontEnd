@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivationEnd, Router} from '@angular/router';
-import {MsalService} from "@azure/msal-angular";
-import {OAuthSettings} from "./components/oauth/oauth";
+import {BroadcastService, MsalService} from '@azure/msal-angular';
 
 
 @Component({
@@ -29,7 +28,7 @@ export class AppComponent implements OnInit  {
     }
   }
 
-  constructor(private router: Router, private authService: MsalService) {
+  constructor(private router: Router, private broadcastService: BroadcastService) {
     router.events.subscribe((val) => {
       if (val instanceof ActivationEnd) {
         this.getComponent = val.snapshot.component['name'];
@@ -38,7 +37,8 @@ export class AppComponent implements OnInit  {
     });
   }
   ngOnInit(): void {
-    console.log(this.authService.getAccount());
+    this.broadcastService.subscribe('msal:loginSuccess', (success) => {
+      this.router.navigate(['/avaleht']);
+    });
   }
-
 }
