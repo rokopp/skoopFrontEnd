@@ -16,8 +16,8 @@ export class NavbarComponent implements OnInit {
   authenticated: boolean;
 
 
-  async ngOnInit(): Promise<void> {
-   await this.getProfile();
+  ngOnInit(): void {
+   this.getProfile();
   }
 
   getProfile(): void {
@@ -35,5 +35,9 @@ export class NavbarComponent implements OnInit {
   signOut(): void {
     this.authenticated = false;
     this.msalService.logout();
+  }
+
+  login(): void {
+    this.msalService.loginPopup().then(this.getProfile);
   }
 }
