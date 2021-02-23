@@ -83,15 +83,16 @@ export class AuthService {
     });
 
     // Get the user from Graph (GET /me)
-    const graphUser: MicrosoftGraph.User = await graphClient
-      .api('/me')
-      .select('displayName')
-      .get();
+    // const graphUser: MicrosoftGraph.User = await graphClient
+    //   .api('/me')
+    //   .select('displayName')
+    //   .get();
 
+    const graphUser = await graphClient.api('/me').get().then(r => this.msalService.getAccount());
     const user = new User();
-    user.username = graphUser.displayName;
+    user.username = graphUser.name;
     // Prefer the mail property, but fall back to userPrincipalName
-    user.email = graphUser.mail || graphUser.userPrincipalName;
+    user.email = graphUser.userName;
 
 
     return user;
