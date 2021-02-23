@@ -26,4 +26,8 @@ export class LoginComponent implements OnInit {
       this.username = account.userName;
     }
   }
+
+  login(): void {
+    this.msalService.loginRedirect();
+  }
 }

@@ -37,5 +37,7 @@ export class NavbarComponent implements OnInit {
     this.msalService.logout();
   }
 
-
+  login(): void {
+    this.msalService.loginRedirect();
+  }
 }

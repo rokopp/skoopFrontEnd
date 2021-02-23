@@ -33,6 +33,9 @@
         <li *ngIf="!authenticated" class="nav-item">
           <button class="btn btn-link nav-link border-0" role="button" [routerLink]="'login/oauth2/code/azure'">Logi sisse</button>
         </li>
+        <li *ngIf="!authenticated" class="nav-item">
+          <button class="btn btn-link nav-link border-0" role="button" (click)="login()">Logi sisse With Redirect</button>
+        </li>
       </ul>
     </div>
   </div>
