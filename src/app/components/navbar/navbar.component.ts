@@ -17,12 +17,12 @@ export class NavbarComponent implements OnInit {
 
 
   ngOnInit(): void {
-   // this.getProfile();
+   this.getProfile();
   }
 
-  async getProfile(): Promise<void> {
+  getProfile(): void {
     // @ts-ignore
-    const account = await this.msalService.getAccount();
+    const account = this.msalService.getAccount();
     if (account !== null) {
       this.name = account.name;
       this.username = account.userName;
@@ -37,7 +37,14 @@ export class NavbarComponent implements OnInit {
     this.msalService.logout();
   }
 
-  login(): void {
-    this.msalService.loginPopup().then(this.getProfile);
+  async login(): Promise<void> {
+    return new Promise(async () => {
+      await this.msalService.loginPopup().then(r => {
+        const ac = r.getAccount();
+        this.name = ac.name;
+        this.username = ac.userName;
+        this.authenticated = true;
+      });
+    });
   }
 }
