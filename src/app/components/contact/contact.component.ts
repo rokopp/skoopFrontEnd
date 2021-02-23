@@ -1,14 +1,16 @@
 import {Component, HostListener, OnInit} from '@angular/core';
+import {BackgroundImageChangeService} from '../../services/background-image-change.service';
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css']
+  styleUrls: ['./contact.component.css', '../../app.component.css']
 })
 export class ContactComponent implements OnInit {
 
-  constructor() { }
   public innerWidth: any;
+  constructor(public bgService: BackgroundImageChangeService) { }
+
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
   }
