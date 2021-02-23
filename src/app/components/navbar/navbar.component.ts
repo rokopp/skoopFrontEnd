@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {MsalService} from '@azure/msal-angular';
+import {BroadcastService, MsalService} from '@azure/msal-angular';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +9,7 @@ import {MsalService} from '@azure/msal-angular';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private http: HttpClient, private msalService: MsalService) {
+  constructor(private http: HttpClient, private msalService: MsalService, private broadcastService: BroadcastService) {
   }
   name: string;
   username: string;
@@ -18,6 +18,11 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
    this.getProfile();
+   this.broadcastService.subscribe('msal:loginSuccess', (success) => {
+      console.log('Did it work');
+      this.getProfile();
+    });
+
   }
 
   getProfile(): void {
@@ -38,13 +43,6 @@ export class NavbarComponent implements OnInit {
   }
 
   async login(): Promise<void> {
-    return new Promise(async () => {
-      await this.msalService.loginPopup().then(r => {
-        const ac = r.getAccount();
-        this.name = ac.name;
-        this.username = ac.userName;
-        this.authenticated = true;
-      });
-    });
+    this.msalService.loginPopup();
   }
 }
