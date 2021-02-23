@@ -17,12 +17,12 @@ export class NavbarComponent implements OnInit {
 
 
   ngOnInit(): void {
-   this.getProfile();
+   // this.getProfile();
   }
 
-  getProfile(): void {
+  async getProfile(): Promise<void> {
     // @ts-ignore
-    const account = this.msalService.getAccount();
+    const account = await this.msalService.getAccount();
     if (account !== null) {
       this.name = account.name;
       this.username = account.userName;
