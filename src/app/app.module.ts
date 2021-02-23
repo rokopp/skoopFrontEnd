@@ -59,7 +59,7 @@ function MSALConfigFactory(): Configuration {
 
 function MSALAngularConfigFactory(): MsalAngularConfiguration {
   return {
-    popUp: true,
+    popUp: false,
     protectedResourceMap
   };
 }
