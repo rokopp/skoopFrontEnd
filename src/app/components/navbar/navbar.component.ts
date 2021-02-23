@@ -20,7 +20,9 @@ export class NavbarComponent implements OnInit {
    this.getProfile();
   }
 
-  getProfile(): void {
+  async getProfile() {
+    const graphMeEndpoint = 'https://graph.microsoft.com/v1.0/me';
+
     // @ts-ignore
     const account = this.msalService.getAccount();
     if (account !== null) {
@@ -30,6 +32,11 @@ export class NavbarComponent implements OnInit {
     } else {
       this.authenticated = false;
     }
+    this.http.get(graphMeEndpoint).toPromise()
+      .then(profile => {
+        console.log(profile);
+      });
+
   }
 
   signOut(): void {
