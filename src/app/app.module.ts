@@ -24,7 +24,6 @@ import {MatIconModule} from '@angular/material/icon';
 import { CreateMapComponent } from './components/create-map/create-map.component';
 import { LocationSetsComponent } from './components/location-sets/location-sets.component';
 import { QuestionSetsComponent } from './components/question-sets/question-sets.component';
-import { LoginComponent } from './components/login/login.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { OAuthSettings } from './components/oauth/oauth';
 import {CommonModule} from '@angular/common';
@@ -78,7 +77,6 @@ function MSALAngularConfigFactory(): MsalAngularConfiguration {
     GoPlayRoomsComponent,
     UsersRoomsComponent,
     CreateMapComponent,
-    LoginComponent,
     QuestionSetComponent,
     LocationSetsComponent,
     QuestionSetsComponent,

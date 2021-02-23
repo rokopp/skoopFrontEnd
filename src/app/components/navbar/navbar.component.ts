@@ -19,10 +19,8 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
    this.getProfile();
    this.broadcastService.subscribe('msal:loginSuccess', (success) => {
-      console.log('Did it work');
       this.getProfile();
     });
-
   }
 
   getProfile(): void {
