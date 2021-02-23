@@ -12,10 +12,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProfile();
-    this.broadcastService.subscribe('msal:loginSuccess', (success) => {
-      this.router.navigate(['/avaleht']);
-      console.log('Did it work');
-    });
   }
 
   getProfile(): void {
@@ -25,9 +21,5 @@ export class LoginComponent implements OnInit {
       this.name = account.name;
       this.username = account.userName;
     }
-  }
-
-  login(): void {
-    this.msalService.loginRedirect();
   }
 }

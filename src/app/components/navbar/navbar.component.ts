@@ -16,13 +16,11 @@ export class NavbarComponent implements OnInit {
   authenticated: boolean;
 
 
-  ngOnInit(): void {
-   this.getProfile();
+  async ngOnInit(): Promise<void> {
+   await this.getProfile();
   }
 
-  async getProfile() {
-    const graphMeEndpoint = 'https://graph.microsoft.com/v1.0/me';
-
+  getProfile(): void {
     // @ts-ignore
     const account = this.msalService.getAccount();
     if (account !== null) {
@@ -32,19 +30,10 @@ export class NavbarComponent implements OnInit {
     } else {
       this.authenticated = false;
     }
-    this.http.get(graphMeEndpoint).toPromise()
-      .then(profile => {
-        console.log(profile);
-      });
-
   }
 
   signOut(): void {
     this.authenticated = false;
     this.msalService.logout();
-  }
-
-  login(): void {
-    this.msalService.loginRedirect();
   }
 }
