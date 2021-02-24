@@ -34,8 +34,25 @@
         </div>
       </li>
       <li *ngIf="!authenticated" class="nav-item">
-        <a class="btn" role="button" (click)="signIn()">Logi sisse</a>
+        <a class="btn" role="button" (click)="login()">Logi sisse</a>
       </li>
     </ul>
   </div>
 </nav>
+
+  <!--    Let it be for merge-->
+
+  <!--    <div class="col-lg-3 col-md my-auto">-->
+  <!--      <ul class="navbar-nav">-->
+  <!--        <li *ngIf="authenticated" class="nav-item">-->
+  <!--          <div  aria-labelledby="userMenu" class="dropdown-menu-right">-->
+  <!--            <h5 class="dropdown-item-text mb-0">{{name}}</h5>-->
+  <!--            <p class="dropdown-item-text text-muted mb-0">{{username}}</p>-->
+  <!--            <button class="btn btn-link nav-link border-0" role="button" (click)="signOut()">Logi välja</button>-->
+  <!--          </div>-->
+  <!--        </li>-->
+  <!--        <li *ngIf="!authenticated" class="nav-item">-->
+  <!--          <button class="btn btn-link nav-link border-0" role="button" (click)="login()">Logi sisse</button>-->
+  <!--        </li>-->
+  <!--      </ul>-->
+  <!--    </div>-->

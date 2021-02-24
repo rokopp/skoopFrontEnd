@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from '../../user';
-import { AuthService } from '../_services/auth.service';
+import {HttpClient} from '@angular/common/http';
+import {BroadcastService, MsalService} from '@azure/msal-angular';
 
 @Component({
   selector: 'app-navbar',
@@ -9,27 +9,38 @@ import { AuthService } from '../_services/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  // Is a user logged in?
-  get authenticated(): boolean {
-    return this.authService.authenticated;
+  constructor(private http: HttpClient, private msalService: MsalService, private broadcastService: BroadcastService) {
   }
-  // The user
-  get user(): User {
-    return this.authService.user;
-  }
+  name: string;
+  username: string;
+  authenticated: boolean;
 
-  constructor(private authService: AuthService) {
-  }
 
   ngOnInit(): void {
+   this.getProfile();
+   this.broadcastService.subscribe('msal:loginSuccess', (success) => {
+      this.getProfile();
+    });
   }
 
-  async signIn(): Promise<void> {
-    await this.authService.signIn();
+  getProfile(): void {
+    // @ts-ignore
+    const account = this.msalService.getAccount();
+    if (account !== null) {
+      this.name = account.name;
+      this.username = account.userName;
+      this.authenticated = true;
+    } else {
+      this.authenticated = false;
+    }
   }
 
   signOut(): void {
-    this.authService.signOut();
+    this.authenticated = false;
+    this.msalService.logout();
   }
 
+  async login(): Promise<void> {
+    this.msalService.loginPopup();
+  }
 }

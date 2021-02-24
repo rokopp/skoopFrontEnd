@@ -31,4 +31,3 @@ deploy skoop:
   only:
     - develop
     - master
-

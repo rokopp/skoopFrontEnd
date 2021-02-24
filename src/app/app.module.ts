@@ -23,10 +23,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { CreateMapComponent } from './components/create-map/create-map.component';
 import { LocationSetsComponent } from './components/location-sets/location-sets.component';
 import { QuestionSetsComponent } from './components/question-sets/question-sets.component';
-import { LoginComponent } from './components/login/login.component';
-import { HttpClientModule} from '@angular/common/http';
-import { AlertsComponent } from './components/alerts/alerts.component';
-import { MsalModule } from '@azure/msal-angular';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { OAuthSettings } from './components/oauth/oauth';
 import {CommonModule} from '@angular/common';
 import { SimpleNotificationsModule } from 'angular2-notifications';
@@ -34,6 +31,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 @NgModule({
   declarations: [
     AppComponent,
+    HeaderComponent,
     NavbarComponent,
     QuestionsanswersComponent,
     GreetingComponent,
@@ -44,15 +42,9 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
     GoPlayRoomsComponent,
     UsersRoomsComponent,
     CreateMapComponent,
-    LoginComponent,
-    AlertsComponent,
     QuestionSetComponent,
-    UsersRoomsComponent,
     LocationSetsComponent,
     QuestionSetsComponent,
-    CreateMapComponent,
-    LoginComponent,
-    AlertsComponent
   ],
     imports: [
       BrowserModule,
@@ -68,15 +60,24 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
       MatIconModule,
       CommonModule,
       SimpleNotificationsModule.forRoot(),
-        MsalModule.forRoot({
-          auth: {
-            clientId: OAuthSettings.appId,
-            authority: OAuthSettings.tenantID,
-            redirectUri: OAuthSettings.redirectUri
-          }
-        })
+      MsalModule
     ],
-  providers: [],
+  providers: [
+    {
+      provide: MSAL_CONFIG,
+      useFactory: MSALConfigFactory
+    },
+    {
+      provide: MSAL_CONFIG_ANGULAR,
+      useFactory: MSALAngularConfigFactory
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MsalInterceptor,
+      multi: true
+    },
+    MsalService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
