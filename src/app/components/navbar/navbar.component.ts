@@ -32,11 +32,6 @@ export class NavbarComponent implements OnInit {
       this.authenticated = true;
     } else {
       this.authenticated = false;
-
-      this.name = 'account.name';
-      this.username = 'account.userName';
-      this.authenticated = true;
-
     }
   }
 
