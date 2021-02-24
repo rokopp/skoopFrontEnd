@@ -6,8 +6,14 @@ h1 {
 }
 
 .container {
-  margin-top: 50px;
-  padding-bottom: 50px;
   background-color: #000000;
   opacity: 70%;
+}
+@media (max-width: 600px) {
+  h1 {
+    font-size: 20px;
+  }
+  h2 {
+    font-size: 15px;
+  }
 }

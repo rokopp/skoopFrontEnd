@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/header/header.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuestionsanswersComponent } from './components/questionsanswers/questionsanswers.component';
@@ -27,41 +26,7 @@ import { QuestionSetsComponent } from './components/question-sets/question-sets.
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { OAuthSettings } from './components/oauth/oauth';
 import {CommonModule} from '@angular/common';
-import {
-  MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
-  MsalAngularConfiguration,
-  MsalInterceptor,
-  MsalModule,
-  MsalService
-} from '@azure/msal-angular';
-import {Configuration} from 'msal';
-
-export const protectedResourceMap: [string, string[]][] = [
-  ['https://graph.microsoft.com/beta/', ['user.read']]
-];
-
-function MSALConfigFactory(): Configuration {
-  return {
-    auth: {
-      clientId: OAuthSettings.appId,
-      authority: OAuthSettings.tenantID,
-      validateAuthority: true,
-      redirectUri: OAuthSettings.redirectUri,
-      postLogoutRedirectUri: 'https://skoop.cs.taltech.ee/avaleht',
-      navigateToLoginRequestUrl: true,
-    },
-    cache: {
-      storeAuthStateInCookie: false,
-    }
-  };
-}
-
-function MSALAngularConfigFactory(): MsalAngularConfiguration {
-  return {
-    popUp: true,
-    protectedResourceMap
-  };
-}
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 @NgModule({
   declarations: [
@@ -94,6 +59,7 @@ function MSALAngularConfigFactory(): MsalAngularConfiguration {
       MatChipsModule,
       MatIconModule,
       CommonModule,
+      SimpleNotificationsModule.forRoot(),
       MsalModule
     ],
   providers: [

@@ -10,7 +10,6 @@ export const OAuthSettings = {
   scopes: [
     'openid',
     'user.read',
-    'profile'
   ]
 };
 // oauth

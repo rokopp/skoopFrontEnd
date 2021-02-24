@@ -1,7 +1,7 @@
-<div id="mainContainer" class="container-fluid p-0" [ngStyle]="{'background-image': 'url(' + bgImage + ')'}">
+<div id="mainContainer" class="container-fluid p-0" [attr.setImg]='setBgImg()'>
   <div class="row m-0">
     <div class="col-12 p-0">
-      <app-header></app-header>
+      <app-navbar></app-navbar>
     </div>
   </div>
   <router-outlet ></router-outlet>
