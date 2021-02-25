@@ -9,18 +9,18 @@ import {BroadcastService, MsalService} from '@azure/msal-angular';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private http: HttpClient, private msalService: MsalService, private broadcastService: BroadcastService) {
-  }
+  // constructor(private http: HttpClient, private msalService: MsalService, private broadcastService: BroadcastService) {
+  // }
   name: string;
   username: string;
   authenticated: boolean;
 
 
   ngOnInit(): void {
-   this.getProfile();
-   this.broadcastService.subscribe('msal:loginSuccess', (success) => {
-      this.getProfile();
-    });
+   // this.getProfile();
+   // this.broadcastService.subscribe('msal:loginSuccess', (success) => {
+   //    this.getProfile();
+   //  });
   }
 
   getProfile(): void {
@@ -35,12 +35,12 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  signOut(): void {
-    this.authenticated = false;
-    this.msalService.logout();
-  }
-
-  async login(): Promise<void> {
-    this.msalService.loginPopup();
-  }
+  // signOut(): void {
+  //   this.authenticated = false;
+  //   this.msalService.logout();
+  // }
+  //
+  // async login(): Promise<void> {
+  //   this.msalService.loginPopup();
+  // }
 }
