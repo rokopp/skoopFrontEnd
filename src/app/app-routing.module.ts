@@ -13,6 +13,8 @@ import {UsersRoomsComponent} from './components/users-rooms/users-rooms.componen
 import {QuestionSetComponent} from './components/question-set/question-set.component';
 import {QuestionSetsComponent} from './components/question-sets/question-sets.component';
 import {MsalGuard} from '@azure/msal-angular';
+import {NotfoundComponent} from './components/notfound/notfound.component';
+import {PathResolveService} from './services/path-resolve.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},
@@ -31,6 +33,11 @@ const routes: Routes = [
   { path: 'tiimiregamine', component: GoPlayRoomsComponent},
   { path: 'questionsets/:id/:name', component: QuestionSetComponent},
   { path: 'questionsets', component: QuestionSetsComponent},
+  { path: '**',
+    resolve: {
+      path: PathResolveService
+    },
+    component: NotfoundComponent}
 ];
 
 
