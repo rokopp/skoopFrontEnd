@@ -2,7 +2,7 @@
   <a class="navbar-brand" routerLink="/avaleht">
     <img src="assets/logo_white.png" alt="" style="width: 155px">
   </a>
-  <a class="navbar-toggler collapsed border-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+  <a #navbarToggler class="navbar-toggler collapsed border-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
     <span> </span>
     <span> </span>
     <span> </span>
@@ -11,16 +11,16 @@
   <div class="collapse navbar-collapse mx-auto" id="navbarSupportedContent">
     <ul class="navbar-nav mx-auto snip1135">
       <li class="nav-item mr-sm-5" [routerLinkActive]="['current']">
-        <a class="btn" data-hover="Avaleht" routerLink="/avaleht" data-toggle="collapse" data-target="#navbarSupportedContent">Avaleht</a>
+        <a class="btn" data-hover="Avaleht" routerLink="/avaleht" (click)="collapseNav()">Avaleht</a>
       </li>
       <li class="nav-item mr-sm-5" [routerLinkActive]="['current']">
-        <a class="btn" data-hover="Mängima" routerLink="/mang" data-toggle="collapse" data-target="#navbarSupportedContent">Mängima</a>
+        <a class="btn" data-hover="Mängima" routerLink="/mang" (click)="collapseNav()">Mängima</a>
       </li>
       <li class="nav-item mr-sm-5" [routerLinkActive]="['current']">
-        <a class="btn" data-hover="KKK" routerLink="/kkk" data-toggle="collapse" data-target="#navbarSupportedContent" >KKK</a>
+        <a class="btn" data-hover="KKK" routerLink="/kkk" (click)="collapseNav()" >KKK</a>
       </li>
       <li class="nav-item mr-sm-5" [routerLinkActive]="['current']">
-        <a class="btn" data-hover="Kontakt" routerLink="/kontakt" data-toggle="collapse" data-target="#navbarSupportedContent">Kontakt</a>
+        <a class="btn" data-hover="Kontakt" routerLink="/kontakt" (click)="collapseNav()">Kontakt</a>
       </li>
       <li *ngIf="authenticated" class="nav-item dropdown mr-sm-5">
         <a class="nav-link dropdown-toggle text-center" href="#" id="logoutdropdown" role="button" data-toggle="dropdown"

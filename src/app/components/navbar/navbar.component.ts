@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BroadcastService, MsalService} from '@azure/msal-angular';
 
@@ -8,6 +8,7 @@ import {BroadcastService, MsalService} from '@azure/msal-angular';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  @ViewChild('navbarToggler') navbarToggler: ElementRef;
 
   // constructor(private http: HttpClient, private msalService: MsalService, private broadcastService: BroadcastService) {
   // }
@@ -43,4 +44,14 @@ export class NavbarComponent implements OnInit {
   // async login(): Promise<void> {
   //   this.msalService.loginPopup();
   // }
+
+  navBarTogglerIsVisible(): boolean {
+    return this.navbarToggler.nativeElement.offsetParent !== null;
+  }
+
+  collapseNav(): void {
+    if (this.navBarTogglerIsVisible()) {
+      this.navbarToggler.nativeElement.click();
+    }
+  }
 }
