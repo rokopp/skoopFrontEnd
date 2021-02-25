@@ -1,14 +1,15 @@
-import { Room } from './../../room';
-import { RoomService } from './../../services/room.service';
-import { PairService } from './../../services/pair.service';
+import { Room } from '../../room';
+import { RoomService } from '../../services/room.service';
+import { PairService } from '../../services/pair.service';
 import { Component, OnInit } from '@angular/core';
 import {Pair} from '../../pair';
+import {BackgroundImageChangeService} from '../../services/background-image-change.service';
 
 
 @Component({
   selector: 'app-users-rooms',
   templateUrl: './users-rooms.component.html',
-  styleUrls: ['./users-rooms.component.css']
+  styleUrls: ['./users-rooms.component.css', '../../app.component.css']
 })
 export class UsersRoomsComponent implements OnInit {
   data: Array<any>;
@@ -16,7 +17,8 @@ export class UsersRoomsComponent implements OnInit {
   creatorAccountId = 1; // TODO: Get id from logged-in account
   id = 1;
 
-  constructor(private pairService: PairService, private roomservice: RoomService) {
+  constructor(private pairService: PairService, private roomservice: RoomService,
+              public bgService: BackgroundImageChangeService) {
   }
 
   ngOnInit(): void {
