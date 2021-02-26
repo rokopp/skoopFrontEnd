@@ -2,18 +2,19 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {Questionset} from '../../questionset';
 import {QuestionsetsService} from '../../services/questionsets.service';
+import {BackgroundImageChangeService} from '../../services/background-image-change.service';
 
 @Component({
   selector: 'app-question-sets',
   templateUrl: './question-sets.component.html',
-  styleUrls: ['./question-sets.component.css']
+  styleUrls: ['./question-sets.component.css', '../../app.component.css']
 })
 export class QuestionSetsComponent implements OnInit, OnDestroy {
   data: Questionset[];
   creatorId = 1;
   private subscriptions: Subscription[] = [];
 
-  constructor(private questionSetsService: QuestionsetsService) {
+  constructor(private questionSetsService: QuestionsetsService, public bgService: BackgroundImageChangeService) {
   }
 
   ngOnInit(): void {
