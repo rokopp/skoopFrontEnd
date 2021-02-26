@@ -11,22 +11,17 @@
   <div class="collapse navbar-collapse w-100 order-1 snip1135" id="navbarSupportedContent">
     <ul class="navbar-nav mx-auto">
       <li class="nav-item mr-sm-5" [routerLinkActive]="['current']">
-        <a class="btn" data-hover="Avaleht" routerLink="/avaleht" data-toggle="collapse" data-target="#navbarSupportedContent">Avaleht</a>
+        <a class="btn" data-hover="Avaleht" routerLink="/avaleht" (click)="collapseNav()">Avaleht</a>
       </li>
       <li class="nav-item mr-sm-5" [routerLinkActive]="['current']">
-        <a class="btn" data-hover="Mängima" routerLink="/mang" data-toggle="collapse" data-target="#navbarSupportedContent">Mängima</a>
+        <a class="btn" data-hover="Mängima" routerLink="/mang" (click)="collapseNav()">Mängima</a>
       </li>
       <li class="nav-item mr-sm-5" [routerLinkActive]="['current']">
-        <a class="btn" data-hover="KKK" routerLink="/kkk" data-toggle="collapse" data-target="#navbarSupportedContent" >KKK</a>
+        <a class="btn" data-hover="KKK" routerLink="/kkk" (click)="collapseNav()" >KKK</a>
       </li>
       <li class="nav-item mr-sm-5" [routerLinkActive]="['current']">
-        <a class="btn" data-hover="Kontakt" routerLink="/kontakt" data-toggle="collapse" data-target="#navbarSupportedContent">Kontakt</a>
+        <a class="btn" data-hover="Kontakt" routerLink="/kontakt" (click)="collapseNav()">Kontakt</a>
       </li>
-
-    </ul>
-  </div>
-  <div class="collapse navbar-collapse mx-auto w-auto order-3" id="navbarSupportedContent2">
-    <ul class="navbar-nav mx-auto">
       <li *ngIf="authenticated" class="nav-item dropdown mr-sm-5">
         <a class="btn profile" href="#" id="logoutdropdown" role="button" data-toggle="dropdown"
            aria-haspopup="true" aria-expanded="false">
