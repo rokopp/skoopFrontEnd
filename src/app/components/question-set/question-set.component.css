@@ -29,3 +29,31 @@ h1 {
 .btn {
   width: 150px;
 }
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 30px;
+  }
+}
+@media (max-width: 992px) {
+  .row-height {
+    height: 120px;
+  }
+}
+@media (max-width: 440px) {
+  .margin-t2 {
+    margin-top: calc(1rem * .5) !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .margin-t2-btn {
+    margin-top: calc(1rem * .5) !important;
+  }
+}
+
+@media (min-width: 450px) {
+  .margin-l2-btn {
+    margin-left: calc(1rem * .5) !important;
+  }
+}
