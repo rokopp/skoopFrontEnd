@@ -10,18 +10,18 @@ import {BroadcastService, MsalService} from '@azure/msal-angular';
 export class NavbarComponent implements OnInit {
   @ViewChild('navbarToggler') navbarToggler: ElementRef;
 
-  constructor(private http: HttpClient, private msalService: MsalService, private broadcastService: BroadcastService) {
-  }
+  // constructor(private http: HttpClient, private msalService: MsalService, private broadcastService: BroadcastService) {
+  // }
   name: string;
   username: string;
   authenticated: boolean;
 
 
   ngOnInit(): void {
-   this.getProfile();
-   this.broadcastService.subscribe('msal:loginSuccess', (success) => {
-      this.getProfile();
-    });
+   // this.getProfile();
+   // this.broadcastService.subscribe('msal:loginSuccess', (success) => {
+   //    this.getProfile();
+   //  });
   }
 
   getProfile(): void {
@@ -37,13 +37,13 @@ export class NavbarComponent implements OnInit {
   }
 
   signOut(): void {
-    this.authenticated = false;
-    this.msalService.logout();
+    // this.authenticated = false;
+    // this.msalService.logout();
   }
 
-  async login(): Promise<void> {
-    this.msalService.loginPopup();
-  }
+  // async login(): Promise<void> {
+  //   this.msalService.loginPopup();
+  // }
 
   navBarTogglerIsVisible(): boolean {
     return this.navbarToggler.nativeElement.offsetParent !== null;
