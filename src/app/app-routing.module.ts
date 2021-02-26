@@ -13,6 +13,7 @@ import {UsersRoomsComponent} from './components/users-rooms/users-rooms.componen
 import {QuestionSetComponent} from './components/question-set/question-set.component';
 import {QuestionSetsComponent} from './components/question-sets/question-sets.component';
 import {MsalGuard} from '@azure/msal-angular';
+import {NotfoundComponent} from './components/notfound/notfound.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},
@@ -28,9 +29,10 @@ const routes: Routes = [
   { path: 'ruumid', component: UsersRoomsComponent},
   { path: 'ruumid/:id', component: CreateNewRoomComponent},
 //  { path: 'kasutaja', component: UserProfileComponent},
-  { path: 'tiimiregamine', component: GoPlayRoomsComponent},
+  { path: 'tiimiRegamine', component: GoPlayRoomsComponent},
   { path: 'questionsets/:id/:name', component: QuestionSetComponent},
   { path: 'questionsets', component: QuestionSetsComponent},
+  { path: '**', component: NotfoundComponent}
 ];
 
 

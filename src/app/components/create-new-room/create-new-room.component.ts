@@ -1,7 +1,7 @@
-import { PairDetail } from './../../pairDetails';
-import { Location } from './../../location';
-import { LocationService } from './../../services/location.service';
-import { QuestionService } from './../../services/question.service';
+import { PairDetail } from '../../pairDetails';
+import { Location } from '../../location';
+import { LocationService } from '../../services/location.service';
+import { QuestionService } from '../../services/question.service';
 import { ActivatedRoute } from '@angular/router';
 import { LocationsetsService } from '../../services/locationsets.service';
 import { QuestionsetsService } from '../../services/questionsets.service';
@@ -13,12 +13,13 @@ import { Location as URL } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Question } from 'src/app/question';
 import { NotificationsService} from 'angular2-notifications';
+import {BackgroundImageChangeService} from "../../services/background-image-change.service";
 
 
 @Component({
   selector: 'app-create-new-room',
   templateUrl: './create-new-room.component.html',
-  styleUrls: ['./create-new-room.component.css']
+  styleUrls: ['./create-new-room.component.css', '../../app.component.css']
 })
 export class CreateNewRoomComponent implements OnInit {
   questionSetdata: Questionset[] = [];
@@ -41,6 +42,7 @@ export class CreateNewRoomComponent implements OnInit {
               private pairS: PairService,
               private activatedroute: ActivatedRoute,
               private nService: NotificationsService,
+              public bgService: BackgroundImageChangeService
   ) {
     this.currentId = this.activatedroute.snapshot.paramMap.get('id');
   }

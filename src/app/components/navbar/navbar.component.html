@@ -1,15 +1,15 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" routerLink="/avaleht">
+  <a class="navbar-brand order-0" routerLink="/avaleht">
     <img src="assets/logo_white.png" alt="" style="width: 155px">
   </a>
-  <a #navbarToggler class="navbar-toggler collapsed border-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+  <a class="navbar-toggler collapsed border-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent,#navbarSupportedContent2">
     <span> </span>
     <span> </span>
     <span> </span>
   </a>
 
-  <div class="collapse navbar-collapse mx-auto" id="navbarSupportedContent">
-    <ul class="navbar-nav mx-auto snip1135">
+  <div class="collapse navbar-collapse w-100 order-1 snip1135" id="navbarSupportedContent">
+    <ul class="navbar-nav mx-auto">
       <li class="nav-item mr-sm-5" [routerLinkActive]="['current']">
         <a class="btn" data-hover="Avaleht" routerLink="/avaleht" (click)="collapseNav()">Avaleht</a>
       </li>
@@ -23,14 +23,15 @@
         <a class="btn" data-hover="Kontakt" routerLink="/kontakt" (click)="collapseNav()">Kontakt</a>
       </li>
       <li *ngIf="authenticated" class="nav-item dropdown mr-sm-5">
-        <a class="nav-link dropdown-toggle text-center" href="#" id="logoutdropdown" role="button" data-toggle="dropdown"
+        <a class="btn profile" href="#" id="logoutdropdown" role="button" data-toggle="dropdown"
            aria-haspopup="true" aria-expanded="false">
-          <!--          {{user.username}} {{user.email}}-->
-          Bob <br>
-          Bob@ttu.ee
+          {{name}}
+          <span class="dropdown-toggle"></span>
         </a>
-        <div class="dropdown-menu" aria-labelledby="logoutdropdown">
-          <a class="dropdown-item text-dark" (click)="signOut()">Logi välja</a>
+        <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="logoutdropdown">
+          <a class="dropdown-item text-dark text-center" routerLink="/ruumid">Loo Ruum</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-dark text-center" (click)="signOut()">Logi välja</a>
         </div>
       </li>
       <li *ngIf="!authenticated" class="nav-item">
@@ -39,20 +40,3 @@
     </ul>
   </div>
 </nav>
-
-  <!--    Let it be for merge-->
-
-  <!--    <div class="col-lg-3 col-md my-auto">-->
-  <!--      <ul class="navbar-nav">-->
-  <!--        <li *ngIf="authenticated" class="nav-item">-->
-  <!--          <div  aria-labelledby="userMenu" class="dropdown-menu-right">-->
-  <!--            <h5 class="dropdown-item-text mb-0">{{name}}</h5>-->
-  <!--            <p class="dropdown-item-text text-muted mb-0">{{username}}</p>-->
-  <!--            <button class="btn btn-link nav-link border-0" role="button" (click)="signOut()">Logi välja</button>-->
-  <!--          </div>-->
-  <!--        </li>-->
-  <!--        <li *ngIf="!authenticated" class="nav-item">-->
-  <!--          <button class="btn btn-link nav-link border-0" role="button" (click)="login()">Logi sisse</button>-->
-  <!--        </li>-->
-  <!--      </ul>-->
-  <!--    </div>-->
