@@ -25,6 +25,6 @@ export class QuestionsanswersComponent implements OnInit {
     if (this.innerWidth < 990) {
       return 'col-10 ml-3 mt-3';
     }
-    return 'col-12 ml-5 mt-5';
+    return 'col-12 mt-5';
   }
 }
