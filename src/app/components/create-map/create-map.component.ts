@@ -68,7 +68,7 @@ export class CreateMapComponent implements OnInit {
       locations.forEach(location => {
         // this.locations.push(location);
         if (location.locationSetId.toString() === this.locationSetId){
-          console.log(this.addNewLocation(location));
+          this.addNewLocation(location);
         }
       }));
   }
@@ -105,7 +105,6 @@ export class CreateMapComponent implements OnInit {
     });
   }
   createMarekrs(Lon, Lat, Id): Feature{
-    console.log(Lon, Lat);
     const marker = new Feature({
       geometry: new Point(fromLonLat([Lon, Lat])),
       name: 'marker'

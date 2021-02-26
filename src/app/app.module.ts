@@ -26,40 +26,41 @@ import { QuestionSetsComponent } from './components/question-sets/question-sets.
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import { SimpleNotificationsModule } from 'angular2-notifications';
-import {
-  MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
-  MsalService, MsalModule, MsalAngularConfiguration, MsalInterceptor
-} from '@azure/msal-angular';
-import {OAuthSettings} from './components/oauth/oauth';
-import {Configuration} from 'msal';
-
-
-export const protectedResourceMap: [string, string[]][] = [
-  ['https://graph.microsoft.com/beta/', ['user.read']]
-];
-
-function MSALConfigFactory(): Configuration {
-  return {
-    auth: {
-      clientId: OAuthSettings.appId,
-      authority: OAuthSettings.tenantID,
-      validateAuthority: true,
-      redirectUri: OAuthSettings.redirectUri,
-      postLogoutRedirectUri: 'https://skoop.cs.taltech.ee/avaleht',
-      navigateToLoginRequestUrl: true,
-    },
-    cache: {
-      storeAuthStateInCookie: false,
-    }
-  };
-}
-
-function MSALAngularConfigFactory(): MsalAngularConfiguration {
-  return {
-    popUp: true,
-    protectedResourceMap
-  };
-}
+import { NotfoundComponent } from './components/notfound/notfound.component';
+// import {
+//   MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
+//   MsalService, MsalModule, MsalAngularConfiguration, MsalInterceptor
+// } from '@azure/msal-angular';
+// import {OAuthSettings} from './components/oauth/oauth';
+// import {Configuration} from 'msal';
+//
+//
+// export const protectedResourceMap: [string, string[]][] = [
+//   ['https://graph.microsoft.com/beta/', ['user.read']]
+// ];
+//
+// function MSALConfigFactory(): Configuration {
+//   return {
+//     auth: {
+//       clientId: OAuthSettings.appId,
+//       authority: OAuthSettings.tenantID,
+//       validateAuthority: true,
+//       redirectUri: OAuthSettings.redirectUri,
+//       postLogoutRedirectUri: 'https://skoop.cs.taltech.ee/avaleht',
+//       navigateToLoginRequestUrl: true,
+//     },
+//     cache: {
+//       storeAuthStateInCookie: false,
+//     }
+//   };
+// }
+//
+// function MSALAngularConfigFactory(): MsalAngularConfiguration {
+//   return {
+//     popUp: true,
+//     protectedResourceMap
+//   };
+// }
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ function MSALAngularConfigFactory(): MsalAngularConfiguration {
     QuestionSetComponent,
     LocationSetsComponent,
     QuestionSetsComponent,
+    NotfoundComponent,
   ],
     imports: [
       BrowserModule,
@@ -92,23 +94,23 @@ function MSALAngularConfigFactory(): MsalAngularConfiguration {
       MatIconModule,
       CommonModule,
       SimpleNotificationsModule.forRoot(),
-      MsalModule
+      // MsalModule
     ],
   providers: [
-    {
-      provide: MSAL_CONFIG,
-      useFactory: MSALConfigFactory
-    },
-    {
-      provide: MSAL_CONFIG_ANGULAR,
-      useFactory: MSALAngularConfigFactory
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MsalInterceptor,
-      multi: true
-    },
-    MsalService
+    // {
+    //   provide: MSAL_CONFIG,
+    //   useFactory: MSALConfigFactory
+    // },
+    // {
+    //   provide: MSAL_CONFIG_ANGULAR,
+    //   useFactory: MSALAngularConfigFactory
+    // },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: MsalInterceptor,
+    //   multi: true
+    // },
+    // MsalService
   ],
   bootstrap: [AppComponent]
 })

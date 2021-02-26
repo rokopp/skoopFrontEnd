@@ -10,6 +10,8 @@ import { LocationService } from './../../services/location.service';
 import { FormBuilder, FormGroup} from '@angular/forms';
 import Map from 'ol/Map';
 import OSM from 'ol/source/OSM';
+import * as olSphere from 'ol/sphere';
+import {getDistance} from 'ol/sphere';
 import Geolocation from 'ol/Geolocation';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
@@ -19,6 +21,7 @@ import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import VectorSource from 'ol/source/Vector';
 import {Circle as CircleStyle, Fill, Stroke, Icon, Style} from 'ol/style';
 import { ActivatedRoute } from '@angular/router';
+import { L } from '@angular/cdk/keycodes';
 
 declare let $: any;
 
@@ -53,6 +56,7 @@ export class MapComponent implements OnInit {
   vectorLayer: any;
   tileLayer: any;
   quizopen = true;
+  answering = false;
   score = 0;
   amount = 0;
   geolocation;
@@ -80,6 +84,26 @@ export class MapComponent implements OnInit {
     this.updateMap();
   }
 
+  // Checks if there are any markers close enough to the player
+  public checkRadius(): void{
+    const features = this.vectorLayer.getSource().getFeatures();
+    features.forEach(element => {
+      const id = element.getId();
+      if (id !== undefined && id !== -1 && !this.answering) {
+        const player = this.player.getGeometry().getCoordinates();
+        const point = element.getGeometry().getClosestPoint(this.player.getGeometry().getCoordinates());
+        const xdif = Math.pow(player[0] - point[0], 2);
+        const ydif = Math.pow(player[1] - point[1], 2);
+        const distance = Math.pow(xdif + ydif, 0.5);
+        if (distance <= 100){
+          this.answering = true;
+          this.getQuestion(element.get('QuestionId'), element);
+        }
+        }
+    });
+
+  }
+
   // Checks if current questions answer is correct
   public checkanswer(): void{
     if (this.selectedAnswer.trim() === this.answer.trim()){
@@ -91,6 +115,7 @@ export class MapComponent implements OnInit {
       this.quizopen = false;
     }else{
       $(this.modal.nativeElement).modal('hide');
+      this.answering = false;
     }
   }
 
@@ -110,7 +135,10 @@ export class MapComponent implements OnInit {
       const coordinates = this.geolocation.getPosition();
       this.player.setGeometry(coordinates ? new Point(coordinates) : null);
       this.map.getView().setCenter(fromLonLat(coordinates, 'EPSG:4326', 'EPSG:3857'));
-      this.geolocation.setTracking(false);
+      if (!this.answering){
+        this.checkRadius();
+      }
+      // this.geolocation.setTracking(false);
     });
   }
 
@@ -175,6 +203,7 @@ export class MapComponent implements OnInit {
     marker.setId(Id);
     marker.set('QuestionId', qID);
     this.vectorSource.addFeature(marker);
+    this.checkRadius();
   }
 
   private showModal(): void{
