@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {BackgroundImageChangeService} from '../../services/background-image-change.service';
-import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-greeting',
@@ -8,14 +7,9 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./greeting.component.css', '../../app.component.css']
 })
 export class GreetingComponent implements OnInit {
-  public myItems;
-  constructor(public bgService: BackgroundImageChangeService, private activatedRoute: ActivatedRoute) { }
+
+  constructor(public bgService: BackgroundImageChangeService) { }
 
   ngOnInit(): void {
-    this.activatedRoute.snapshot.data.itemsList
-      .subscribe(res => {
-        console.log({ res });
-        this.myItems = res;
-      });
   }
 }

@@ -30,6 +30,7 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import {LoadingScreenService} from "./services/loading-screen.service";
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import {LoadingPageResolver} from "./resolver/loading-page-resolver.service";
+import {LoaderInterceptorService} from "./services/loader-interceptor.service";
 // import {
 //   MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
 //   MsalService, MsalModule, MsalAngularConfiguration, MsalInterceptor
@@ -116,7 +117,12 @@ import {LoadingPageResolver} from "./resolver/loading-page-resolver.service";
     // },
     // MsalService
     LoadingScreenService,
-    LoadingPageResolver
+    LoadingPageResolver,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

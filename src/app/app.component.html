@@ -1,9 +1,9 @@
+<app-loading-screen *ngIf="show"></app-loading-screen>
 <div id="mainContainer" class="container-fluid p-0" [attr.setImg]='setBgImg()'>
   <div class="row m-0">
     <div class="col-12 p-0">
       <app-navbar></app-navbar>
     </div>
   </div>
-  <router-outlet ></router-outlet>
-  <app-loading-screen></app-loading-screen>
+  <router-outlet></router-outlet>
 </div>

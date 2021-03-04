@@ -11,7 +11,6 @@ export class LoadingPageResolver implements Resolve<any> {
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Observable<any>> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        this.loadingScreenService.stop();
         resolve();
       }, 3500);
     });

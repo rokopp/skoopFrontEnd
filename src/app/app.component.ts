@@ -1,5 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivationEnd, Router} from '@angular/router';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivationEnd, Router, RouterEvent} from '@angular/router';
+import {LoadingScreenService} from './services/loading-screen.service';
+import {Subscription} from 'rxjs';
+import {LoaderState} from './loader';
 
 
 @Component({
@@ -7,8 +10,10 @@ import {ActivationEnd, Router} from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   private getComponent: string;
+  show = false;
+  private subscription: Subscription;
 
   setBgImg(): string {
     if (this.getComponent === 'GreetingComponent') {
@@ -26,8 +31,10 @@ export class AppComponent implements OnInit {
     }
   }
 
-  constructor(private router: Router) {
-    router.events.subscribe((val) => {
+  constructor(private router: Router, private loadingScreenService: LoadingScreenService,
+              private changeDetectorRef: ChangeDetectorRef,
+  ) {
+    router.events.subscribe((val: RouterEvent) => {
       if (val instanceof ActivationEnd) {
         if (typeof val.snapshot.component !== 'string') {
           this.getComponent = val.snapshot.component.name;
@@ -37,6 +44,15 @@ export class AppComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.subscription = this.loadingScreenService.loaderState
+      .subscribe((state: LoaderState) => {
+        this.show = state.show;
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

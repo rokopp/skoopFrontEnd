@@ -18,22 +18,22 @@ import {LoadingPageResolver} from './resolver/loading-page-resolver.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},
-  { path: 'avaleht', component: GreetingComponent, resolve: {LoadingPageResolver}},
-  { path: 'kkk', component: QuestionsanswersComponent, resolve: {LoadingPageResolver}},
-  { path: 'mang', component: RoomComponent, resolve: {LoadingPageResolver}},
-  { path: 'mang/:id', component: MapComponent, resolve: {  LoadingPageResolver}},
-  { path: 'kontakt', component: ContactComponent, resolve: {  LoadingPageResolver}},
-  { path: 'map', component: MapComponent, resolve: {  LoadingPageResolver}},
-  { path: 'createmap', component: CreateMapComponent, resolve: {  LoadingPageResolver}},
-  { path: 'createlocation', component: LocationSetsComponent, resolve: {  LoadingPageResolver}},
-  { path: 'createlocation/:id', component: CreateMapComponent, resolve: {  LoadingPageResolver}},
-  { path: 'ruumid', component: UsersRoomsComponent, resolve: {  LoadingPageResolver}},
-  { path: 'ruumid/:id', component: CreateNewRoomComponent, resolve: {  LoadingPageResolver}},
+  { path: 'avaleht', component: GreetingComponent},
+  { path: 'kkk', component: QuestionsanswersComponent, },
+  { path: 'mang', component: RoomComponent, },
+  { path: 'mang/:id', component: MapComponent,   },
+  { path: 'kontakt', component: ContactComponent,   },
+  { path: 'map', component: MapComponent,   },
+  { path: 'createmap', component: CreateMapComponent,   },
+  { path: 'createlocation', component: LocationSetsComponent,   },
+  { path: 'createlocation/:id', component: CreateMapComponent,   },
+  { path: 'ruumid', component: UsersRoomsComponent,   },
+  { path: 'ruumid/:id', component: CreateNewRoomComponent,   },
 //  { path: 'kasutaja', component: UserProfileComponent},
-  { path: 'tiimiRegamine', component: GoPlayRoomsComponent, resolve: {  LoadingPageResolver}},
-  { path: 'questionsets/:id/:name', component: QuestionSetComponent, resolve: {  LoadingPageResolver}},
-  { path: 'questionsets', component: QuestionSetsComponent, resolve: {  LoadingPageResolver}},
-  { path: '**', component: NotfoundComponent, resolve: {  LoadingPageResolver}}
+  { path: 'tiimiRegamine', component: GoPlayRoomsComponent,   },
+  { path: 'questionsets/:id/:name', component: QuestionSetComponent,   },
+  { path: 'questionsets', component: QuestionSetsComponent,   },
+  { path: '**', component: NotfoundComponent,   }
 ];
 
 

@@ -26,8 +26,6 @@ export class LoadingScreenComponent implements OnInit {
   constructor(private loadingScreenService: LoadingScreenService) { }
 
   ngOnInit(): void {
-    this.loadingScreenService.subscribe(res => {
-      this.hideSplashAnimation();
-    });
   }
+
 }
