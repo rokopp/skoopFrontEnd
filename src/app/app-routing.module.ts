@@ -12,9 +12,7 @@ import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.com
 import {UsersRoomsComponent} from './components/users-rooms/users-rooms.component';
 import {QuestionSetComponent} from './components/question-set/question-set.component';
 import {QuestionSetsComponent} from './components/question-sets/question-sets.component';
-import {MsalGuard} from '@azure/msal-angular';
 import {NotfoundComponent} from './components/notfound/notfound.component';
-import {LoadingPageResolver} from './resolver/loading-page-resolver.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},

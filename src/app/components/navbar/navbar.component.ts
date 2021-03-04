@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BroadcastService, MsalService} from '@azure/msal-angular';
 
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',

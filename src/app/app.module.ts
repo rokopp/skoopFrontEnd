@@ -27,10 +27,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { NotfoundComponent } from './components/notfound/notfound.component';
-import {LoadingScreenService} from "./services/loading-screen.service";
+import {LoadingScreenService} from './services/loading-screen.service';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
-import {LoadingPageResolver} from "./resolver/loading-page-resolver.service";
-import {LoaderInterceptorService} from "./services/loader-interceptor.service";
+import {LoaderInterceptorService} from './services/loader-interceptor.service';
 // import {
 //   MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
 //   MsalService, MsalModule, MsalAngularConfiguration, MsalInterceptor
@@ -65,7 +64,6 @@ import {LoaderInterceptorService} from "./services/loader-interceptor.service";
 //     protectedResourceMap
 //   };
 // }
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -117,7 +115,6 @@ import {LoaderInterceptorService} from "./services/loader-interceptor.service";
     // },
     // MsalService
     LoadingScreenService,
-    LoadingPageResolver,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptorService,
