@@ -17,9 +17,8 @@ build skoop:
     - npm install
     - npm run build
   only:
-    - OAuth-disabled
-#    - develop
-#    - master
+    - develop
+    - master
 
 deploy skoop:
   stage: deploy
@@ -30,6 +29,5 @@ deploy skoop:
     - rm -rf ~/front-deployment/*
     - cp -r dist/skoop-front-end/. ~/front-deployment
   only:
-    - OAuth-disabled
-#    - develop
-#    - master
+    - develop
+    - master
