@@ -1,3 +1,4 @@
+import { MapControl } from './map-control';
 import { Location } from './../../location';
 import { LocationService } from './../../services/location.service';
 import { Component, OnInit } from '@angular/core';
@@ -16,6 +17,8 @@ import VectorSource from 'ol/source/Vector';
 import {Circle as CircleStyle, Fill, Stroke, Icon, Style} from 'ol/style';
 import { ActivatedRoute } from '@angular/router';
 import {Location as URL} from '@angular/common';
+import {defaults as defaultControls} from 'ol/control';
+import {BackControl} from './back-control';
 
 declare let $: any;
 
@@ -53,12 +56,6 @@ export class CreateMapComponent implements OnInit {
   ngOnInit(): void {
     this.initializeMap();
     this.getAllLocations();
-  }
-  remove(): void{
-    this.action = 'remove';
-  }
-  add(): void{
-    this.action = 'add';
   }
   backClicked(): void{
     this._location.back();
@@ -150,10 +147,12 @@ export class CreateMapComponent implements OnInit {
     });
 
     this.map = new Map({
+      controls: defaultControls().extend([new MapControl(), new BackControl(this._location)]),
       target: 'map',
       layers: [this.tileLayer, this.vectorLayer],
       view: this.view,
     });
+    this.map.set('customMode', 'add');
 
     this.geolocation = new Geolocation({
       trackingOptions: {
@@ -180,6 +179,7 @@ export class CreateMapComponent implements OnInit {
     this.getlocation();
 
     this.map.on('click', (data) => {
+      this.action = this.map.get('customMode');
       const coordinates = transform(data.coordinate, 'EPSG:3857', 'EPSG:4326');
       const locationFormat = '{\"lat\" : ' + coordinates[1].toPrecision(9) + ', \"lng\" : ' + coordinates[0].toPrecision(9) + '}';
       if (this.action === 'add'){
@@ -198,7 +198,7 @@ export class CreateMapComponent implements OnInit {
           }
         );
       }else{
-        this.map.forEachFeatureAtPixel(data.pixel, (feature, layer) => {
+        this.map.forEachFeatureAtPixel(data.pixel, (feature) => {
           if (feature.getId() !== 0 && feature.getId() !== -1){
             this.locationService.removeLocation(feature.getId()).subscribe({
               error: error => {
