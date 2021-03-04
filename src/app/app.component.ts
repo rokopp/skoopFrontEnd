@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {
     router.events.subscribe((val) => {
       if (val instanceof ActivationEnd) {
-        if (typeof val.snapshot.component !== "string") {
+        if (typeof val.snapshot.component !== 'string') {
           this.getComponent = val.snapshot.component.name;
         }
         this.setBgImg();

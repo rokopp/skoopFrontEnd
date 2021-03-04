@@ -27,6 +27,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { NotfoundComponent } from './components/notfound/notfound.component';
+import {LoadingScreenService} from "./services/loading-screen.service";
+import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
+import {LoadingPageResolver} from "./resolver/loading-page-resolver.service";
 // import {
 //   MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
 //   MsalService, MsalModule, MsalAngularConfiguration, MsalInterceptor
@@ -79,6 +82,7 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
     LocationSetsComponent,
     QuestionSetsComponent,
     NotfoundComponent,
+    LoadingScreenComponent,
   ],
     imports: [
       BrowserModule,
@@ -111,6 +115,8 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
     //   multi: true
     // },
     // MsalService
+    LoadingScreenService,
+    LoadingPageResolver
   ],
   bootstrap: [AppComponent]
 })
