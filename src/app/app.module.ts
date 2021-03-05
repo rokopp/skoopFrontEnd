@@ -64,6 +64,7 @@ import {LoaderInterceptorService} from './services/loader-interceptor.service';
 //     protectedResourceMap
 //   };
 // }
+
 @NgModule({
   declarations: [
     AppComponent,
