@@ -17,7 +17,6 @@ export class NavbarComponent implements OnInit {
   username: string;
   authenticated: boolean;
 
-
   ngOnInit(): void {
    // this.getProfile();
    // this.broadcastService.subscribe('msal:loginSuccess', (success) => {
