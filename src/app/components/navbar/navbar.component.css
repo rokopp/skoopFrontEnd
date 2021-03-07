@@ -134,7 +134,7 @@
     height: 3px;
     width: 0%;
     content: "";
-    background-color: #2980b9;
+    background-color: white;
   }
 
   .snip1135 a:after {
@@ -217,3 +217,8 @@
 .profile:hover {
   color: #ffffff;
 }
+
+.background-gradient-pink {
+  background-image: linear-gradient(15deg, #E4067E 0%, #622168 100%);
+}
+
