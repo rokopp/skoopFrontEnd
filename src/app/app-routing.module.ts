@@ -12,27 +12,26 @@ import {GoPlayRoomsComponent} from './components/go-play-rooms/go-play-rooms.com
 import {UsersRoomsComponent} from './components/users-rooms/users-rooms.component';
 import {QuestionSetComponent} from './components/question-set/question-set.component';
 import {QuestionSetsComponent} from './components/question-sets/question-sets.component';
-import {MsalGuard} from '@azure/msal-angular';
 import {NotfoundComponent} from './components/notfound/notfound.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},
   { path: 'avaleht', component: GreetingComponent},
-  { path: 'kkk', component: QuestionsanswersComponent},
-  { path: 'mang', component: RoomComponent},
-  { path: 'mang/:id', component: MapComponent},
-  { path: 'kontakt', component: ContactComponent},
-  { path: 'map', component: MapComponent},
-  { path: 'createmap', component: CreateMapComponent},
-  { path: 'createlocation', component: LocationSetsComponent},
-  { path: 'createlocation/:id', component: CreateMapComponent },
-  { path: 'ruumid', component: UsersRoomsComponent},
-  { path: 'ruumid/:id', component: CreateNewRoomComponent},
+  { path: 'kkk', component: QuestionsanswersComponent, },
+  { path: 'mang', component: RoomComponent, },
+  { path: 'mang/:id', component: MapComponent,   },
+  { path: 'kontakt', component: ContactComponent,   },
+  { path: 'map', component: MapComponent,   },
+  { path: 'createmap', component: CreateMapComponent,   },
+  { path: 'createlocation', component: LocationSetsComponent,   },
+  { path: 'createlocation/:id', component: CreateMapComponent,   },
+  { path: 'ruumid', component: UsersRoomsComponent,   },
+  { path: 'ruumid/:id', component: CreateNewRoomComponent,   },
 //  { path: 'kasutaja', component: UserProfileComponent},
-  { path: 'tiimiRegamine', component: GoPlayRoomsComponent},
-  { path: 'questionsets/:id/:name', component: QuestionSetComponent},
-  { path: 'questionsets', component: QuestionSetsComponent},
-  { path: '**', component: NotfoundComponent}
+  { path: 'tiimiRegamine', component: GoPlayRoomsComponent,   },
+  { path: 'questionsets/:id/:name', component: QuestionSetComponent,   },
+  { path: 'questionsets', component: QuestionSetsComponent,   },
+  { path: '**', component: NotfoundComponent,   }
 ];
 
 
