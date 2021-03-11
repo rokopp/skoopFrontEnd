@@ -30,6 +30,7 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import {LoadingScreenService} from './services/loading-screen.service';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import {LoaderInterceptorService} from './services/loader-interceptor.service';
+import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 // import {
 //   MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
 //   MsalService, MsalModule, MsalAngularConfiguration, MsalInterceptor
@@ -83,6 +84,7 @@ import {LoaderInterceptorService} from './services/loader-interceptor.service';
     QuestionSetsComponent,
     NotfoundComponent,
     LoadingScreenComponent,
+    SplashScreenComponent,
   ],
     imports: [
       BrowserModule,
