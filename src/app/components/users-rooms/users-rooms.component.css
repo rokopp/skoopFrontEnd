@@ -25,7 +25,8 @@ table {
 
 .card {
   background: transparent;
-  border-color: transparent;
+  /*border-color: transparent;*/
+  border: 1px solid black;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
 }
