@@ -9,7 +9,9 @@ import {BackgroundImageChangeService} from '../../services/background-image-chan
 export class GreetingComponent implements OnInit {
 
   constructor(public bgService: BackgroundImageChangeService) { }
+  authenticated: boolean;
 
   ngOnInit(): void {
+    this.authenticated = false;
   }
 }

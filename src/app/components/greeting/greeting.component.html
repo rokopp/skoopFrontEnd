@@ -9,7 +9,7 @@
     <div class="col text-center">
       <button type="button" class="btn btn-dark rounded-pill" routerLink="/mang"><span>Liitu Ruumiga</span></button>
     </div>
-    <div class="col text-center">
+    <div *ngIf="authenticated" class="col text-center">
       <button type="button" class="btn btn-dark rounded-pill" routerLink="/ruumid"><span>Loo uus Ruum</span></button>
     </div>
     <div class="col-lg-3 col-md-2"></div>
