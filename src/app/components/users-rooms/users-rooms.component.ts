@@ -16,6 +16,7 @@ export class UsersRoomsComponent implements OnInit {
   rooms: Room[] = [];
   creatorAccountId = 1; // TODO: Get id from logged-in account
   id = 1;
+  gameName = '';
 
   constructor(private pairService: PairService, private roomservice: RoomService,
               public bgService: BackgroundImageChangeService) {

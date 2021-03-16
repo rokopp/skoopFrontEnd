@@ -148,4 +148,7 @@ input.question + label > span{
   border-color: #C9056F;
 }
 
-
+.search {
+  border: 1px solid black;
+  border-radius: 5px;
+}

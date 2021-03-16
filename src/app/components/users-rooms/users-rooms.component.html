@@ -30,6 +30,12 @@
 <!--      </div>-->
 <!--    </div>-->
 <!--  </div>-->
+  <div class="search mt-2">
+    <input type="search" placeholder="Otsi mängu...." [(ngModel)] = gameName>
+  </div>
+  <div>
+
+  </div>
   <div class="row" style="border-color: #343A40">
     <div class="col-md-3 col-sm-6 mt-3">
       <div class="card item-card card-block text-center" data-toggle="modal" data-target="#exampleModal">
@@ -72,7 +78,7 @@
     <!--              <td><button class="btn btn-danger" (click)="removeRoom(room)">Kustuta</button></td>-->
     <!--          </tr>-->
 
-    <div class="col-md-3 col-sm-6 mt-3" *ngFor="let room of rooms; index as i" [routerLink]="['/ruumid', room.id]">
+    <div class="col-md-3 col-sm-6 mt-3" *ngFor="let room of rooms| searchFilter: gameName; index as i" [routerLink]="['/ruumid', room.id]">
       <div class="card item-card card-block text-center">
         <div class="text-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
