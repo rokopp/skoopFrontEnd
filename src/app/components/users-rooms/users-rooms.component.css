@@ -35,10 +35,22 @@ table {
   cursor: pointer;
   box-shadow: 0 40px 60px -20px rgba(12, 5, 62, 0.15);
   margin: 2%;
-  font-size: 15px;}
+  font-size: 15px;
+}
 
-.card:hover path {
-  fill: yellow;
+
+svg path {
+  fill: #342b60;
+}
+
+#plus1, #plus2 {
+  fill: #333333;
+}
+
+.card:hover path,
+.card:hover #plus1,
+.card:hover #plus2{
+  fill: #D6097C;
 }
 
 h3 {
@@ -60,6 +72,7 @@ label {
   z-index: 10;
   color: #342b60;
 }
+
 
 span {
   font-weight: 800;
