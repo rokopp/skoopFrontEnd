@@ -169,3 +169,7 @@ input.question + label > span{
 #deleteRoom:hover {
   color: red;
 }
+
+#helpMe:hover {
+  color: blue;
+}

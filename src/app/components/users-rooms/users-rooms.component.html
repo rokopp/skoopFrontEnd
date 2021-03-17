@@ -4,11 +4,15 @@
     <label for="input"><span>Otsi mängu.....</span></label>
   </div>
   <div>
-
   </div>
   <div class="row" style="border-color: #343A40">
     <div class="col-md-3 col-sm-6 mt-3">
       <div class="card text-center" data-toggle="modal" data-target="#exampleModal">
+        <h4 id="helpMe" class="card-title text-right" data-toggle="tooltip" title='Ruumi loomiseks on vaja vajutada "+" märgile, seejärel tuleb ruumile nimi anda.... '>
+          <i class="material-icons">
+            help
+          </i>
+        </h4>
         <div class="text-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
             <path id="plus1" fill="#342b60" d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -54,7 +58,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Sulge</button>
-            <button type="button" class="btn btn-primary" (click)="addRoom()">Kustuta ruum</button>
+            <button type="button" class="btn btn-primary" (click)="removeRoom(deleteRoom)">Kustuta ruum</button>
           </div>
         </div>
       </div>
@@ -63,7 +67,7 @@
     <div class="col-md-3 col-sm-6 mt-3" *ngFor="let room of rooms| searchFilter: gameName |
     slice: (curPage * pageSize) - pageSize :curPage * pageSize; index as i" >
       <div class="card text-center">
-        <h4 class="card-title text-right"><i class="material-icons" id="deleteRoom" data-toggle="modal" data-target="#removeRoom">close</i></h4>
+        <h4 class="card-title text-right" (click)="confirmDelete(room)"><i class="material-icons" id="deleteRoom" data-toggle="modal" data-target="#removeRoom">close</i></h4>
         <div class="text-center" [routerLink]="['/ruumid', room.id]">
           <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" class="bi bi-pencil" viewBox="0 0 16 16">
             <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>

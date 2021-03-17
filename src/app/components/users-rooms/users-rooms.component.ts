@@ -17,6 +17,7 @@ export class UsersRoomsComponent implements OnInit {
   creatorAccountId = 1; // TODO: Get id from logged-in account
   id = 1;
   gameName = '';
+  deleteRoom: Room;
 
   curPage: number;
   pageSize: number;
@@ -76,5 +77,8 @@ export class UsersRoomsComponent implements OnInit {
   }
   numberOfPages(): number {
     return Math.ceil(this.rooms.length / this.pageSize);
+  }
+  confirmDelete(set: Room): void {
+    this.deleteRoom = set;
   }
 }
