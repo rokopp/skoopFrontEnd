@@ -18,6 +18,9 @@ export class UsersRoomsComponent implements OnInit {
   id = 1;
   gameName = '';
 
+  curPage: number;
+  pageSize: number;
+
   constructor(private pairService: PairService, private roomservice: RoomService,
               public bgService: BackgroundImageChangeService) {
   }
@@ -25,6 +28,9 @@ export class UsersRoomsComponent implements OnInit {
   ngOnInit(): void {
     this.getRooms();
     console.log(this.rooms);
+
+    this.curPage = 1;
+    this.pageSize = 5;
   }
   getRooms(): void{
     this.roomservice.getRooms().subscribe(room => {
@@ -67,5 +73,8 @@ export class UsersRoomsComponent implements OnInit {
           const errorMessage = error.message;
           console.error('Happened this during posting: ', errorMessage);
         });
+  }
+  numberOfPages(): number {
+    return Math.ceil(this.rooms.length / this.pageSize);
   }
 }

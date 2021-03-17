@@ -71,7 +71,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-3 col-sm-6 mt-3" *ngFor="let room of rooms| searchFilter: gameName; index as i" [routerLink]="['/ruumid', room.id]">
+    <div class="col-md-3 col-sm-6 mt-3" *ngFor="let room of rooms| searchFilter: gameName | slice: (curPage * pageSize) - pageSize :curPage * pageSize; index as i" [routerLink]="['/ruumid', room.id]">
       <div class="card text-center">
         <div class="text-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -84,4 +84,9 @@
     </div>
 
   </div>
+  <p class="pagination">
+    <button [disabled]="curPage == 1" (click)="curPage = curPage - 1">PREV</button>
+    <span>Page {{curPage}} of {{ numberOfPages() }}</span>
+    <button [disabled]="curPage >= rooms.length/pageSize" (click)="curPage = curPage + 1">NEXT</button>
+  </p>
 </div>
