@@ -1,0 +1,15 @@
+<div
+  class="app-splash-screen"
+  [ngStyle]="{
+    left: windowWidth,
+    opacity: opacityChange,
+    transition: splashTransition
+  }"
+  *ngIf="showSplash"
+>
+  <div class="app-splash-inner container">
+    <div class="row">
+      <div class="app-label col-12">Sinu seiklus algab siit</div>
+    </div>
+  </div>
+</div>

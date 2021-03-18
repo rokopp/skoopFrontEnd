@@ -31,6 +31,7 @@ import {LoadingScreenService} from './services/loading-screen.service';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import {LoaderInterceptorService} from './services/loader-interceptor.service';
 import { SearchFilterPipe } from './filter/search-filter.pipe';
+import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 // import {
 //   MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
 //   MsalService, MsalModule, MsalAngularConfiguration, MsalInterceptor
@@ -84,6 +85,7 @@ import { SearchFilterPipe } from './filter/search-filter.pipe';
     QuestionSetsComponent,
     NotfoundComponent,
     LoadingScreenComponent,
+    SplashScreenComponent,
     SearchFilterPipe,
   ],
     imports: [

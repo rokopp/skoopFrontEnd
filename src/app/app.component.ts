@@ -55,4 +55,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  splashScreenGreetingPage(): boolean {
+    return this.getComponent === 'GreetingComponent';
+  }
+
 }
