@@ -5,7 +5,6 @@ import { Component, OnInit } from '@angular/core';
 import {Pair} from '../../pair';
 import {BackgroundImageChangeService} from '../../services/background-image-change.service';
 
-
 @Component({
   selector: 'app-users-rooms',
   templateUrl: './users-rooms.component.html',
@@ -28,8 +27,6 @@ export class UsersRoomsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRooms();
-    console.log(this.rooms);
-
     this.curPage = 1;
     this.pageSize = 7;
   }
@@ -69,7 +66,7 @@ export class UsersRoomsComponent implements OnInit {
       .subscribe(() => {
         this.getRooms();
         window.location.reload();
-      },
+        },
         error => {
           const errorMessage = error.message;
           console.error('Happened this during posting: ', errorMessage);
