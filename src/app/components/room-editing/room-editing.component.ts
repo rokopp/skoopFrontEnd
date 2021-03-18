@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-room-editing',
@@ -9,10 +9,13 @@ import {Router} from '@angular/router';
 export class RoomEditingComponent implements OnInit {
 
   mini = true;
-  constructor(public router: Router) { }
+  currentRoomId: number;
+  constructor(public router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     console.log(this.router.url);
+    this.currentRoomId = this.activatedRoute.snapshot.params.id;
+    console.log(this.currentRoomId);
   }
 
   toggleSidebar(): void {
