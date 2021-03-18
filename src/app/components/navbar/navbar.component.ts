@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BroadcastService, MsalService} from '@azure/msal-angular';
+import {NavbarService} from '../../services/navbar.service';
 
 
 @Component({
@@ -13,6 +14,8 @@ export class NavbarComponent implements OnInit {
 
   // constructor(private http: HttpClient, private msalService: MsalService, private broadcastService: BroadcastService) {
   // }
+  constructor(public nav: NavbarService) {
+  }
   name: string;
   username: string;
   authenticated: boolean;

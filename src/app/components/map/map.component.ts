@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { Question } from './../../question';
 import { QuestionService } from './../../services/question.service';
 import { PairService } from './../../services/pair.service';
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { Location } from './../../location';
@@ -22,6 +22,7 @@ import VectorSource from 'ol/source/Vector';
 import {Circle as CircleStyle, Fill, Stroke, Icon, Style} from 'ol/style';
 import { ActivatedRoute } from '@angular/router';
 import { L } from '@angular/cdk/keycodes';
+import {NavbarService} from '../../services/navbar.service';
 
 declare let $: any;
 
@@ -66,12 +67,15 @@ export class MapComponent implements OnInit {
   accuracyFeature; // GPS Tracker Radius
   questions$: Observable<Question[]>;
 
+  innerWidth: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private pairService: PairService,
     private locationService: LocationService,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    public nav: NavbarService
   ) {
     this.form = this.formBuilder.group({
       answers: ['']
@@ -79,9 +83,29 @@ export class MapComponent implements OnInit {
     this.gameId = this.activatedRoute.snapshot.paramMap.get('id');
   }
   ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
+    this.hideNavbarMobileView();
     this.initializeMap();
     this.getPairs();
     this.updateMap();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event): void {
+    this.innerWidth = window.innerWidth;
+    this.hideNavbarMobileView();
+  }
+  hideNavbarMobileView(): void {
+    const myTag = document.getElementById('map');
+    if (myTag.classList.contains('map')) {
+      if (this.innerWidth <= 768) {
+        this.nav.hide();
+        myTag.classList.add('h-100');
+      } else {
+        this.nav.show();
+        myTag.classList.remove('h-100');
+      }
+    }
   }
 
   // Checks if there are any markers close enough to the player
