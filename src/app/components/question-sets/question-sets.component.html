@@ -15,7 +15,7 @@
       <tbody>
         <tr *ngFor="let set of data">
           <td>{{set.name}}</td>
-          <td><a [routerLink]="['/questionsets', set.id, set.name]" class="btn btn-primary"> Muuda küsimusi</a></td>
+          <td><a [routerLink]="[set.id, set.name]" class="btn btn-primary"> Muuda küsimusi</a></td>
           <td><button class="btn btn-danger" (click)="removeSet(set.id)">Kustuta</button></td>
         </tr>
       </tbody>

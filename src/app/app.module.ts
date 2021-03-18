@@ -31,6 +31,7 @@ import {LoadingScreenService} from './services/loading-screen.service';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import {LoaderInterceptorService} from './services/loader-interceptor.service';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
+import { RoomEditingComponent } from './components/room-editing/room-editing.component';
 // import {
 //   MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
 //   MsalService, MsalModule, MsalAngularConfiguration, MsalInterceptor
@@ -85,6 +86,7 @@ import { SplashScreenComponent } from './components/splash-screen/splash-screen.
     NotfoundComponent,
     LoadingScreenComponent,
     SplashScreenComponent,
+    RoomEditingComponent,
   ],
     imports: [
       BrowserModule,
