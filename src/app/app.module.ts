@@ -30,6 +30,7 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import {LoadingScreenService} from './services/loading-screen.service';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import {LoaderInterceptorService} from './services/loader-interceptor.service';
+import { SearchFilterPipe } from './filter/search-filter.pipe';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 import { RoomEditingComponent } from './components/room-editing/room-editing.component';
 // import {
@@ -87,6 +88,7 @@ import { RoomEditingComponent } from './components/room-editing/room-editing.com
     LoadingScreenComponent,
     SplashScreenComponent,
     RoomEditingComponent,
+    SearchFilterPipe,
   ],
     imports: [
       BrowserModule,
