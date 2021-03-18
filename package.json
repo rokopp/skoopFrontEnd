@@ -31,6 +31,7 @@
     "bootstrap": "^4.5.2",
     "cors": "^2.8.5",
     "jquery": "^3.5.1",
+    "jw-paginate": "^1.0.4",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
     "msal": "^1.4.5",
