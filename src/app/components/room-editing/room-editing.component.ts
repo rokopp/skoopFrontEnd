@@ -13,9 +13,7 @@ export class RoomEditingComponent implements OnInit {
   constructor(public router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    console.log(this.router.url);
     this.currentRoomId = this.activatedRoute.snapshot.params.id;
-    console.log(this.currentRoomId);
   }
 
   toggleSidebar(): void {
