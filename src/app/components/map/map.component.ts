@@ -1,3 +1,4 @@
+import { GPSControl } from './gps-control';
 import { Observable } from 'rxjs';
 import { Question } from './../../question';
 import { QuestionService } from './../../services/question.service';
@@ -10,8 +11,6 @@ import { LocationService } from './../../services/location.service';
 import { FormBuilder, FormGroup} from '@angular/forms';
 import Map from 'ol/Map';
 import OSM from 'ol/source/OSM';
-import * as olSphere from 'ol/sphere';
-import {getDistance} from 'ol/sphere';
 import Geolocation from 'ol/Geolocation';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
@@ -21,6 +20,7 @@ import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import VectorSource from 'ol/source/Vector';
 import {Circle as CircleStyle, Fill, Stroke, Icon, Style} from 'ol/style';
 import { ActivatedRoute } from '@angular/router';
+import {defaults as defaultControls} from 'ol/control';
 import { L } from '@angular/cdk/keycodes';
 import {NavbarService} from '../../services/navbar.service';
 
@@ -158,7 +158,9 @@ export class MapComponent implements OnInit {
     this.geolocation.on('change:position', () => {
       const coordinates = this.geolocation.getPosition();
       this.player.setGeometry(coordinates ? new Point(coordinates) : null);
-      this.map.getView().setCenter(fromLonLat(coordinates, 'EPSG:4326', 'EPSG:3857'));
+      if (this.map.get('GPSMode') === 'on'){
+        this.map.getView().setCenter(fromLonLat(coordinates, 'EPSG:4326', 'EPSG:3857'));
+      }
       if (!this.answering){
         this.checkRadius();
       }
@@ -266,7 +268,9 @@ export class MapComponent implements OnInit {
       target: 'map',
       layers: [this.tileLayer, this.vectorLayer],
       view: this.view,
+      controls: defaultControls().extend([new GPSControl()]),
     });
+    this.map.set('GPSMode', 'on');
 
     this.geolocation = new Geolocation({
       trackingOptions: {

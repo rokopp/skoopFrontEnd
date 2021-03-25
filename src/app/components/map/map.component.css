@@ -1,5 +1,17 @@
 .map {
-  height: 80vh;
+  height: 65vh;
   width: 100%;
+  position: relative;
 }
+
+.sidepanel {
+  background: #d605a2;
+  height: 10vh;
+}
+.icon,
+.text {
+  vertical-align: middle;
+  display: inline-block;
+}
+
 
