@@ -30,6 +30,9 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import {LoadingScreenService} from './services/loading-screen.service';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import {LoaderInterceptorService} from './services/loader-interceptor.service';
+import { SearchFilterPipe } from './filter/search-filter.pipe';
+import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
+import { RoomEditingComponent } from './components/room-editing/room-editing.component';
 // import {
 //   MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
 //   MsalService, MsalModule, MsalAngularConfiguration, MsalInterceptor
@@ -83,6 +86,9 @@ import {LoaderInterceptorService} from './services/loader-interceptor.service';
     QuestionSetsComponent,
     NotfoundComponent,
     LoadingScreenComponent,
+    SplashScreenComponent,
+    RoomEditingComponent,
+    SearchFilterPipe,
   ],
     imports: [
       BrowserModule,

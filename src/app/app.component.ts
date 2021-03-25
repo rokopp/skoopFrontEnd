@@ -3,6 +3,7 @@ import {ActivationEnd, Router, RouterEvent} from '@angular/router';
 import {LoadingScreenService} from './services/loading-screen.service';
 import {Subscription} from 'rxjs';
 import {LoaderState} from './loader';
+import {NavbarService} from "./services/navbar.service";
 
 
 @Component({
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   constructor(private router: Router, private loadingScreenService: LoadingScreenService,
-              private changeDetectorRef: ChangeDetectorRef,
+              private changeDetectorRef: ChangeDetectorRef, public nav: NavbarService
   ) {
     router.events.subscribe((val: RouterEvent) => {
       if (val instanceof ActivationEnd) {
@@ -49,10 +50,15 @@ export class AppComponent implements OnInit, OnDestroy {
         this.show = state.show;
         this.changeDetectorRef.detectChanges();
       });
+    this.nav.show();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  splashScreenGreetingPage(): boolean {
+    return this.getComponent === 'GreetingComponent';
   }
 
 }

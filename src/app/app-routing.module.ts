@@ -13,6 +13,7 @@ import {UsersRoomsComponent} from './components/users-rooms/users-rooms.componen
 import {QuestionSetComponent} from './components/question-set/question-set.component';
 import {QuestionSetsComponent} from './components/question-sets/question-sets.component';
 import {NotfoundComponent} from './components/notfound/notfound.component';
+import {RoomEditingComponent} from "./components/room-editing/room-editing.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},
@@ -26,11 +27,30 @@ const routes: Routes = [
   { path: 'createlocation', component: LocationSetsComponent,   },
   { path: 'createlocation/:id', component: CreateMapComponent,   },
   { path: 'ruumid', component: UsersRoomsComponent,   },
-  { path: 'ruumid/:id', component: CreateNewRoomComponent,   },
+  // { path: 'ruumid/:id', component: CreateNewRoomComponent,   },
 //  { path: 'kasutaja', component: UserProfileComponent},
   { path: 'tiimiRegamine', component: GoPlayRoomsComponent,   },
-  { path: 'questionsets/:id/:name', component: QuestionSetComponent,   },
-  { path: 'questionsets', component: QuestionSetsComponent,   },
+  // { path: 'questionsets/:id/:name', component: QuestionSetComponent,   },
+  // { path: 'questionsets', component: QuestionSetsComponent,   },
+  { path: 'roomediting/:id', component: RoomEditingComponent,
+    children: [
+      {
+        path: 'ruumid/:id',
+        component: CreateNewRoomComponent
+      },
+      {
+        path: 'questionsets',
+        component: QuestionSetsComponent
+      },
+      {
+        path: 'createlocation',
+        component: LocationSetsComponent
+      },
+      {
+        path: 'questionsets/:id/:name',
+        component: QuestionSetComponent
+      }
+    ]},
   { path: '**', component: NotfoundComponent,   }
 ];
 

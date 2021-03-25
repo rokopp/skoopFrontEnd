@@ -5,7 +5,6 @@ import { Component, OnInit } from '@angular/core';
 import {Pair} from '../../pair';
 import {BackgroundImageChangeService} from '../../services/background-image-change.service';
 
-
 @Component({
   selector: 'app-users-rooms',
   templateUrl: './users-rooms.component.html',
@@ -16,6 +15,11 @@ export class UsersRoomsComponent implements OnInit {
   rooms: Room[] = [];
   creatorAccountId = 1; // TODO: Get id from logged-in account
   id = 1;
+  gameName = '';
+  deleteRoom: Room;
+
+  curPage: number;
+  pageSize: number;
 
   constructor(private pairService: PairService, private roomservice: RoomService,
               public bgService: BackgroundImageChangeService) {
@@ -23,7 +27,8 @@ export class UsersRoomsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRooms();
-    console.log(this.rooms);
+    this.curPage = 1;
+    this.pageSize = 7;
   }
   getRooms(): void{
     this.roomservice.getRooms().subscribe(room => {
@@ -61,10 +66,16 @@ export class UsersRoomsComponent implements OnInit {
       .subscribe(() => {
         this.getRooms();
         window.location.reload();
-      },
+        },
         error => {
           const errorMessage = error.message;
           console.error('Happened this during posting: ', errorMessage);
         });
+  }
+  numberOfPages(): number {
+    return Math.ceil(this.rooms.length / this.pageSize);
+  }
+  confirmDelete(set: Room): void {
+    this.deleteRoom = set;
   }
 }
