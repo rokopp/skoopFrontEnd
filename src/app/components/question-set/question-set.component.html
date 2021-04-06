@@ -123,7 +123,7 @@
     <div class="row">
       <div class="col-4">
         <!-- Trigger Create Multi Answer Modal -->
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createMultiAnswerModal">
+        <button type="button" class="btn btn-info" (click)="openModalForCreating('custom-modal-2');">
           Loo valikvastustega küsimustik
         </button>
       </div>
@@ -285,6 +285,8 @@
 <!--  </div>-->
 <!--</div>-->
 
+<!--TODO edit by question type-->
+<!--Question editing-->
 <jw-modal id="custom-modal-1">
   <div class="col-sm-12 col-md-12 col-lg-12 form text-center">
     <h2>Muuda küsimust</h2>
@@ -340,3 +342,57 @@
   </div>
 </jw-modal>
 
+<!--Valikvastustega-->
+<jw-modal id="custom-modal-2">
+  <div class="col-sm-12 col-md-12 col-lg-12 form text-center">
+    <h2>Loo valikvastustega</h2>
+    <form class="question-form">
+
+      <mat-form-field class="question" appearance="outline">
+        <mat-label>Küsimus</mat-label>
+        <input id="question" matInput name="question" type="text" required>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field class="choices text-center mb-3">
+        <mat-chip-list #chipList aria-label="Choices">
+          <mat-chip *ngFor="let choice of choices; let id = index" [selectable]="selectable" [removable]="removable"
+                    (removed)="remove(choice)" color="green" [ngClass]="setBg(id)" [attr.isSelected]="false" (click)="selectCorrectAnswer(id, choice)" id="choice_{{id}}">
+            {{choice.text}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input [required] placeholder="Valikvastused: vajuta Enter et lisada ja Delete et kustutada. Lisaks vajuta et valida õige vastus"
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="addAnswer($event)">
+        </mat-chip-list>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field class="correctAnswer text-center mx-md-auto mr-lg-2 mb-lg-3" style="" appearance="fill">
+        <mat-label style="">Correct answer</mat-label>
+        <input id="answer" type="text" matInput name="answer" required>
+      </mat-form-field>
+
+      <mat-form-field class="points text-center ml-lg-2" appearance="fill">
+        <mat-label>Pluss punkte</mat-label>
+        <input id="pointsTrue" type="number" matInput required>
+      </mat-form-field>
+
+      <mat-form-field class="points text-center ml-lg-2" appearance="fill">
+        <mat-label>Miinus punkte</mat-label>
+        <input id="pointsFalse" type="number" matInput required>
+      </mat-form-field>
+
+      <br>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('custom-modal-2');">Sulge</button>
+        <button type="submit" (click)="addQuestion()" class="btn btn-success mx-auto">Lisa küsimus</button>
+        <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+      </div>
+    </form>
+  </div>
+</jw-modal>

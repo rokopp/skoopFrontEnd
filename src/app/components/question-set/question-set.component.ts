@@ -211,6 +211,10 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
     this.modalService.setElementQuestion(element);
   }
 
+  openModalForCreating(id: string): void {
+    this.modalService.open(id);
+  }
+
   closeModal(id: string): void {
     this.modalService.close(id);
   }
