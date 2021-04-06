@@ -1,0 +1,27 @@
+<div *ngIf="activated; else elseBlock" class="container-fluid d-flex flex-column">
+  <div class="row justify-content-center">
+    <p class='h2'>Teie liitumis kood on:</p>
+  </div>
+  <div class="row justify-content-center">
+    <p class="h1">{{joinCode}}</p>
+  </div>
+  <div class="mt-3 pt-3"></div>
+  <div class="mt-3 pt-3"></div>
+  <div class="mt-3 pt-3"></div>
+  <button class='btn btn-danger' (click)="deleteGame()">Kustuta mäng</button>
+</div>
+<ng-template #elseBlock>
+  <div class="container-fluid d-flex flex-column">
+    <div class="row justify-content-center">
+      <p class='h2 text-center'>Mängu aktiveerimiseks sisetage mängu nimi ja vajutage nupule</p>
+    </div>
+    <div class="row justify-content-center">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Mängu nimi" aria-label="Mängu nimi" aria-describedby="basic-addon2" [(ngModel)]="roomName">
+        <div class="input-group-append">
+          <button class="btn btn-outline-success" type="button" (click)="activateGame(roomName)" formtarget="_blank">Aktiveeri</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
