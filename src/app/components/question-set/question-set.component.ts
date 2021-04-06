@@ -6,6 +6,7 @@ import {MatTable} from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import {Question} from '../../question';
 import {Subscription} from 'rxjs';
+import {ModalService} from '../../services/modal.service';
 
 export interface Answer {
   text: string;
@@ -33,7 +34,8 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   selectCorrectAnswerNr: Answer[] = [];
 
   constructor(private questionService: QuestionService,
-              private route: ActivatedRoute ) { }
+              private route: ActivatedRoute,
+              public modalService: ModalService) { }
 
   ngOnInit(): void {
     // Get pathvariables question Set id and name.
@@ -202,5 +204,14 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
     this.selectCorrectAnswerNr.forEach((element, index) => {
       if (element === deleteElement) { this.selectCorrectAnswerNr.splice(index, 1); }
     });
+  }
+
+  openModal(id: string, element: Question): void {
+    this.modalService.open(id);
+    this.modalService.setElementQuestion(element);
+  }
+
+  closeModal(id: string): void {
+    this.modalService.close(id);
   }
 }
