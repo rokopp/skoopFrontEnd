@@ -80,7 +80,7 @@
                 {{choice.text}}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
-              <input [required] placeholder="Choices: Press Enter to add and Delete to remove"
+              <input [required] placeholder="Valikvastused: vajuta Enter et lisada ja Delete et kustutada. Lisaks vajuta et valida õige vastus"
                      [matChipInputFor]="chipList"
                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                      [matChipInputAddOnBlur]="addOnBlur"
@@ -96,9 +96,15 @@
           </mat-form-field>
 
           <mat-form-field class="points text-center ml-lg-2" appearance="fill">
-            <mat-label>Amount of Points</mat-label>
-            <input id="points" type="number" matInput required>
+            <mat-label>Pluss punkte</mat-label>
+            <input id="pointsTrue" type="number" matInput required>
           </mat-form-field>
+
+          <mat-form-field class="points text-center ml-lg-2" appearance="fill">
+            <mat-label>Miinus punkte</mat-label>
+            <input id="pointsFalse" type="number" matInput required>
+          </mat-form-field>
+
           <br>
           <button type="submit" (click)="addQuestion()" class="btn btn-success mr-lg-2 mx-sm-auto">Submit</button>
           <button type="reset" class="btn btn-danger ml-lg-2 mx-sm-auto margin-t2-btn margin-l2-btn" (click)="emptyChoices()">Reset Form</button>

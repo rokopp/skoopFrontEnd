@@ -77,15 +77,16 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   createQuestion(): Question {
     const questionval = this.getInputValueById('question');
     const answerval = this.getInputValueById('answer');
-    const pointsval = this.getInputValueById('points');
+    const pointsTrueval = this.getInputValueById('pointsTrue');
+    const pointsFalseval = this.getInputValueById('pointsFalse');
     const choices1 = [];
     this.choices.forEach(choice => choices1.push(choice.text));
     return {
       questionSetId: this.setId,
       questionText: questionval,
       answer: answerval,
-      pointsTrue: +pointsval,
-      pointsFalse: 0,
+      pointsTrue: +pointsTrueval,
+      pointsFalse: -pointsFalseval,
       hint: 'your mom',
       id: null,
       choices: choices1
@@ -132,7 +133,8 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   // Change question field values.
   editQuestion(element: Question): void {
     (document.getElementById('question') as HTMLInputElement).value = element.questionText;
-    (document.getElementById('points') as HTMLInputElement).value = String(element.pointsTrue);
+    (document.getElementById('pointsTrue') as HTMLInputElement).value = String(element.pointsTrue);
+    (document.getElementById('pointsFalse') as HTMLInputElement).value = String(element.pointsFalse);
     (document.getElementById('answer') as HTMLInputElement).value = element.answer;
     this.choices = [];
     element.choices.forEach(choice => {
@@ -161,23 +163,15 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
     if (selectedElement.getAttribute('isSelected') === 'false') {
       if (this.selectCorrectAnswerNr.length > 0) {
         this.selectCorrectAnswerNr = [];
+        this.setChoiceElementsToFalse();
       }
       selectedElement.setAttribute('isSelected', 'true');
       this.selectCorrectAnswerNr.push(element);
     } else {
-      this.selectCorrectAnswerNr.forEach((element2, index) => {
-        if (element2 === element) { this.selectCorrectAnswerNr.splice(index, 1); }
-      });
+      this.deleteCorrectAnswerFromList(element);
       selectedElement.setAttribute('isSelected', 'false');
     }
-    console.log(this.selectCorrectAnswerNr.length);
-    if (this.selectCorrectAnswerNr.length === 0) {
-      (document.getElementById('answer') as HTMLInputElement).value = '';
-    }
-    this.selectCorrectAnswerNr.forEach((answer) => {
-      console.log(answer.text);
-      (document.getElementById('answer') as HTMLInputElement).value = answer.text;
-    });
+    this.updateCorrectAnswerField();
   }
 
   setBg(id: number): string {
@@ -186,5 +180,26 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
       return 'selectedCorrectAnswer';
     }
     return '';
+  }
+
+  setChoiceElementsToFalse(): void {
+    this.choices.forEach((setToFalseSelect, index) => {
+      document.getElementById('choice_' + index).setAttribute('isSelected', 'false');
+    });
+  }
+
+  updateCorrectAnswerField(): void {
+    if (this.selectCorrectAnswerNr.length === 0) {
+      (document.getElementById('answer') as HTMLInputElement).value = '';
+    }
+    this.selectCorrectAnswerNr.forEach((answer) => {
+      (document.getElementById('answer') as HTMLInputElement).value = answer.text;
+    });
+  }
+
+  deleteCorrectAnswerFromList(deleteElement: Answer): void {
+    this.selectCorrectAnswerNr.forEach((element, index) => {
+      if (element === deleteElement) { this.selectCorrectAnswerNr.splice(index, 1); }
+    });
   }
 }
