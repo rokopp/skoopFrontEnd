@@ -20,7 +20,7 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table: MatTable<Question>;
   updateInsteadOfPost = false;
   editId = null;
-  columnsToDisplay = ['id', 'question', 'answer', 'type', 'action'];
+  columnsToDisplay = ['id', 'question', 'answer', 'type', 'hint', 'action'];
   questionSet: Array<{}> = [];  // Array of objects
   selectable = true;
   removable = true;
@@ -93,6 +93,7 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
     };
   }
 
+  // TODO Add question type
   // Add a new question to database, reload the page.
   addQuestion(): void {
     const questionObj = this.createQuestion();

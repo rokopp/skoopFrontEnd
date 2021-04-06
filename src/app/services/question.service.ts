@@ -20,6 +20,7 @@ export class QuestionService {
     return this.http.get<Question>(this.questionsUrl + '/' + id);
   }
 
+  // TODO add question type by url
   postQuestion(questionObj: Question): Observable<Question> {
     return this.http.post<Question>(this.questionsUrl, questionObj, {});
   }
