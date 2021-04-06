@@ -7,7 +7,7 @@ import {Question} from '../question';
   providedIn: 'root'
 })
 export class QuestionService {
-  private questionsUrl = 'api/questions';
+  private questionsUrl = 'api/questions/multiple';
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };

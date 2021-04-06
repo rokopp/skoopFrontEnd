@@ -24,13 +24,19 @@
           <!-- Question column -->
           <ng-container matColumnDef="question">
             <th mat-header-cell *matHeaderCellDef class="text-center">Question</th>
-            <td mat-cell *matCellDef="let elem">{{elem.question}}</td>
+            <td mat-cell *matCellDef="let elem">{{elem.questionText}}</td>
           </ng-container>
 
           <!-- Answer column -->
           <ng-container matColumnDef="answer">
             <th mat-header-cell *matHeaderCellDef class="text-center">Answer</th>
             <td mat-cell *matCellDef="let elem">{{elem.answer}}</td>
+          </ng-container>
+
+          <!-- Answer column -->
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Type</th>
+            <td mat-cell *matCellDef="let elem">{{elem.type}}</td>
           </ng-container>
 
           <!-- Action column
@@ -69,8 +75,8 @@
 
           <mat-form-field class="choices text-center mb-3">
             <mat-chip-list #chipList aria-label="Choices">
-              <mat-chip *ngFor="let choice of choices" [selectable]="selectable" [removable]="removable"
-                        (removed)="remove(choice)" color="green">
+              <mat-chip *ngFor="let choice of choices; let id = index" [selectable]="selectable" [removable]="removable"
+                        (removed)="remove(choice)" color="green" [ngClass]="setBg(id)" [attr.isSelected]="false" (click)="selectCorrectAnswer(id, choice)" id="choice_{{id}}">
                 {{choice.text}}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>

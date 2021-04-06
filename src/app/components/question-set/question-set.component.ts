@@ -20,7 +20,7 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table: MatTable<Question>;
   updateInsteadOfPost = false;
   editId = null;
-  columnsToDisplay = ['id', 'question', 'answer', 'action'];
+  columnsToDisplay = ['id', 'question', 'answer', 'type', 'action'];
   questionSet: Array<{}> = [];  // Array of objects
   selectable = true;
   removable = true;
@@ -30,6 +30,7 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   setId: number;
   setName: string;
   private subscriptions: Subscription[] = [];
+  selectCorrectAnswerNr: Answer[] = [];
 
   constructor(private questionService: QuestionService,
               private route: ActivatedRoute ) { }
@@ -81,9 +82,11 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
     this.choices.forEach(choice => choices1.push(choice.text));
     return {
       questionSetId: this.setId,
-      question: questionval,
+      questionText: questionval,
       answer: answerval,
-      points: +pointsval,
+      pointsTrue: +pointsval,
+      pointsFalse: 0,
+      hint: 'your mom',
       id: null,
       choices: choices1
     };
@@ -128,8 +131,8 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
 
   // Change question field values.
   editQuestion(element: Question): void {
-    (document.getElementById('question') as HTMLInputElement).value = element.question;
-    (document.getElementById('points') as HTMLInputElement).value = String(element.points);
+    (document.getElementById('question') as HTMLInputElement).value = element.questionText;
+    (document.getElementById('points') as HTMLInputElement).value = String(element.pointsTrue);
     (document.getElementById('answer') as HTMLInputElement).value = element.answer;
     this.choices = [];
     element.choices.forEach(choice => {
@@ -151,5 +154,37 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
       },
       error => console.error(error));
     this.subscriptions.push(sub);
+  }
+
+  selectCorrectAnswer(id: number, element: Answer): void {
+    const selectedElement = document.getElementById('choice_' + id);
+    if (selectedElement.getAttribute('isSelected') === 'false') {
+      if (this.selectCorrectAnswerNr.length > 0) {
+        this.selectCorrectAnswerNr = [];
+      }
+      selectedElement.setAttribute('isSelected', 'true');
+      this.selectCorrectAnswerNr.push(element);
+    } else {
+      this.selectCorrectAnswerNr.forEach((element2, index) => {
+        if (element2 === element) { this.selectCorrectAnswerNr.splice(index, 1); }
+      });
+      selectedElement.setAttribute('isSelected', 'false');
+    }
+    console.log(this.selectCorrectAnswerNr.length);
+    if (this.selectCorrectAnswerNr.length === 0) {
+      (document.getElementById('answer') as HTMLInputElement).value = '';
+    }
+    this.selectCorrectAnswerNr.forEach((answer) => {
+      console.log(answer.text);
+      (document.getElementById('answer') as HTMLInputElement).value = answer.text;
+    });
+  }
+
+  setBg(id: number): string {
+    const selectedElement = document.getElementById('choice_' + id);
+    if (selectedElement.getAttribute('isSelected') === 'true') {
+      return 'selectedCorrectAnswer';
+    }
+    return '';
   }
 }
