@@ -1,3 +1,4 @@
+import { ShowActivatedRoomComponent } from './components/show-activated-room/show-activated-room.component';
 import { LocationSetsComponent } from './components/location-sets/location-sets.component';
 import { CreateMapComponent } from './components/create-map/create-map.component';
 import { MapComponent } from './components/map/map.component';
@@ -41,6 +42,9 @@ const routes: Routes = [
       },
       { path: 'aktiveeri',
         component: ActivateRoomComponent,
+      },
+      { path: 'aktiveeri/:activeroom',
+        component: ShowActivatedRoomComponent,
       },
       {
         path: 'questionsets',
