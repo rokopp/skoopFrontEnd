@@ -28,7 +28,10 @@ export class ActiveRoomsService {
   deleteActiveGameById(roomId: number): Observable<any> {
     return this.http.delete(this.activeRoomsUrl + '/' + roomId);
   }
-  getActiveGameByRoomCode(roomCode: string): Observable<ActiveRoom> {
-    return this.http.get<ActiveRoom>(this.activeRoomsUrl + '/code/' + roomCode);
+  getActiveGameByJoinCode(joinCode: string): Observable<ActiveRoom> {
+    return this.http.get<ActiveRoom>(this.activeRoomsUrl + '/code/' + joinCode);
+  }
+  getActiveGamesByRoomId(roomId: number): Observable<ActiveRoom[]> {
+    return this.http.get<ActiveRoom[]>(this.activeRoomsUrl + '/room/' + roomId);
   }
 }
