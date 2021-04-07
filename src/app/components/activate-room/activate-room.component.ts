@@ -12,7 +12,12 @@ import { ActivatedRoute } from '@angular/router';
 export class ActivateRoomComponent implements OnInit {
   currentId;
   joinCode;
-  activated = false;
+  activeRooms: ActiveRoom[] = [];
+  deleteRoom: ActiveRoom;
+  roomName = '';
+  curPage: number;
+  pageSize: number;
+
 
   constructor(private activatedRoute: ActivatedRoute,
               private activeRoomSerivce: ActiveRoomsService
@@ -24,37 +29,42 @@ export class ActivateRoomComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getJoinCode();
+    this.getActiveRooms();
+    this.curPage = 1;
+    this.pageSize = 7;
   }
-  getJoinCode(): void{
-    this.activeRoomSerivce.getActiveGameById(this.currentId).subscribe(activeRoom => {
-      this.joinCode = activeRoom.joinCode;
-      if (this.joinCode){
-        this.activated = true;
-      }else{
-        this.activated = false;
-      }
+
+  getActiveRooms(): void{
+    this.activeRoomSerivce.getActiveGamesByRoomId(this.currentId).subscribe(activeRoom => {
+      this.activeRooms = activeRoom;
+    });
+  }
+  numberOfPages(): number {
+    return Math.ceil(this.activeRooms.length / this.pageSize);
+  }
+  removeRoom(set: ActiveRoom): void{
+    this.activeRoomSerivce.deleteActiveGameById(set.id).subscribe(() => {
+      this.getActiveRooms();
+      window.location.reload();
+    },
+      error => {
+        const errorMessage = error.message;
+        console.error('Happened this during deleting: ', errorMessage);
     });
   }
 
-  deleteGame(): void{
-    this.activeRoomSerivce.deleteActiveGameById(this.currentId).subscribe(response => {
-      this.activated = false;
-      this.joinCode = '';
-    }
-    );
+  activateNewRoom(): void {
+    const roomName = (document.getElementById('input') as HTMLInputElement).value;
+    const activeGameObj = {
+      roomId: this.currentId,
+      roomName: roomName
+    };
+    this.activeRoomSerivce.activeGame(activeGameObj).subscribe(response => {
+      this.getActiveRooms();
+      window.location.reload();
+    })
   }
-  activateGame(name: string): void{
-    if (name){
-      const activeGameObj = {
-        roomId: this.currentId,
-        roomName: name
-      };
-      this.activeRoomSerivce.activeGame(activeGameObj).subscribe(response => {
-        this.joinCode = response.joinCode;
-        this.activated = true;
-      })
-    }
+  confirmDelete(set: ActiveRoom): void {
+    this.deleteRoom = set;
   }
-
 }
