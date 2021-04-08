@@ -78,3 +78,8 @@ h1 {
 .table-color {
   background-color: #FFF5FA;
 }
+
+.btn-modal {
+  height: 40px;
+  width: 200px;
+}

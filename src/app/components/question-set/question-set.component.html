@@ -139,10 +139,11 @@
       </mat-form-field>
 
       <br>
+<!--      TODO add type what is going to be updated-->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('custom-modal-1');">Sulge</button>
-        <a (click)="updateQuestion(this.modalService.getElementQuestion(), '')" class="btn btn-outline-info w-auto">Uuenda</a>
-        <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <button type="reset" class="btn btn-modal btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <a (click)="updateQuestion(this.modalService.getElementQuestion(), '')" class="btn btn-modal btn-info">Uuenda</a>
+        <button type="button" class="btn btn-modal btn-secondary mx-auto" (click)="closeModal('custom-modal-1');">Sulge</button>
       </div>
     </form>
   </div>
@@ -195,9 +196,9 @@
 
       <br>
       <div class="modal-footer">
-        <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
-        <button type="submit" (click)="addQuestion('MultipleChoices'); closeModal('multipleChoices')" class="btn btn-success mx-auto">Lisa küsimus</button>
-        <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('multipleChoices');">Sulge</button>
+        <button type="reset" class="btn btn-modal btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <button type="submit" (click)="addQuestion('MultipleChoices'); closeModal('multipleChoices')" class="btn btn-modal btn-success mx-auto">Lisa küsimus</button>
+        <button type="button" class="btn btn-modal btn-secondary mx-auto" (click)="closeModal('multipleChoices');">Sulge</button>
 
       </div>
     </form>
@@ -251,9 +252,9 @@
 
       <br>
       <div class="modal-footer">
-        <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
-        <button type="submit" (click)="addQuestion('Checkbox'); closeModal('checkbox');" class="btn btn-success mx-auto">Lisa checkbox</button>
-        <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('checkbox');">Sulge</button>
+        <button type="reset" class="btn btn-modal btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <button type="submit" (click)="addQuestion('Checkbox'); closeModal('checkbox');" class="btn btn-modal btn-success mx-auto">Lisa checkbox</button>
+        <button type="button" class="btn btn-modal btn-secondary mx-auto" (click)="closeModal('checkbox');">Sulge</button>
       </div>
     </form>
   </div>
@@ -294,9 +295,9 @@
 
       <br>
       <div class="modal-footer">
-        <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
-        <button type="submit" (click)="addQuestion('Text'); closeModal('text')" class="btn btn-success mx-auto">Lisa küsimus</button>
-        <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('text');">Sulge</button>
+        <button type="reset" class="btn btn-modal btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <button type="submit" (click)="addQuestion('Text'); closeModal('text')" class="btn btn-modal btn-success mx-auto">Lisa küsimus</button>
+        <button type="button" class="btn btn-modal btn-secondary mx-auto" (click)="closeModal('text');">Sulge</button>
       </div>
     </form>
   </div>
