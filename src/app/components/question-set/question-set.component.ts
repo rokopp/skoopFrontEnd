@@ -28,6 +28,9 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   choices: Answer[] = [];
+  choicesMultiple: Answer[] = [];
+  choicesCheckbox: Answer[] = [];
+  choicesText: Answer[] = [];
   setId: number;
   setName: string;
   private subscriptions: Subscription[] = [];
@@ -53,13 +56,26 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   }
 
   // Add choices under question.
-  addAnswer(event: MatChipInputEvent): void {
+  addAnswer(event: MatChipInputEvent, questionType: string): void {
     const input = event.input;
     const value = event.value;
     // Add answer
-    if ((value || '').trim()) {
-      this.choices.push({text: value.trim()});
+    if (questionType === 'multipleChoices') {
+      if ((value || '').trim()) {
+        this.choicesMultiple.push({text: value.trim()});
+      }
     }
+    if (questionType === 'checkbox') {
+      if ((value || '').trim()) {
+        this.choicesCheckbox.push({text: value.trim()});
+      }
+    }
+    if (questionType === 'text') {
+      if ((value || '').trim()) {
+        this.choicesText.push({text: value.trim()});
+      }
+    }
+
 
     // Reset input value
     if (input) {
@@ -68,7 +84,25 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   }
 
   // Remove one choice from question.
-  remove(answer: Answer): void {
+  remove(answer: Answer, questionType: string): void {
+    if (questionType === 'multipleChoices') {
+      const indexMultiple = this.choicesMultiple.indexOf(answer);
+      if (indexMultiple >= 0) {
+        this.choicesMultiple.splice(indexMultiple, 1);
+      }
+    }
+    if (questionType === 'checkbox') {
+      const indexCheckbox = this.choicesCheckbox.indexOf(answer);
+      if (indexCheckbox >= 0) {
+        this.choicesCheckbox.splice(indexCheckbox, 1);
+      }
+    }
+    if (questionType === 'text') {
+      const indexText = this.choicesText.indexOf(answer);
+      if (indexText >= 0) {
+        this.choicesText.splice(indexText, 1);
+      }
+    }
     const index = this.choices.indexOf(answer);
     if (index >= 0) {
       this.choices.splice(index, 1);
@@ -76,11 +110,11 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   }
 
   // Returns a question put together from input values.
-  createQuestion(): Question {
-    const questionval = this.getInputValueById('question');
-    const answerval = this.getInputValueById('answer');
-    const pointsTrueval = this.getInputValueById('pointsTrue');
-    const pointsFalseval = this.getInputValueById('pointsFalse');
+  createQuestion(questionType: string): Question {
+    const questionval = this.getInputValueById('question' + questionType);
+    const answerval = this.getInputValueById('answer' + questionType);
+    const pointsTrueval = this.getInputValueById('pointsTrue' + questionType);
+    const pointsFalseval = this.getInputValueById('pointsFalse' + questionType);
     const choices1 = [];
     this.choices.forEach(choice => choices1.push(choice.text));
     return {
@@ -97,9 +131,9 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
 
   // TODO Add question type
   // Add a new question to database, reload the page.
-  addQuestion(): void {
-    const questionObj = this.createQuestion();
-    const sub = this.questionService.postQuestion(questionObj).subscribe(() => {
+  addQuestion(questionType: string): void {
+    const questionObj = this.createQuestion(questionType);
+    const sub = this.questionService.postQuestion(questionObj, questionType).subscribe(() => {
       this.getQuestions();
     });
     this.subscriptions.push(sub);
@@ -149,8 +183,8 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   }
 
   // Update question selected for edit, otherwise submits new question.
-  updateQuestion(element: Question): void {
-    const questionObj = this.createQuestion();
+  updateQuestion(element: Question, questionType: string): void {
+    const questionObj = this.createQuestion(questionType);
     questionObj.id = element.id;
     this.updateInsteadOfPost = false;
     this.editId = null;
@@ -161,12 +195,12 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub);
   }
 
-  selectCorrectAnswer(id: number, element: Answer): void {
-    const selectedElement = document.getElementById('choice_' + id);
+  selectCorrectAnswer(id: number, element: Answer, questionType: string): void {
+    const selectedElement = document.getElementById(questionType + '_choice_' + id);
     if (selectedElement.getAttribute('isSelected') === 'false') {
       if (this.selectCorrectAnswerNr.length > 0) {
         this.selectCorrectAnswerNr = [];
-        this.setChoiceElementsToFalse();
+        this.setChoiceElementsToFalse(questionType);
       }
       selectedElement.setAttribute('isSelected', 'true');
       this.selectCorrectAnswerNr.push(element);
@@ -174,29 +208,41 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
       this.deleteCorrectAnswerFromList(element);
       selectedElement.setAttribute('isSelected', 'false');
     }
-    this.updateCorrectAnswerField();
+    this.updateCorrectAnswerField(questionType);
   }
 
-  setBg(id: number): string {
-    const selectedElement = document.getElementById('choice_' + id);
+  setBg(id: number, questionType: string): string {
+    const selectedElement = document.getElementById(questionType + '_choice_' + id);
     if (selectedElement.getAttribute('isSelected') === 'true') {
       return 'selectedCorrectAnswer';
     }
     return '';
   }
 
-  setChoiceElementsToFalse(): void {
-    this.choices.forEach((setToFalseSelect, index) => {
-      document.getElementById('choice_' + index).setAttribute('isSelected', 'false');
-    });
+  setChoiceElementsToFalse(questionType: string): void {
+    if (questionType === 'multipleChoices') {
+      this.choicesMultiple.forEach((setToFalseSelect, index) => {
+        document.getElementById(questionType + '_choice_' + index).setAttribute('isSelected', 'false');
+      });
+    }
+    if (questionType === 'checkbox') {
+      this.choicesCheckbox.forEach((setToFalseSelect, index) => {
+        document.getElementById(questionType + '_choice_' + index).setAttribute('isSelected', 'false');
+      });
+    }
+    if (questionType === 'text') {
+      this.choicesText.forEach((setToFalseSelect, index) => {
+        document.getElementById(questionType + '_choice_' + index).setAttribute('isSelected', 'false');
+      });
+    }
   }
 
-  updateCorrectAnswerField(): void {
+  updateCorrectAnswerField(questionType: string): void {
     if (this.selectCorrectAnswerNr.length === 0) {
-      (document.getElementById('answer') as HTMLInputElement).value = '';
+      (document.getElementById('answer' + questionType[0].toUpperCase() + questionType.slice(1)) as HTMLInputElement).value = '';
     }
     this.selectCorrectAnswerNr.forEach((answer) => {
-      (document.getElementById('answer') as HTMLInputElement).value = answer.text;
+      (document.getElementById('answer' + questionType[0].toUpperCase() + questionType.slice(1)) as HTMLInputElement).value = answer.text;
     });
   }
 
