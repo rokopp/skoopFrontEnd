@@ -179,7 +179,7 @@
       <br>
 
       <mat-form-field class="correctAnswer text-center mx-md-auto mr-lg-2 mb-lg-3" style="" appearance="fill">
-        <mat-label style="">Correct answer</mat-label>
+        <mat-label style="">Õige vastus</mat-label>
         <input id="answerMultipleChoices" type="text" matInput name="answer" required>
       </mat-form-field>
 
@@ -206,7 +206,7 @@
 <!--checkbox-->
 <jw-modal id="checkbox">
   <div class="col-sm-12 col-md-12 col-lg-12 form text-center">
-    <h2>Loo valikvastustega</h2>
+    <h2>Loo checkbox</h2>
     <form class="question-form">
 
       <mat-form-field class="question" appearance="outline">
@@ -223,7 +223,7 @@
             {{choice.text}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
-          <input [required] placeholder="Valikvastused: vajuta Enter et lisada ja Delete et kustutada. Lisaks vajuta et valida õige vastus"
+          <input [required] placeholder="Checkbox: vajuta Enter et lisada ja Delete et kustutada. Lisaks vajuta et valida õige vastus"
                  [matChipInputFor]="chipListCheckbox"
                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                  [matChipInputAddOnBlur]="addOnBlur"
@@ -234,7 +234,7 @@
       <br>
 
       <mat-form-field class="correctAnswer text-center mx-md-auto mr-lg-2 mb-lg-3" style="" appearance="fill">
-        <mat-label style="">Correct answer</mat-label>
+        <mat-label style="">Õige(d) vastus(ed)</mat-label>
         <input id="answerCheckbox" type="text" matInput name="answer" required>
       </mat-form-field>
 
@@ -251,7 +251,7 @@
       <br>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('checkbox');">Sulge</button>
-        <button type="submit" (click)="addQuestion('Checkbox'); closeModal('checkbox');" class="btn btn-success mx-auto">Lisa küsimus</button>
+        <button type="submit" (click)="addQuestion('Checkbox'); closeModal('checkbox');" class="btn btn-success mx-auto">Lisa checkbox</button>
         <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
       </div>
     </form>
@@ -261,7 +261,7 @@
 <!--text-->
 <jw-modal id="text">
   <div class="col-sm-12 col-md-12 col-lg-12 form text-center">
-    <h2>Loo valikvastustega</h2>
+    <h2>Loo tekst küsimus</h2>
     <form class="question-form">
 
       <mat-form-field class="question" appearance="outline">
