@@ -112,7 +112,6 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
     const answerval = this.getInputValueById('answer' + questionType);
     const pointsTrueval = this.getInputValueById('pointsTrue' + questionType);
     const pointsFalseval = this.getInputValueById('pointsFalse' + questionType);
-    const hintval = this.getInputValueById('hint' + questionType);
     const choices1 = [];
     if (questionType === 'MultipleChoices') {
       this.choicesMultiple.forEach(choice => choices1.push(choice.text));
@@ -128,6 +127,7 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
       };
     }
     if (questionType === 'Text') {
+      const hintval = this.getInputValueById('hint' + questionType);
       this.choicesText.forEach(choice => choices1.push(choice.text));
       return {
         questionSetId: this.setId,
