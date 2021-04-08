@@ -196,7 +196,7 @@
       <br>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('multipleChoices');">Sulge</button>
-        <button type="submit" (click)="addQuestion('MultipleChoices')" class="btn btn-success mx-auto">Lisa küsimus</button>
+        <button type="submit" (click)="addQuestion('MultipleChoices'); closeModal('multipleChoices')" class="btn btn-success mx-auto">Lisa küsimus</button>
         <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
       </div>
     </form>
@@ -251,7 +251,7 @@
       <br>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('checkbox');">Sulge</button>
-        <button type="submit" (click)="addQuestion('Checkbox')" class="btn btn-success mx-auto">Lisa küsimus</button>
+        <button type="submit" (click)="addQuestion('Checkbox'); closeModal('checkbox');" class="btn btn-success mx-auto">Lisa küsimus</button>
         <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
       </div>
     </form>
@@ -271,25 +271,8 @@
 
       <br>
 
-      <mat-form-field class="choices text-center mb-3">
-        <mat-chip-list #chipListText aria-label="Choices">
-          <mat-chip *ngFor="let choice of choicesText; let id = index" [selectable]="selectable" [removable]="removable"
-                    (removed)="remove(choice, 'text')" color="green" [ngClass]="setBg(id, 'text')" [attr.isSelected]="false" (click)="selectCorrectAnswer(id, choice, 'text')" id="text_choice_{{id}}">
-            {{choice.text}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-          <input [required] placeholder="Valikvastused: vajuta Enter et lisada ja Delete et kustutada. Lisaks vajuta et valida õige vastus"
-                 [matChipInputFor]="chipListText"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                 [matChipInputAddOnBlur]="addOnBlur"
-                 (matChipInputTokenEnd)="addAnswer($event, 'text')">
-        </mat-chip-list>
-      </mat-form-field>
-
-      <br>
-
       <mat-form-field class="correctAnswer text-center mx-md-auto mr-lg-2 mb-lg-3" style="" appearance="fill">
-        <mat-label style="">Correct answer</mat-label>
+        <mat-label style="">Kirjuta õige vastus</mat-label>
         <input id="answerText" type="text" matInput name="answer" required>
       </mat-form-field>
 
@@ -306,7 +289,7 @@
       <br>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('text');">Sulge</button>
-        <button type="submit" (click)="addQuestion('Text')" class="btn btn-success mx-auto">Lisa küsimus</button>
+        <button type="submit" (click)="addQuestion('Text'); closeModal('text')" class="btn btn-success mx-auto">Lisa küsimus</button>
         <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
       </div>
     </form>

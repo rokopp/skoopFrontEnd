@@ -71,11 +71,6 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
         this.choicesCheckbox.push({text: value.trim()});
       }
     }
-    if (questionType === 'text') {
-      if ((value || '').trim()) {
-        this.choicesText.push({text: value.trim()});
-      }
-    }
     if (questionType === 'edit') {
       if ((value || '').trim()) {
         this.choices.push({text: value.trim()});
@@ -100,12 +95,6 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
       const indexCheckbox = this.choicesCheckbox.indexOf(answer);
       if (indexCheckbox >= 0) {
         this.choicesCheckbox.splice(indexCheckbox, 1);
-      }
-    }
-    if (questionType === 'text') {
-      const indexText = this.choicesText.indexOf(answer);
-      if (indexText >= 0) {
-        this.choicesText.splice(indexText, 1);
       }
     }
     if (questionType === 'edit') {
@@ -238,7 +227,6 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
     (document.getElementById('pointsFalseEdit') as HTMLInputElement).value = String(element.pointsFalse);
     (document.getElementById('answerEdit') as HTMLInputElement).value = element.answer;
     this.choices = [];
-    console.log(element);
     if (typeof element.choices === 'undefined') {
       const choiceAnswer = {text: element.answer};
       this.choices.push(choiceAnswer);
@@ -315,11 +303,6 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
         document.getElementById(questionType + '_choice_' + index).setAttribute('isSelected', 'false');
       });
     }
-    if (questionType === 'text') {
-      this.choicesText.forEach((setToFalseSelect, index) => {
-        document.getElementById(questionType + '_choice_' + index).setAttribute('isSelected', 'false');
-      });
-    }
     if (questionType === 'edit') {
       this.choices.forEach((setToFalseSelect, index) => {
         document.getElementById(questionType + '_choice_' + index).setAttribute('isSelected', 'false');
@@ -327,7 +310,6 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
     }
   }
 
-  // TODO remove element on unselect
   updateCorrectAnswerField(questionType: string): void {
     if (questionType !== 'checkbox') {
       if (this.selectCorrectAnswerNr.length === 0) {
