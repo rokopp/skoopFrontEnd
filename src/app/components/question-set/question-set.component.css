@@ -1,6 +1,6 @@
 .container-fluid {
   height: 80vh;
-  background-color: whitesmoke;
+  /*background-color: whitesmoke;*/
 }
 
 table {
@@ -56,4 +56,8 @@ h1 {
   .margin-l2-btn {
     margin-left: calc(1rem * .5) !important;
   }
+}
+
+.selectedCorrectAnswer {
+  background: green;
 }

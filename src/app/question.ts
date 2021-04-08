@@ -1,8 +1,10 @@
 export interface Question {
   questionSetId: number;
   id: number;
-  question: string;
+  questionText: string;
   choices: string[];
   answer: string;
-  points: number;
+  pointsTrue: number;
+  pointsFalse: number;
+  hint: string;
 }

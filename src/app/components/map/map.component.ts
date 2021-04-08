@@ -192,14 +192,14 @@ export class MapComponent implements OnInit {
   // Saves all current question data and shows question on the map
   showQuestion(feature: Feature): void{
     if (this.questionobj !== undefined) {
-      this.question = this.questionobj.question;
+      this.question = this.questionobj.questionText;
       this.answer = this.questionobj.answer;
       this.choices = [];
       this.questionobj.choices.forEach(q => {
         this.choices.push(q);
       });
       this.choices = this.questionobj.choices;
-      this.points = this.questionobj.points;
+      this.points = this.questionobj.pointsTrue;
       this.showModal();
       this.amount--;
       this.vectorSource.removeFeature(feature);

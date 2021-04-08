@@ -18,7 +18,6 @@ export class QuestionsanswersComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event): void {
     this.innerWidth = window.innerWidth;
-    console.log(this.innerWidth);
   }
 
   setClassNames(): string {

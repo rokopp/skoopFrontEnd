@@ -7,7 +7,7 @@ import {Question} from '../question';
   providedIn: 'root'
 })
 export class QuestionService {
-  private questionsUrl = 'api/questions';
+  private questionsUrl = 'api/questions/multiple';
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
@@ -20,6 +20,7 @@ export class QuestionService {
     return this.http.get<Question>(this.questionsUrl + '/' + id);
   }
 
+  // TODO add question type by url
   postQuestion(questionObj: Question): Observable<Question> {
     return this.http.post<Question>(this.questionsUrl, questionObj, {});
   }
