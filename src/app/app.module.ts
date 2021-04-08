@@ -92,6 +92,7 @@ import { ModalComponent } from './components/modal/modal.component';
     SplashScreenComponent,
     RoomEditingComponent,
     SearchFilterPipe,
+    ModalComponent,
     ActivateRoomComponent,
     ShowActivatedRoomComponent,
   ],
