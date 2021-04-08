@@ -4,7 +4,7 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {QuestionService} from '../../services/question.service';
 import {MatTable} from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import {Question} from '../../question';
+import {Question, QuestionCheckBox} from '../../question';
 import {Subscription} from 'rxjs';
 import {ModalService} from '../../services/modal.service';
 
@@ -28,6 +28,10 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   choices: Answer[] = [];
+  choicesMultiple: Answer[] = [];
+  choicesCheckbox: Answer[] = [];
+  choicesText: Answer[] = [];
+  checkBoxAnswers: string[] = [];
   setId: number;
   setName: string;
   private subscriptions: Subscription[] = [];
@@ -53,12 +57,24 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   }
 
   // Add choices under question.
-  addAnswer(event: MatChipInputEvent): void {
+  addAnswer(event: MatChipInputEvent, questionType: string): void {
     const input = event.input;
     const value = event.value;
     // Add answer
-    if ((value || '').trim()) {
-      this.choices.push({text: value.trim()});
+    if (questionType === 'multipleChoices') {
+      if ((value || '').trim()) {
+        this.choicesMultiple.push({text: value.trim()});
+      }
+    }
+    if (questionType === 'checkbox') {
+      if ((value || '').trim()) {
+        this.choicesCheckbox.push({text: value.trim()});
+      }
+    }
+    if (questionType === 'edit') {
+      if ((value || '').trim()) {
+        this.choices.push({text: value.trim()});
+      }
     }
 
     // Reset input value
@@ -68,28 +84,91 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   }
 
   // Remove one choice from question.
-  remove(answer: Answer): void {
-    const index = this.choices.indexOf(answer);
-    if (index >= 0) {
-      this.choices.splice(index, 1);
+  remove(answer: Answer, questionType: string): void {
+    if (questionType === 'multipleChoices') {
+      const indexMultiple = this.choicesMultiple.indexOf(answer);
+      if (indexMultiple >= 0) {
+        this.choicesMultiple.splice(indexMultiple, 1);
+      }
     }
+    if (questionType === 'checkbox') {
+      const indexCheckbox = this.choicesCheckbox.indexOf(answer);
+      if (indexCheckbox >= 0) {
+        this.choicesCheckbox.splice(indexCheckbox, 1);
+      }
+    }
+    if (questionType === 'edit') {
+      const index = this.choices.indexOf(answer);
+      if (index >= 0) {
+        this.choices.splice(index, 1);
+      }
+    }
+
   }
 
   // Returns a question put together from input values.
-  createQuestion(): Question {
-    const questionval = this.getInputValueById('question');
-    const answerval = this.getInputValueById('answer');
-    const pointsTrueval = this.getInputValueById('pointsTrue');
-    const pointsFalseval = this.getInputValueById('pointsFalse');
+  createQuestion(questionType: string): Question {
+    const questionval = this.getInputValueById('question' + questionType);
+    const answerval = this.getInputValueById('answer' + questionType);
+    const pointsTrueval = this.getInputValueById('pointsTrue' + questionType);
+    const pointsFalseval = this.getInputValueById('pointsFalse' + questionType);
+    const hintval = this.getInputValueById('hint' + questionType);
     const choices1 = [];
-    this.choices.forEach(choice => choices1.push(choice.text));
+    if (questionType === 'MultipleChoices') {
+      this.choicesMultiple.forEach(choice => choices1.push(choice.text));
+      return {
+        questionSetId: this.setId,
+        questionText: questionval,
+        answer: answerval,
+        pointsTrue: +pointsTrueval,
+        pointsFalse: -pointsFalseval,
+        hint: 'your mom',
+        id: null,
+        choices: choices1
+      };
+    }
+    if (questionType === 'Text') {
+      this.choicesText.forEach(choice => choices1.push(choice.text));
+      return {
+        questionSetId: this.setId,
+        questionText: questionval,
+        answer: answerval,
+        pointsTrue: +pointsTrueval,
+        pointsFalse: -pointsFalseval,
+        hint: hintval,
+        id: null,
+        choices: choices1
+      };
+    }
+    if (questionType === 'edit') {
+      this.choices.forEach(choice => choices1.push(choice.text));
+      return {
+        questionSetId: this.setId,
+        questionText: questionval,
+        answer: answerval,
+        pointsTrue: +pointsTrueval,
+        pointsFalse: -pointsFalseval,
+        hint: 'your mom',
+        id: null,
+        choices: choices1
+      };
+    }
+
+  }
+
+  // Returns a question put together from input values.
+  createQuestionCheckBox(questionType: string): QuestionCheckBox {
+    const questionval = this.getInputValueById('question' + questionType);
+    const pointsTrueval = this.getInputValueById('pointsTrue' + questionType);
+    const pointsFalseval = this.getInputValueById('pointsFalse' + questionType);
+    const choices1 = [];
+    this.choicesCheckbox.forEach(choice => choices1.push(choice.text));
     return {
       questionSetId: this.setId,
       questionText: questionval,
-      answer: answerval,
+      answer: this.checkBoxAnswers,
       pointsTrue: +pointsTrueval,
       pointsFalse: -pointsFalseval,
-      hint: 'your mom',
       id: null,
       choices: choices1
     };
@@ -97,11 +176,20 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
 
   // TODO Add question type
   // Add a new question to database, reload the page.
-  addQuestion(): void {
-    const questionObj = this.createQuestion();
-    const sub = this.questionService.postQuestion(questionObj).subscribe(() => {
-      this.getQuestions();
-    });
+  addQuestion(questionType: string): void {
+    let sub;
+    if (questionType === 'Checkbox') {
+      const questionObj = this.createQuestionCheckBox(questionType);
+      sub = this.questionService.postQuestionCheckBox(questionObj, questionType).subscribe(() => {
+        this.getQuestions();
+      });
+    } else {
+      const questionObj = this.createQuestion(questionType);
+      sub = this.questionService.postQuestion(questionObj, questionType).subscribe(() => {
+        this.getQuestions();
+      });
+    }
+
     this.subscriptions.push(sub);
     this.updateInsteadOfPost = false;
     this.editId = null;
@@ -135,22 +223,28 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
 
   // Change question field values.
   editQuestion(element: Question): void {
-    (document.getElementById('question') as HTMLInputElement).value = element.questionText;
-    (document.getElementById('pointsTrue') as HTMLInputElement).value = String(element.pointsTrue);
-    (document.getElementById('pointsFalse') as HTMLInputElement).value = String(element.pointsFalse);
-    (document.getElementById('answer') as HTMLInputElement).value = element.answer;
+    (document.getElementById('questionEdit') as HTMLInputElement).value = element.questionText;
+    (document.getElementById('pointsTrueEdit') as HTMLInputElement).value = String(element.pointsTrue);
+    (document.getElementById('pointsFalseEdit') as HTMLInputElement).value = String(element.pointsFalse);
+    (document.getElementById('answerEdit') as HTMLInputElement).value = element.answer;
     this.choices = [];
-    element.choices.forEach(choice => {
-      const choiceAnswer = {text: choice};
-      this.choices.push(choiceAnswer); }
-    );
+    if (typeof element.choices === 'undefined') {
+      const choiceAnswer = {text: element.answer};
+      this.choices.push(choiceAnswer);
+    } else {
+      element.choices.forEach(choice => {
+        const choiceAnswer = {text: choice};
+        this.choices.push(choiceAnswer); }
+      );
+    }
+
     this.updateInsteadOfPost = true;
     this.editId = element.id;
   }
 
   // Update question selected for edit, otherwise submits new question.
-  updateQuestion(element: Question): void {
-    const questionObj = this.createQuestion();
+  updateQuestion(element: Question, questionType: string): void {
+    const questionObj = this.createQuestion(questionType);
     questionObj.id = element.id;
     this.updateInsteadOfPost = false;
     this.editId = null;
@@ -161,12 +255,12 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub);
   }
 
-  selectCorrectAnswer(id: number, element: Answer): void {
-    const selectedElement = document.getElementById('choice_' + id);
+  selectCorrectAnswer(id: number, element: Answer, questionType: string): void {
+    const selectedElement = document.getElementById(questionType + '_choice_' + id);
     if (selectedElement.getAttribute('isSelected') === 'false') {
       if (this.selectCorrectAnswerNr.length > 0) {
         this.selectCorrectAnswerNr = [];
-        this.setChoiceElementsToFalse();
+        this.setChoiceElementsToFalse(questionType);
       }
       selectedElement.setAttribute('isSelected', 'true');
       this.selectCorrectAnswerNr.push(element);
@@ -174,35 +268,81 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
       this.deleteCorrectAnswerFromList(element);
       selectedElement.setAttribute('isSelected', 'false');
     }
-    this.updateCorrectAnswerField();
+    this.updateCorrectAnswerField(questionType);
   }
 
-  setBg(id: number): string {
-    const selectedElement = document.getElementById('choice_' + id);
+  selectCheckBoxCorrectAnswer(id: number, element: Answer, questionType: string): void {
+    const selectedElement = document.getElementById(questionType + '_choice_' + id);
+    if (selectedElement.getAttribute('isSelected') === 'false') {
+      selectedElement.setAttribute('isSelected', 'true');
+      this.selectCorrectAnswerNr.push(element);
+      this.checkBoxAnswers.push(element.text);
+    } else {
+      this.deleteCorrectAnswerFromList(element);
+      this.deleteCheckBoxCorrectAnswerFromList(element);
+      selectedElement.setAttribute('isSelected', 'false');
+    }
+    this.updateCorrectAnswerField(questionType);
+  }
+
+  setBg(id: number, questionType: string): string {
+    const selectedElement = document.getElementById(questionType + '_choice_' + id);
     if (selectedElement.getAttribute('isSelected') === 'true') {
       return 'selectedCorrectAnswer';
     }
     return '';
   }
 
-  setChoiceElementsToFalse(): void {
-    this.choices.forEach((setToFalseSelect, index) => {
-      document.getElementById('choice_' + index).setAttribute('isSelected', 'false');
-    });
+  setChoiceElementsToFalse(questionType: string): void {
+    if (questionType === 'multipleChoices') {
+      this.choicesMultiple.forEach((setToFalseSelect, index) => {
+        document.getElementById(questionType + '_choice_' + index).setAttribute('isSelected', 'false');
+      });
+    }
+    if (questionType === 'checkbox') {
+      this.choicesCheckbox.forEach((setToFalseSelect, index) => {
+        document.getElementById(questionType + '_choice_' + index).setAttribute('isSelected', 'false');
+      });
+    }
+    if (questionType === 'edit') {
+      this.choices.forEach((setToFalseSelect, index) => {
+        document.getElementById(questionType + '_choice_' + index).setAttribute('isSelected', 'false');
+      });
+    }
   }
 
-  updateCorrectAnswerField(): void {
-    if (this.selectCorrectAnswerNr.length === 0) {
-      (document.getElementById('answer') as HTMLInputElement).value = '';
+  updateCorrectAnswerField(questionType: string): void {
+    if (questionType !== 'checkbox') {
+      if (this.selectCorrectAnswerNr.length === 0) {
+        (document.getElementById('answer' + questionType[0].toUpperCase() + questionType.slice(1)) as HTMLInputElement).value = '';
+      }
+      this.selectCorrectAnswerNr.forEach((answer) => {
+        (document.getElementById('answer' + questionType[0].toUpperCase() + questionType.slice(1)) as HTMLInputElement).value = answer.text;
+      });
+    } else {
+      (document.getElementById('answer' + questionType[0].toUpperCase() + questionType.slice(1)) as HTMLInputElement).value = '';
+      this.checkBoxAnswers.forEach((answer) => {
+        const typeToUpper = questionType[0].toUpperCase() + questionType.slice(1);
+        const currentAnswers = (document.getElementById('answer' + typeToUpper) as HTMLInputElement).value;
+        if (currentAnswers.length === 0) {
+          (document.getElementById('answer' + typeToUpper) as HTMLInputElement).value += answer;
+        } else {
+          (document.getElementById('answer' + typeToUpper) as HTMLInputElement).value = currentAnswers + ',' + answer;
+        }
+      });
     }
-    this.selectCorrectAnswerNr.forEach((answer) => {
-      (document.getElementById('answer') as HTMLInputElement).value = answer.text;
-    });
+
   }
 
   deleteCorrectAnswerFromList(deleteElement: Answer): void {
     this.selectCorrectAnswerNr.forEach((element, index) => {
       if (element === deleteElement) { this.selectCorrectAnswerNr.splice(index, 1); }
+    });
+  }
+
+  deleteCheckBoxCorrectAnswerFromList(deleteElement: Answer): void {
+    this.checkBoxAnswers.forEach((element, index) => {
+      if (element === deleteElement.text) { this.checkBoxAnswers.splice(index, 1); }
     });
   }
 
