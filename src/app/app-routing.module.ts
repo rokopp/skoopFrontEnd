@@ -1,3 +1,4 @@
+import { ShowActivatedRoomComponent } from './components/show-activated-room/show-activated-room.component';
 import { LocationSetsComponent } from './components/location-sets/location-sets.component';
 import { CreateMapComponent } from './components/create-map/create-map.component';
 import { MapComponent } from './components/map/map.component';
@@ -13,7 +14,8 @@ import {UsersRoomsComponent} from './components/users-rooms/users-rooms.componen
 import {QuestionSetComponent} from './components/question-set/question-set.component';
 import {QuestionSetsComponent} from './components/question-sets/question-sets.component';
 import {NotfoundComponent} from './components/notfound/notfound.component';
-import {RoomEditingComponent} from "./components/room-editing/room-editing.component";
+import {RoomEditingComponent} from './components/room-editing/room-editing.component';
+import { ActivateRoomComponent } from './components/activate-room/activate-room.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/avaleht', pathMatch: 'full'},
@@ -37,6 +39,12 @@ const routes: Routes = [
       {
         path: 'ruumid/:id',
         component: CreateNewRoomComponent
+      },
+      { path: 'aktiveeri',
+        component: ActivateRoomComponent,
+      },
+      { path: 'aktiveeri/:activeroom',
+        component: ShowActivatedRoomComponent,
       },
       {
         path: 'questionsets',

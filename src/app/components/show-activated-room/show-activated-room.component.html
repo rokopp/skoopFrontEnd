@@ -1,0 +1,15 @@
+<div class="container-fluid d-flex flex-column">
+  <div class=row>
+    <button class='btn btn-info' (click)="backClicked()">Tagasi</button>
+  </div>
+  <div class="row justify-content-center">
+    <p class='h2'>Teie liitumis kood on:</p>
+  </div>
+  <div class="row justify-content-center">
+    <p class="h1">{{joinCode}}</p>
+  </div>
+  <div class="mt-3 pt-3"></div>
+  <div class="mt-3 pt-3"></div>
+  <div class="mt-3 pt-3"></div>
+  <button class='btn btn-danger' (click)="deleteGame()">Kustuta mäng</button>
+</div>

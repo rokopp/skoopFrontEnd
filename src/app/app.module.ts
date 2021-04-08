@@ -33,6 +33,8 @@ import {LoaderInterceptorService} from './services/loader-interceptor.service';
 import { SearchFilterPipe } from './filter/search-filter.pipe';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 import { RoomEditingComponent } from './components/room-editing/room-editing.component';
+import { ActivateRoomComponent } from './components/activate-room/activate-room.component';
+import { ShowActivatedRoomComponent } from './components/show-activated-room/show-activated-room.component';
 import { ModalComponent } from './components/modal/modal.component';
 // import {
 //   MSAL_CONFIG, MSAL_CONFIG_ANGULAR,
@@ -90,7 +92,8 @@ import { ModalComponent } from './components/modal/modal.component';
     SplashScreenComponent,
     RoomEditingComponent,
     SearchFilterPipe,
-    ModalComponent,
+    ActivateRoomComponent,
+    ShowActivatedRoomComponent,
   ],
     imports: [
       BrowserModule,
