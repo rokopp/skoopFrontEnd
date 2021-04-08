@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Question} from '../question';
+import {Question, QuestionCheckBox} from '../question';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,11 @@ export class QuestionService {
 
   // TODO add question type by url
   postQuestion(questionObj: Question, questionType: string): Observable<Question> {
+    this.setUrl(questionType);
+    return this.http.post<Question>(this.questionsUrl + this.questionTypeUrl, questionObj, {});
+  }
+
+  postQuestionCheckBox(questionObj: QuestionCheckBox, questionType: string): Observable<Question> {
     this.setUrl(questionType);
     return this.http.post<Question>(this.questionsUrl + this.questionTypeUrl, questionObj, {});
   }
