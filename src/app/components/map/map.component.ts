@@ -1,3 +1,4 @@
+import { ActiveRoomsService } from './../../services/active-rooms.service';
 import { GPSControl } from './gps-control';
 import { Observable } from 'rxjs';
 import { Question } from './../../question';
@@ -23,6 +24,7 @@ import { ActivatedRoute } from '@angular/router';
 import {defaults as defaultControls} from 'ol/control';
 import { L } from '@angular/cdk/keycodes';
 import {NavbarService} from '../../services/navbar.service';
+import { ActiveRoom } from 'src/app/activeroom';
 
 declare let $: any;
 
@@ -43,6 +45,8 @@ export interface Answer {
 
 export class MapComponent implements OnInit {
   @ViewChild('modal') modal: ElementRef;
+  joinCode;
+  activeRoom: ActiveRoom;
   gameId;
   selectedAnswer;
   form: FormGroup;
@@ -70,6 +74,7 @@ export class MapComponent implements OnInit {
   innerWidth: any;
 
   constructor(
+    public acService: ActiveRoomsService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private pairService: PairService,
@@ -80,13 +85,21 @@ export class MapComponent implements OnInit {
     this.form = this.formBuilder.group({
       answers: ['']
     });
-    this.gameId = this.activatedRoute.snapshot.paramMap.get('id');
+
   }
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(
+      (params) => {
+        this.joinCode = params.joincode;
+        this.acService.getActiveGameByJoinCode(this.joinCode).subscribe(room => {
+          this.activeRoom = room;
+          this.gameId = this.activeRoom.roomId;
+          this.getPairs();
+        })
+      });
     this.innerWidth = window.innerWidth;
     this.hideNavbarMobileView();
     this.initializeMap();
-    this.getPairs();
     this.updateMap();
   }
 
@@ -170,9 +183,11 @@ export class MapComponent implements OnInit {
 
   // Gets all question and location pairs of the current game
   getPairs(): void{
-    this.pairService.getPairs().subscribe(pairs =>
+    this.pairService.getPairsByRoomId(this.gameId).subscribe(pairs =>
       pairs.forEach(pair => {
-        if (pair.roomId.toString() === this.gameId){
+        console.log(pair);
+        console.log(this.gameId);
+        if (pair.roomId === this.gameId){
             this.locationService.getLocationsbyId(pair.locationId).subscribe(location =>
                 this.addNewLocation(location, pair.questionId)
               );
@@ -208,6 +223,7 @@ export class MapComponent implements OnInit {
 
   // Function the gets correct coordinates of marker and calls helper function to add them to the map
   addNewLocation(location: Location, qID: number): void{
+    console.log(location);
     this.amount++;
     const coordinates: LonAndLat = JSON.parse(location.location);
     this.createMarekrs(coordinates.lng, coordinates.lat, location.id, qID);
