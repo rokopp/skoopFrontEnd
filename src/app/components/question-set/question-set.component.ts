@@ -21,7 +21,7 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table: MatTable<Question>;
   updateInsteadOfPost = false;
   editId = null;
-  columnsToDisplay = ['id', 'question', 'answer', 'type', 'hint', 'action'];
+  columnsToDisplay = ['id', 'question', 'answer', 'type', 'action'];
   questionSet: Array<{}> = [];  // Array of objects
   selectable = true;
   removable = true;
