@@ -6,6 +6,7 @@ import {MatTable} from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import {Question} from '../../question';
 import {Subscription} from 'rxjs';
+import {ModalService} from '../../services/modal.service';
 
 export interface Answer {
   text: string;
@@ -20,7 +21,7 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table: MatTable<Question>;
   updateInsteadOfPost = false;
   editId = null;
-  columnsToDisplay = ['id', 'question', 'answer', 'action'];
+  columnsToDisplay = ['id', 'question', 'answer', 'type', 'hint', 'action'];
   questionSet: Array<{}> = [];  // Array of objects
   selectable = true;
   removable = true;
@@ -30,9 +31,11 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   setId: number;
   setName: string;
   private subscriptions: Subscription[] = [];
+  selectCorrectAnswerNr: Answer[] = [];
 
   constructor(private questionService: QuestionService,
-              private route: ActivatedRoute ) { }
+              private route: ActivatedRoute,
+              public modalService: ModalService) { }
 
   ngOnInit(): void {
     // Get pathvariables question Set id and name.
@@ -76,19 +79,23 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   createQuestion(): Question {
     const questionval = this.getInputValueById('question');
     const answerval = this.getInputValueById('answer');
-    const pointsval = this.getInputValueById('points');
+    const pointsTrueval = this.getInputValueById('pointsTrue');
+    const pointsFalseval = this.getInputValueById('pointsFalse');
     const choices1 = [];
     this.choices.forEach(choice => choices1.push(choice.text));
     return {
       questionSetId: this.setId,
-      question: questionval,
+      questionText: questionval,
       answer: answerval,
-      points: +pointsval,
+      pointsTrue: +pointsTrueval,
+      pointsFalse: -pointsFalseval,
+      hint: 'your mom',
       id: null,
       choices: choices1
     };
   }
 
+  // TODO Add question type
   // Add a new question to database, reload the page.
   addQuestion(): void {
     const questionObj = this.createQuestion();
@@ -128,8 +135,9 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
 
   // Change question field values.
   editQuestion(element: Question): void {
-    (document.getElementById('question') as HTMLInputElement).value = element.question;
-    (document.getElementById('points') as HTMLInputElement).value = String(element.points);
+    (document.getElementById('question') as HTMLInputElement).value = element.questionText;
+    (document.getElementById('pointsTrue') as HTMLInputElement).value = String(element.pointsTrue);
+    (document.getElementById('pointsFalse') as HTMLInputElement).value = String(element.pointsFalse);
     (document.getElementById('answer') as HTMLInputElement).value = element.answer;
     this.choices = [];
     element.choices.forEach(choice => {
@@ -151,5 +159,63 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
       },
       error => console.error(error));
     this.subscriptions.push(sub);
+  }
+
+  selectCorrectAnswer(id: number, element: Answer): void {
+    const selectedElement = document.getElementById('choice_' + id);
+    if (selectedElement.getAttribute('isSelected') === 'false') {
+      if (this.selectCorrectAnswerNr.length > 0) {
+        this.selectCorrectAnswerNr = [];
+        this.setChoiceElementsToFalse();
+      }
+      selectedElement.setAttribute('isSelected', 'true');
+      this.selectCorrectAnswerNr.push(element);
+    } else {
+      this.deleteCorrectAnswerFromList(element);
+      selectedElement.setAttribute('isSelected', 'false');
+    }
+    this.updateCorrectAnswerField();
+  }
+
+  setBg(id: number): string {
+    const selectedElement = document.getElementById('choice_' + id);
+    if (selectedElement.getAttribute('isSelected') === 'true') {
+      return 'selectedCorrectAnswer';
+    }
+    return '';
+  }
+
+  setChoiceElementsToFalse(): void {
+    this.choices.forEach((setToFalseSelect, index) => {
+      document.getElementById('choice_' + index).setAttribute('isSelected', 'false');
+    });
+  }
+
+  updateCorrectAnswerField(): void {
+    if (this.selectCorrectAnswerNr.length === 0) {
+      (document.getElementById('answer') as HTMLInputElement).value = '';
+    }
+    this.selectCorrectAnswerNr.forEach((answer) => {
+      (document.getElementById('answer') as HTMLInputElement).value = answer.text;
+    });
+  }
+
+  deleteCorrectAnswerFromList(deleteElement: Answer): void {
+    this.selectCorrectAnswerNr.forEach((element, index) => {
+      if (element === deleteElement) { this.selectCorrectAnswerNr.splice(index, 1); }
+    });
+  }
+
+  openModal(id: string, element: Question): void {
+    this.modalService.open(id);
+    this.modalService.setElementQuestion(element);
+  }
+
+  openModalForCreating(id: string): void {
+    this.modalService.open(id);
+  }
+
+  closeModal(id: string): void {
+    this.modalService.close(id);
   }
 }

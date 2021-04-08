@@ -116,7 +116,7 @@ export class CreateNewRoomComponent implements OnInit {
       const coordinates = JSON.parse(location.location);
       const newCoordinates = 'pikkuskraad: ' + coordinates.lng +  ', laiuskraad: ' + coordinates.lat;
       this.questionService.getQuestionById(questionId).subscribe(question => {
-        this.pairDetails.push(new PairDetail(pairId, newCoordinates, question.question));
+        this.pairDetails.push(new PairDetail(pairId, newCoordinates, question.questionText));
       });
     });
   }
