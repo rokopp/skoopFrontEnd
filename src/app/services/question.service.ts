@@ -17,8 +17,8 @@ export class QuestionService {
   getQuestions(setId: number): Observable<Question[]> {
     return this.http.get<Question[]>('api/question_sets/' + setId);
   }
-  getQuestionById(id: number): Observable<Question> {
-    return this.http.get<Question>(this.questionsUrl + '/' + id);
+  getQuestionById(id: number): Observable<any> {
+    return this.http.get<any>(this.questionsUrl + '/' + id);
   }
 
   // TODO add question type by url

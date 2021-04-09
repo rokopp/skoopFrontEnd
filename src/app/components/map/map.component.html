@@ -32,35 +32,83 @@
 </div>
 <div id="map" class="map"></div>
 
-
-<!-- Modal -->
-<div class="modal fade" #modal>
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="exampleModalLabel">Vasta</h3>
-      </div>
-      <div class="modal-body">
-        <div *ngIf="quizopen; else elseBlock">
-          <form [formGroup]="form" (ngSubmit)="checkanswer()">
-            <div class="form-group">
-                <label for="answers">{{question}}</label>
-                <select [(ngModel)]="selectedAnswer" formControlName="answers" id="answers" class="form-control">
-                  <option *ngFor="let choice of choices; let i = index" [ngValue]="choice">
-                    {{choices[i]}}
-                  </option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Vasta</button>
-          </form>
-       </div>
-       <ng-template #elseBlock>Game over you scored: {{score}}
-        <div class="modal-footer">
-          <button class="btn btn-primary" routerLink="/mang" data-dismiss="modal">Back to menu</button>
-        </div>
-       </ng-template>
-      </div>
+<jw-modal id="checkBoxQuestion">
+  <div class="modal-content">
+    <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="checkanswer('CHECKBOX')">
+          <p class='h2'>{{questionText}}</p>
+          <div class="form-check" *ngFor="let choice of choices">
+            <input class="form-check-input-lg" (change)="onChange(choice, $event.target.checked)"name="{{ choice }}" type="checkbox" id="{{choice}}">
+            <label class="form-check-label" for="{{choice}}">
+                <p class='h3'>  {{choice}}</p>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary float-right">Vasta</button>
+        </form>
     </div>
   </div>
-</div>
+</jw-modal>
 
+<jw-modal id="textQuestion">
+  <div class="modal-content">
+    <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="checkanswer('TEXT')">
+          <div class="form-group">
+              <label for="answer" class='h2'>{{questionText}}</label>
+              <p class='h4'>Hint:  {{hint}}</p>
+              <input [(ngModel)]="textAnswer" id="answer" placeholder="Kirjutage vastus" class="form-control" required [ngModelOptions]="{standalone: true}">
+          </div>
+          <button type="submit" class="btn btn-primary float-right">Vasta</button>
+        </form>
+    </div>
+  </div>
+</jw-modal>
+
+<jw-modal id="multipleChoiceQuestion">
+  <div class="modal-content">
+    <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="checkanswer('MULTIPLE_CHOICE')">
+          <div class="form-group">
+              <label for="answers" class='h2'>{{questionText}}</label>
+              <select [(ngModel)]="selectedAnswer" formControlName="answers" id="answers" class="form-control">
+                <option *ngFor="let choice of choices; let i = index" [ngValue]="choice" class='h3'>
+                  <p>{{choices[i]}}</p>
+                </option>
+              </select>
+          </div>
+          <button type="submit" class="btn btn-primary float-right">Vasta</button>
+        </form>
+    </div>
+  </div>
+</jw-modal>
+
+<jw-modal id="correctAnswer">
+  <p class="h2">Õige vastus. Te saite {{pointsTrue}} punkti</p>
+  <br>
+  <p class="h2">Teie skoor on nüüd {{score}}</p>
+</jw-modal>
+
+<jw-modal id="wrongAnswerText">
+  <p class="h2">Teie vastus oli vale. Õige vastus {{answer}}</p>
+  <br>
+  <p class="h2">Teie skoor on nüüd {{score}}</p>
+</jw-modal>
+
+<jw-modal id="wrongAnswerCheckBox">
+  <p class="h2">Teie vastus oli vale. Õiged vastused olid {{answers}}</p>
+  <br>
+  <p class="h2">Teie skoor on nüüd {{score}}</p>
+</jw-modal>
+
+<jw-modal id="wrongAnswerMultipleChoice">
+  <p class="h2">Teie vastus oli vale. Õige vastus oli {{answer}}</p>
+  <br>
+  <p class="h2">Teie skoor on nüüd {{score}}</p>
+</jw-modal>
+
+<jw-modal id="gameEnded">
+    <p class='h2'>Game over. Score: {{score}}</p>
+    <div class="modal-footer">
+      <button class="btn btn-primary" routerLink="/mang" data-dismiss="modal">Tagasi menusse</button>
+    </div>
+</jw-modal>

@@ -25,7 +25,6 @@ const routes: Routes = [
   { path: 'mang/:joincode', component: GoPlayRoomsComponent,  },
   { path: 'mang/:joincode/:teamname', component: MapComponent },
   { path: 'kontakt', component: ContactComponent,   },
-  { path: 'map', component: MapComponent,   },
   { path: 'createmap', component: CreateMapComponent,   },
   { path: 'createlocation', component: LocationSetsComponent,   },
   { path: 'createlocation/:id', component: CreateMapComponent,   },

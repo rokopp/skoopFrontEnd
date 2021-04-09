@@ -1,3 +1,6 @@
+import { ModalService } from './../../services/modal.service';
+import { MultipleChoice } from './../../questionTypes/multliple_Choice';
+import { CheckBox } from './../../questionTypes/checkBox';
 import { ActiveRoomsService } from './../../services/active-rooms.service';
 import { GPSControl } from './gps-control';
 import { Observable } from 'rxjs';
@@ -22,9 +25,9 @@ import VectorSource from 'ol/source/Vector';
 import {Circle as CircleStyle, Fill, Stroke, Icon, Style} from 'ol/style';
 import { ActivatedRoute } from '@angular/router';
 import {defaults as defaultControls} from 'ol/control';
-import { L } from '@angular/cdk/keycodes';
 import {NavbarService} from '../../services/navbar.service';
 import { ActiveRoom } from 'src/app/activeroom';
+import { Text } from 'src/app/questionTypes/text';
 
 declare let $: any;
 
@@ -48,13 +51,28 @@ export class MapComponent implements OnInit {
   joinCode;
   activeRoom: ActiveRoom;
   gameId;
-  selectedAnswer;
   form: FormGroup;
   questionobj: Question;
+  // Question Types -------------
+  textQuestion: Text;
+  checkBoxQuestion: CheckBox;
+  multipleChoiceQ: MultipleChoice;
+  //  Question Parameters
+  type;
   question;
   answer;
+  answers: string[] = [];
   choices: string[] = [];
+  hint;
   points;
+  questionText;
+  pointsTrue;
+  pointsFalse;
+  // -----
+  // Question Answers
+  selectedAnswer;
+  selectedAnswers;
+  textAnswer;
   map;
   player;
   vectorSource;
@@ -75,6 +93,7 @@ export class MapComponent implements OnInit {
 
   constructor(
     public acService: ActiveRoomsService,
+    public modalService: ModalService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private pairService: PairService,
@@ -142,18 +161,52 @@ export class MapComponent implements OnInit {
   }
 
   // Checks if current questions answer is correct
-  public checkanswer(): void{
-    if (this.selectedAnswer.trim() === this.answer.trim()){
-      this.score = this.score + this.points;
-    }else{
-      this.score = this.score - this.points;
-    }
+  public checkanswer(type: string): void{
     if (this.amount === 0){
-      this.quizopen = false;
-    }else{
-      $(this.modal.nativeElement).modal('hide');
-      this.answering = false;
+      this.modalService.open('gameEnded');
     }
+    switch (type) {
+      case 'CHECKBOX': {
+        this.modalService.close('checkBoxQuestion');
+        let checker = (arr, target) => target.every(v => arr.includes(v));
+        if (checker(this.selectedAnswers, this.answers)) {
+          this.score += this.pointsTrue;
+          this.modalService.open('correctAnswer');
+        }else {
+          this.score += this.pointsFalse;
+          this.modalService.open('wrongAnswerCheckBox');
+        }
+        break;
+      }
+      case 'TEXT': {
+        this.modalService.close('textQuestion');
+        if (this.textAnswer.trim() === this.answer.trim()) {
+          this.score += this.pointsTrue;
+          this.modalService.open('correctAnswer');
+        }else{
+          this.score += this.pointsFalse;
+          this.modalService.open('wrongAnswerText');
+        }
+        break;
+      }case 'MULTIPLE_CHOICE': {
+        this.modalService.close('multipleChoiceQuestion');
+        if (this.selectedAnswer === this.answer){
+          this.score += this.pointsTrue;
+          this.modalService.open('correctAnswer');
+        }else{
+          this.score += this.pointsFalse;
+          this.modalService.open('wrongAnswerMultipleChoice');
+        }
+        break;
+      }
+    }
+  }
+  resetAnswers(): void{
+    this.selectedAnswer = '';
+    this.selectedAnswers = [];
+    this.textAnswer = '';
+    this.answer = '';
+    this.answers = [];
   }
 
   // Get current players location and sets it as map center
@@ -185,8 +238,6 @@ export class MapComponent implements OnInit {
   getPairs(): void{
     this.pairService.getPairsByRoomId(this.gameId).subscribe(pairs =>
       pairs.forEach(pair => {
-        console.log(pair);
-        console.log(this.gameId);
         if (pair.roomId === this.gameId){
             this.locationService.getLocationsbyId(pair.locationId).subscribe(location =>
                 this.addNewLocation(location, pair.questionId)
@@ -199,23 +250,46 @@ export class MapComponent implements OnInit {
   getQuestion(id: number, feature: Feature): void{
     this.questionService.getQuestionById(id).subscribe(question => {
       this.questionobj = question;
-      this.showQuestion(feature);
+      this.showQuestion(feature, question);
     }
       );
   }
 
   // Saves all current question data and shows question on the map
-  showQuestion(feature: Feature): void{
+  showQuestion(feature: Feature, question): void{
     if (this.questionobj !== undefined) {
-      this.question = this.questionobj.questionText;
-      this.answer = this.questionobj.answer;
-      this.choices = [];
-      this.questionobj.choices.forEach(q => {
-        this.choices.push(q);
-      });
-      this.choices = this.questionobj.choices;
-      this.points = this.questionobj.pointsTrue;
-      this.showModal();
+      this.resetAnswers();
+      this.type = question.type;
+      this.questionText = question.questionText;
+      this.pointsFalse = question.pointsFalse;
+      this.pointsTrue = question.pointsTrue;
+      switch (this.type) {
+        case 'CHECKBOX': {
+          this.choices = [];
+          question.choices.forEach(q => {
+          this.choices.push(q);
+           });
+          question.answer.forEach(q => {
+          this.answers.push(q);
+            });
+          this.modalService.open('checkBoxQuestion');
+          break;
+        }
+        case 'TEXT': {
+          this.hint = question.hint;
+          this.answer = question.answer;
+          this.modalService.open('textQuestion');
+          break;
+        }case 'MULTIPLE_CHOICE': {
+          this.choices = [];
+          this.answer = question.answer;
+          question.choices.forEach(q => {
+          this.choices.push(q);
+           });
+          this.modalService.open('multipleChoiceQuestion');
+          break;
+        }
+      }
       this.amount--;
       this.vectorSource.removeFeature(feature);
     }
@@ -223,7 +297,6 @@ export class MapComponent implements OnInit {
 
   // Function the gets correct coordinates of marker and calls helper function to add them to the map
   addNewLocation(location: Location, qID: number): void{
-    console.log(location);
     this.amount++;
     const coordinates: LonAndLat = JSON.parse(location.location);
     this.createMarekrs(coordinates.lng, coordinates.lat, location.id, qID);
@@ -248,9 +321,22 @@ export class MapComponent implements OnInit {
     this.checkRadius();
   }
 
-  private showModal(): void{
-    $(this.modal.nativeElement).modal('show');
+
+  openModal(id: string, element: Question): void {
+    this.modalService.open(id);
   }
+  closeModal(id: string): void {
+    this.modalService.close(id);
+  }
+
+  onChange(answer, isChecked: boolean): void{
+    if(isChecked) {
+      this.selectedAnswers.push(answer);
+    } else {
+      const index = this.selectedAnswers.indexOf(answer);
+      this.selectedAnswers.splice(index, 1);
+    }
+}
 
   // Builds map and adds all required components to make the map work
   private initializeMap(): void {
@@ -300,8 +386,7 @@ export class MapComponent implements OnInit {
     this.getPlayerLocation();
     this.map.on('click', (data) => {
       if (this.amount === 0) {
-        this.quizopen = false;
-        this.showModal();
+        this.modalService.open('gameEnded');
       } else {
         this.map.forEachFeatureAtPixel(data.pixel, (feature) => {
           const id = feature.get('QuestionId');

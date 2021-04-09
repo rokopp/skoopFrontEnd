@@ -17,3 +17,4 @@ export interface QuestionCheckBox {
   pointsTrue: number;
   pointsFalse: number;
 }
+
