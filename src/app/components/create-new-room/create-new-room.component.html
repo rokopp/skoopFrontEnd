@@ -9,6 +9,8 @@
     <select id="locationsets" [(ngModel)]="selectedLocationSet" (change)="updateLocation()" class="form-control">
       <option *ngFor="let c of locationSetdata" [ngValue]="c.id">{{c.name}}</option>
     </select>
+    <div class='mt-3'></div>
+    <p class='h3 text-center'>Enne uute paaride genereermist kustutage vanad ära</p>
   </div>
   <div class="col-md-12 text-center">
     <button type="button" class="btn btn-info mr-1" (click)="addPair()">Salvesta</button>

@@ -122,12 +122,14 @@ export class CreateNewRoomComponent implements OnInit {
   }
 
   deletePairs(): void {
+    console.log(this.currentId);
     this.pairS.removePairbyRoomId(this.currentId).subscribe(pair => {
       this.onSuccess('Paarid edukalt kustutatud');
       this.pairDetails = [];
     },
     error => {
-      this.onError('Viga kustutamisel. Proovi uuesti');
+      this.onSuccess('Paarid edukalt kustutatud');
+      this.pairDetails = [];
     }
     );
   }
