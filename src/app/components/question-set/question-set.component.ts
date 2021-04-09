@@ -21,7 +21,7 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table: MatTable<Question>;
   updateInsteadOfPost = false;
   editId = null;
-  columnsToDisplay = ['id', 'question', 'answer', 'type', 'hint', 'action'];
+  columnsToDisplay = ['id', 'question', 'answer', 'type', 'action'];
   questionSet: Array<{}> = [];  // Array of objects
   selectable = true;
   removable = true;
@@ -90,20 +90,28 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
       if (indexMultiple >= 0) {
         this.choicesMultiple.splice(indexMultiple, 1);
       }
+      this.checkListLength(this.choicesMultiple, questionType);
     }
     if (questionType === 'checkbox') {
       const indexCheckbox = this.choicesCheckbox.indexOf(answer);
       if (indexCheckbox >= 0) {
         this.choicesCheckbox.splice(indexCheckbox, 1);
       }
+      this.checkListLength(this.choicesCheckbox, questionType);
     }
     if (questionType === 'edit') {
       const index = this.choices.indexOf(answer);
       if (index >= 0) {
         this.choices.splice(index, 1);
       }
+      this.checkListLength(this.choices, questionType);
     }
+  }
 
+  checkListLength(checkedList: Answer[], questionType: string): void {
+    if (checkedList.length === 0) {
+      (document.getElementById('answer' + questionType[0].toUpperCase() + questionType.slice(1)) as HTMLInputElement).value = '';
+    }
   }
 
   // Returns a question put together from input values.

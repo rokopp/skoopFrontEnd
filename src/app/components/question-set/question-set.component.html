@@ -1,15 +1,15 @@
 <div class="container-fluid m-0">
   <div class="row m-0">
 
-    <div class="col-12 text-center my-4">
-      <h1>Editing Question Set {{setName}}</h1>
+    <div class="col-10 text-center my-4">
+      <h1>Muudad küsimustikku {{setName}}</h1>
     </div>
   </div>
 
   <div class="container">
     <div class="row m-0 text-center">
-      <div class="col-sm-12 col-md-12 col-lg-10 " id="questions">
-        <h2>View created Questions</h2>
+      <div class="col-sm-12 col-md-12 col-lg-10 pb-3 table-color" id="questions">
+        <h2>Vaata loodud küsimusi</h2>
         <!--Using mat-table from Angular Material, check the API at https://material.angular.io/components/table/api-->
         <!--TODO: notify table of updates via renderRows()-->
         <!--Excuse me, mr table, but umm.. renderCows.. i meant.. renderRows()!-->
@@ -23,26 +23,20 @@
 
           <!-- Question column -->
           <ng-container matColumnDef="question">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Question</th>
+            <th mat-header-cell *matHeaderCellDef class="text-center">Küsimus</th>
             <td mat-cell *matCellDef="let elem">{{elem.questionText}}</td>
           </ng-container>
 
           <!-- Answer column -->
           <ng-container matColumnDef="answer">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Answer</th>
+            <th mat-header-cell *matHeaderCellDef class="text-center">Vastus(ed)</th>
             <td mat-cell *matCellDef="let elem">{{elem.answer}}</td>
           </ng-container>
 
           <!-- Type column -->
           <ng-container matColumnDef="type">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Type</th>
+            <th mat-header-cell *matHeaderCellDef class="text-center">Tüüp</th>
             <td mat-cell *matCellDef="let elem">{{elem.type}}</td>
-          </ng-container>
-
-          <!-- Hint column -->
-          <ng-container matColumnDef="hint">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Type</th>
-            <td mat-cell *matCellDef="let elem">{{elem.hint}}</td>
           </ng-container>
 
           <!-- Action column
@@ -51,12 +45,12 @@
               On edit data is written into our Question form.
           -->
           <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef class="text-center"> Action </th>
+            <th mat-header-cell *matHeaderCellDef class="text-center"> Tegevus </th>
             <td mat-cell *matCellDef="let element" class="action-link">
               <a (click)="editQuestion(element); openModal('custom-modal-1', element);"
-                 class="btn btn-outline-dark w-auto">Edit</a>
+                 class="btn btn-outline-success w-auto">Muuda</a>
               <a (click)="deleteQuestion(element)" class="btn btn-outline-danger w-auto margin-t2
-              mt-lg-0 margin-l2-btn">Delete</a>
+              mt-lg-0 margin-l2-btn">Kustuta</a>
             </td>
           </ng-container>
 
@@ -68,25 +62,31 @@
     </div>
   </div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-4">
-        <!-- Trigger Create Multi Answer Modal -->
-        <button type="button" class="btn btn-info" (click)="openModalForCreating('multipleChoices');">
-          Loo valikvastustega küsimustik
-        </button>
-      </div>
-      <div class="col-4">
-        <!-- Trigger Create Checkbox Modal -->
-        <button type="button" class="btn btn-primary" (click)="openModalForCreating('checkbox');">
-          Loo CHECKBOX küsimustik
-        </button>
-      </div>
-      <div class="col-4">
-        <!-- Trigger Create Text Modal -->
-        <button type="button" class="btn btn-dark" (click)="openModalForCreating('text');">
-          Loo TEXT
-        </button>
+  <div class="container mt-5">
+    <div class="col-sm-12 col-md-12 col-lg-10">
+      <div class="row">
+        <div class="ml-auto">
+          <!-- Trigger Create Multi Answer Modal -->
+          <button type="button" class="btn btn-dark btn-adding" (click)="openModalForCreating('multipleChoices');">
+            Loo valikvastustega küsimustik
+          </button>
+        </div>
+<!--      </div>-->
+<!--      <div class="row">-->
+        <div class="mx-auto">
+          <!-- Trigger Create Checkbox Modal -->
+          <button type="button" class="btn btn-dark btn-adding" (click)="openModalForCreating('checkbox');">
+            Loo CHECKBOX küsimustik
+          </button>
+        </div>
+<!--      </div>-->
+<!--      <div class="row">-->
+        <div class="mr-auto">
+          <!-- Trigger Create Text Modal -->
+          <button type="button" class="btn btn-dark btn-adding" (click)="openModalForCreating('text');">
+            Loo TEXT
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -139,10 +139,11 @@
       </mat-form-field>
 
       <br>
+<!--      TODO add type what is going to be updated-->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('custom-modal-1');">Sulge</button>
-        <a (click)="updateQuestion(this.modalService.getElementQuestion(), '')" class="btn btn-outline-info w-auto">Uuenda</a>
-        <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <button type="reset" class="btn btn-modal btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <a (click)="updateQuestion(this.modalService.getElementQuestion(), '')" class="btn btn-modal btn-info">Uuenda</a>
+        <button type="button" class="btn btn-modal btn-secondary mx-auto" (click)="closeModal('custom-modal-1');">Sulge</button>
       </div>
     </form>
   </div>
@@ -195,9 +196,10 @@
 
       <br>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('multipleChoices');">Sulge</button>
-        <button type="submit" (click)="addQuestion('MultipleChoices'); closeModal('multipleChoices')" class="btn btn-success mx-auto">Lisa küsimus</button>
-        <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <button type="reset" class="btn btn-modal btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <button type="submit" (click)="addQuestion('MultipleChoices'); closeModal('multipleChoices')" class="btn btn-modal btn-success mx-auto">Lisa küsimus</button>
+        <button type="button" class="btn btn-modal btn-secondary mx-auto" (click)="closeModal('multipleChoices');">Sulge</button>
+
       </div>
     </form>
   </div>
@@ -250,9 +252,9 @@
 
       <br>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('checkbox');">Sulge</button>
-        <button type="submit" (click)="addQuestion('Checkbox'); closeModal('checkbox');" class="btn btn-success mx-auto">Lisa checkbox</button>
-        <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <button type="reset" class="btn btn-modal btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <button type="submit" (click)="addQuestion('Checkbox'); closeModal('checkbox');" class="btn btn-modal btn-success mx-auto">Lisa checkbox</button>
+        <button type="button" class="btn btn-modal btn-secondary mx-auto" (click)="closeModal('checkbox');">Sulge</button>
       </div>
     </form>
   </div>
@@ -293,9 +295,9 @@
 
       <br>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary mx-auto" (click)="closeModal('text');">Sulge</button>
-        <button type="submit" (click)="addQuestion('Text'); closeModal('text')" class="btn btn-success mx-auto">Lisa küsimus</button>
-        <button type="reset" class="btn btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <button type="reset" class="btn btn-modal btn-danger mx-auto" (click)="emptyChoices()">Tühjenda kõik väljad</button>
+        <button type="submit" (click)="addQuestion('Text'); closeModal('text')" class="btn btn-modal btn-success mx-auto">Lisa küsimus</button>
+        <button type="button" class="btn btn-modal btn-secondary mx-auto" (click)="closeModal('text');">Sulge</button>
       </div>
     </form>
   </div>
